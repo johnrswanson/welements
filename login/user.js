@@ -1,7 +1,7 @@
 
  
 $(document).ready(function(){
-	var url="./login/usercheck.php";
+	var url="login/usercheck.php";
 	$.getJSON(url,function(json){
 	// loop through the members here
 		$.each(json.userinfo,function(i,dat){
@@ -14,5 +14,6 @@ $(document).ready(function(){
 		);
 		});
 	});
-}); 
+	});
+
 

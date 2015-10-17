@@ -10,7 +10,7 @@ if (isset($_POST['submitlogin']))
 	if(!$_POST['email'] | !$_POST['pass']) 
 			{
 echo'Login Details Incorrect';
-
+exit;
 			}
 	
 		

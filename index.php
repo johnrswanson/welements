@@ -3,7 +3,10 @@
 	<body>
 
 		
-<div ID="content"><a class="login"href="login/index.php">Login</a></div>
+<div ID="content">Welcome<br>
+	<a class="login"href="login/index.php">Login</a>
+	<a class="login"href="login/register.php">Sign Up</a><br>
+</div>
 
 		
 
