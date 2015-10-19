@@ -1,15 +1,14 @@
 
  
 $(document).ready(function(){
-	var url="list/list.php";
+	var url="list/listdata.php";
 	$.getJSON(url,function(json){
 	// loop through the members here
-		$.each(json.userinfo,function(i,dat){
-		$("#content").html(
-		'<div class="user">Home<br>'+
-		'<p>  title '+dat.title+''+
-		'<p>Email : '+dat.link+'</p>'+
-		'<p>userID : <strong>'+dat.ID+'</strong></p>'+
+		$.each(json.listinfo,function(i,ldat){
+		$("#listcontent").html(
+		'<div class="list">Your List<br>'+
+		'<p> title: '+ldat.title+'</p>'+
+		'<p>link  '+ldat.link+'</p>'+
 		'</div>'
 		);
 		});

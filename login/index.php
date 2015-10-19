@@ -6,7 +6,8 @@ if(isset($_COOKIE['ID_myapp'])){
 	$check = mysql_query("SELECT * FROM users WHERE email = '$email'")or die(mysql_error());
 	while($info = mysql_fetch_array( $check )) 
 		{$mypass= $info['password'];
-		if($pass == $mypass){header("Location:../index.php");}	
+		if($pass == $mypass){header("Location:../index.php");
+		exit;}	
 		}
 	}
 

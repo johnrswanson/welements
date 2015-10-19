@@ -2,16 +2,22 @@
 	<head></head>
 	<body>
 
-		
-<div ID="content">Welcome<br>
-	<a class="login"href="login/index.php">Login</a>
-	<a class="login"href="login/register.php">Sign Up</a><br>
-</div>
 
-		
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript">
+</script>
 
-<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-<script type="text/javascript" type="text/javascript" src="./login/user.js"></script>
+
+<?php include('./connect.php'); ?>
+<?php include('./login/usercheck.php'); ?>
+
+<script type="text/javascript" type="text/javascript" src="./login/user.js">
+</script>
+
+<script type="text/javascript" type="text/javascript" src="./list/list.js">
+</script>
+
+<div id="logincontent"></div>
+<div id="listcontent"></div>
 
 	</body>
 </html>

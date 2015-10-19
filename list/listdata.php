@@ -1,5 +1,6 @@
 <?
 include('../connect.php');
+include('../login/usercheck.php');
 
 $query = mysql_query("SELECT * FROM list where userID = '$userID' ")
 or die(mysql_error());
