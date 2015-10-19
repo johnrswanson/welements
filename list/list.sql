@@ -13,14 +13,18 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
---
+-- Table structure for table `list` 
+-- Depends on table: users 
 
-CREATE TABLE `users` (
+CREATE TABLE `list` (
   `ID` int(11) NOT NULL auto_increment,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `shortname` varchar(255) NOT NULL,
+  `userID` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `link` varchar(255) NOT NULL,
+  `body` longtext NOT NULL,
+  `photo` varchar(255) NOT NULL,
+  `category` varchar(255) NOT NULL,
+  `tags` longtext NOT NULL,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
