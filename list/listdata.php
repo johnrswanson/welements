@@ -1,17 +1,12 @@
 <?
 include('../connect.php');
 include('../login/usercheck.php');
-
-$query = mysql_query("SELECT * FROM list where userID = '$userID' ")
-or die(mysql_error());
-	
-while($listinfo = mysql_fetch_object( $query )) 
+$listquery = mysql_query("SELECT * FROM list where userID = '$userID' order by title asc ")
+or die(mysql_error());	
+$listarr = array();
+while($listinfo = mysql_fetch_object( $listquery )) 
 	{	
-	$arr = array();
-	$arr[] = $listinfo;			
+	$listarr[] = $listinfo;			
 	}
-	
-
-echo '{"listinfo":'.json_encode($arr).'}';
-
+echo '{"listinfo":'.json_encode($listarr).'}';
 ?>
