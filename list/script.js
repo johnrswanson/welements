@@ -1,43 +1,104 @@
 // register
-(function (window) {	
+(function (window) {
+		
 	window.deleteListItem = function (itemId) {
+		$('#plist'+itemId+'').slideUp(300);
 		$.post('list/listconfirm.php', { deleteme: itemId },
 		function () {
-				$('.plist').slideUp(500);
 				// 200, it worked; resource deleted
 			}, function () {
-				// it didn't delete
-				
-			});
+				// it didn't delete			
+		});
 	}
 	
+	window.showList= function (){
+		$("#listcontent").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
+		var url="list/listdata.php";
+		$.getJSON(url,function(json){
+			$("#listcontent").html('');
+			$.each(json.listinfo,function(i,ldat){
+				$("#listcontent").append(''+
+				'<p class="plist" ID="plist'+ldat.ID+'"> <a href="'+ldat.link+'" onclick="">'+ldat.title+'</a> ' + 
+				//'<a class="editbutton elist" href="list/listedit.php?update='+ldat.ID+'" onclick="openLightBox(); return false;" > <i class="fa fa-pencil"></i></a> ' +
+				'<a class="editbutton dlist" ID="dlist'+ldat.ID+'" href="#" onclick="deleteListItem(' + ldat.ID + ');">'+
+				'<i class="fa fa-remove"></i></a></p>');	
+			});	
+		});	
+	}
+	
+	
+		
+	window.addListItem = function (){	
+	    var data= $( "#newItem" ).serialize();
+	  	var myresult = $.post("list/listconfirm.php" , data);
+	  	$("#listadd").html(myresult);
+	  	window.showList(); 	
+	  	window.hideAddNew();
+	}
+	
+	window.addNew= function(){
+		$("#listadd").html(''+
+		'<form  ID="newItem" method="POST">'+
+		'<input type="hidden" name="new" value="add">'+
+		'<input type="text" name="title" placeholder="Enter A Title"><br>'+
+		'<input type="text" name="link" placeholder="Enter Link">'+
+		'<input type="button" name="submit" value="Add" onclick="addListItem()">'+
+		'</form>');
+		$("#listadd").slideDown(300);	
+		$(".addon").hide(0);
+		$(".addoff").show(0);
+		
+	}
+	
+	window.hideAddNew= function(){
+		$("#listadd").slideUp(500);
+		$(".addoff").hide(0);
+		$(".addon").show(0);
+		}
+
+	
+	window.showEditButtons= function(){
+		$(".editbutton").show(0);
+		$(".editOn").hide(0);
+		$(".editOff").show(0);
+		}
+		
+	window.hideEditButtons= function(){
+		$(".editbutton").hide(0);
+		$(".editOn").show(0);
+		$(".editOff").hide(0);
+		}	
 }(this));
 
 
-
-
+	$(function() {
+	$( "#lightbox" ).draggable({cancel:".ui-sortable",cancel:"form",
+	stop: function( z, ui ) {
+		$( "#lightbox" ).attr('style', $(this).attr("style") + " width:auto;");
+		
+		}
+	});
+  });
+  
+  
 $(document).ready(function(){
 
-	$("#new").click(function(a){
-			a.preventDefault();
-			$("#listcontent").slideUp(200);
-			$("#listadd").load('list/listadd.php');
-		});	
-				
-		var url="list/listdata.php";
-		$.getJSON(url,function(json){
-		$.each(json.listinfo,function(i,ldat){
-		$("#listcontent").append(''+
-		'<p class="plist" ID="plist'+ldat.ID+'"> <a href="'+ldat.link+'">'+ldat.title+'</a> ' + 
-		//'<a class="lightbox_trigger" href="./list/listedit.php?update='+ldat.ID+'" > <i class="fa fa-pencil"></i></a> ' +
-		'<a class="dlist" ID="dlist'+ldat.ID+'" href="#" onclick="deleteListItem(' + ldat.ID + ');">'+
-		//'<a class="lightbox_trigger" ID="dlist'+ldat.ID+'" href="list/listconfirm.php?delete='+ldat.ID+'">'+
-		'<i class="fa fa-remove"></i></a></p>');	
-		});	
-				
-	});
+	$("#list").html(''+
+	'<div id="listactions">'+
+		'<a href="#" class="lister" onclick="showList()"><i class="fa fa-list"></i></a> '+
+		'<a href="#" class="addon"  onclick="addNew()"><i class="fa fa-plus-circle"></i></a>'+
+		'<a href="#" class="addoff"  onclick="hideAddNew()"><i class="fa fa-minus"></i></a>'+
+		'<a href="#" class="editOn" onclick="showEditButtons()"><i class="fa fa-pencil"></i></a>'+
+		'<a href="#" class="editOff" onclick="hideEditButtons()"><i class="fa fa-pencil"></i><br>Done</a>'+
+	'</div>'+
+	'<div id="lightbox">'+
+		'<a href="" onclick="closeLightBox(); return false;">'+
+		'<img src="list/close.png"></a>'+
+		'<div id="content"></div>'+
+	'</div>'+
+	'<div id="listadd"></div>'+
+	'<div id="listcontent"></div>'+'');
 	
+	window.showList();	
 });
-
-
 

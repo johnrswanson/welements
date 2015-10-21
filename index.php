@@ -26,7 +26,6 @@
 			
 	<?
 	//include('./helper/helper.php'); 
-		
 	?>
 			
 		<?php include('./login/usercheck.php');?>
@@ -35,9 +34,9 @@
 		
 		
 		<?if($loggedin=='true'){?>
-			<div id="listactions"><b>List</b>: <a ID="new" href="#">+Add New</a></div>
-			<div ID="listadd"></div> 
-			<div id="listcontent"></div>
-		<?}?>		
+		
+			<div id="list"></div>	
+				
+			<?}?>		
 </body>
 </html>
