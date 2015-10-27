@@ -3,23 +3,25 @@ $(document).ready(function(){
 	$.getJSON(url,function(json){
 	// loop through the members here
 		$.each(json.userinfo,function(i,dat){
-		$("#logincontent").html(
-		'Hello '+dat.shortname+' '+
-		'<a class="logout" href="admin/logout.php">Log out</a></div>'
-		);
+		$("#admincontent").html(
+		'Hello '+dat.shortname+ ' '+
+		'<a class="logout pop" href="admin/logout.php">Log out</a></div>');
 		});
 	});
 	
-	$(".login").click(function(a){
-			a.preventDefault();	
-			$("#userlogin").load('admin/index.php');
+	$(".adminlogin").click(function(c){
+			c.preventDefault();	
+			$("#adminlogin").load('admin/index.php');
+			('#logincontent').slideUp();
 		});	
 	
-	$(".register").click(function(a){
-			a.preventDefault();	
-			$("#userlogin").load('admin/register.php');
+	$(".adminregister").click(function(d){
+			d.preventDefault();	
+			$("#adminlogin").load('admin/register.php');
 		});	
 
 	});
+  
+
 
 

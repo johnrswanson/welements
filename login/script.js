@@ -4,7 +4,7 @@ $(document).ready(function(){
 	// loop through the members here
 		$.each(json.userinfo,function(i,dat){
 		$("#logincontent").html(
-		'Hello '+dat.shortname+' '+
+		'<i class="fa fa-user"></i> Hello '+dat.shortname+' '+
 		'<a class="logout" href="login/logout.php">Log out</a></div>'
 		);
 		});

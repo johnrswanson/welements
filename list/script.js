@@ -18,10 +18,12 @@
 			$("#listcontent").html('');
 			$.each(json.listinfo,function(i,ldat){
 				$("#listcontent").append(''+
-				'<p class="plist" ID="plist'+ldat.ID+'"> <a href="'+ldat.link+'" onclick="">'+ldat.title+'</a> ' + 
-				//'<a class="editbutton elist" href="list/listedit.php?update='+ldat.ID+'" onclick="openLightBox(); return false;" > <i class="fa fa-pencil"></i></a> ' +
+				'<p class="plist" ID="plist'+ldat.ID+'"> '+
 				'<a class="editbutton dlist" ID="dlist'+ldat.ID+'" href="#" onclick="deleteListItem(' + ldat.ID + ');">'+
-				'<i class="fa fa-remove"></i></a></p>');	
+				'<i class="fa fa-remove"></i></a>'+
+				'<a href="'+ldat.link+'" onclick="">'+ldat.title+'</a> ' + 
+				//'<a class="editbutton elist" href="list/listedit.php?update='+ldat.ID+'" onclick="openLightBox(); return false;" > <i class="fa fa-pencil"></i></a> ' +
+				'</p>');	
 			});	
 		});	
 	}
@@ -47,6 +49,7 @@
 		$("#listadd").slideDown(300);	
 		$(".addon").hide(0);
 		$(".addoff").show(0);
+		window.helperadd();
 		
 	}
 	
@@ -61,6 +64,7 @@
 		$(".editbutton").show(0);
 		$(".editOn").hide(0);
 		$(".editOff").show(0);
+		window.helperdelete();
 		}
 		
 	window.hideEditButtons= function(){
@@ -71,14 +75,7 @@
 }(this));
 
 
-	$(function() {
-	$( "#lightbox" ).draggable({cancel:".ui-sortable",cancel:"form",
-	stop: function( z, ui ) {
-		$( "#lightbox" ).attr('style', $(this).attr("style") + " width:auto;");
-		
-		}
-	});
-  });
+	
   
   
 $(document).ready(function(){
@@ -88,15 +85,10 @@ $(document).ready(function(){
 		'<a href="#" class="lister" onclick="showList()"><i class="fa fa-list"></i></a> '+
 		'<a href="#" class="addon"  onclick="addNew()"><i class="fa fa-plus-circle"></i></a>'+
 		'<a href="#" class="addoff"  onclick="hideAddNew()"><i class="fa fa-minus"></i></a>'+
-		'<a href="#" class="editOn" onclick="showEditButtons()"><i class="fa fa-pencil"></i></a>'+
-		'<a href="#" class="editOff" onclick="hideEditButtons()"><i class="fa fa-pencil"></i><br>Done</a>'+
+		'<a href="#" class="editOn" onclick="showEditButtons()">Edit<i class="fa fa-remove"></i></a>'+
+		'<a href="#" class="editOff" onclick="hideEditButtons()">Done <i class="fa fa-remove"></i></a>'+
 	'</div>'+
-	'<div id="lightbox">'+
-		'<a href="" onclick="closeLightBox(); return false;">'+
-		'<img src="list/close.png"></a>'+
-		'<div id="content"></div>'+
-	'</div>'+
-	'<div id="listadd"></div>'+
+		'<div id="listadd"></div>'+
 	'<div id="listcontent"></div>'+'');
 	
 	window.showList();	

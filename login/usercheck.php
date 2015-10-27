@@ -21,7 +21,7 @@ while($info = mysql_fetch_array( $query1 ))
 	}
 	else{
 	echo'<div ID="userlogin">
-	<a class="login" href="login/index.php">Login</a>
+	<a class="login" href="login/index.php"> <i class="fa fa-user"></i>  Login</a>
 	<a class="register" href="login/register.php">Sign Up</a><br>
 	</div>';
 		}
