@@ -1,0 +1,32 @@
+#listactions {font-size: 40px; }
+#listactions .fa{margin-right: 10px;}
+.editbutton{display:none;}
+
+.editpageOff{display:none; font-size: 15px;  padding: 5px;  text-decoration: none;  float: right;}
+.editpageOn{display:none; float: right; font-size: 15px;  padding: 5px;  text-decoration: none; }
+.addpageOff{display:none;}
+
+.close{margin-top: 0px; margin-left: -5px;}
+.boxtitle{margin-top: -32px; margin-left: 12px; margin-bottom: 10px;}
+#lightbox{
+	position:fixed;
+	 top:100px; 
+    left:10%;
+    width:auto;
+    height: auto;
+    min-height: 10px;
+    max-height: 700px;
+    max-width: 1100px; 
+    min-width: 200px; 
+    background:#1e1e1e; color: #fff; 
+    border: solid 1px #ddd;
+    opacity: 0.9;
+    text-align:left;
+    display:none;
+    z-index: 10001; 
+    padding: 10px;
+    padding-top: 3px;
+    border-radius: 10px;
+ 
+    }
+    

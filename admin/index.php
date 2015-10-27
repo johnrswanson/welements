@@ -19,11 +19,9 @@ if(isset($_COOKIE['ID_myapp'])){
 
 <body>		
 	<form ID="user" method="post" action="admin/login.php">
-		<input type="text" name="email" placeholder="Email" ><br>
-	
-		<input type="password" placeholder="Password" name="pass"> 
-		
-		<p><input type="submit" name="submitlogin" value="Login"></p>
+		<input type="text" name="email" placeholder="Site Admin" > <br>
+		<input type="password" placeholder="Enter Password" name="pass"> <br>
+		<input type="submit" name="submitlogin" value="Login">
 	</form>
 
 </body>

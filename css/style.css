@@ -1,0 +1,12 @@
+body{margin: 0px;}
+	
+a {text-decoration: none; }
+#header{
+	text-align:center; 
+	background:#eeeeee; 
+	height:50px; 
+	margin:0px; 
+	padding-top: 20px; 
+	font-size: 30px; 
+	min-width: 100%; 
+	}

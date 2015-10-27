@@ -3,7 +3,7 @@
 window.helperadd = function() {
 	
 		var myoffset = $( this ).offset();
-		$('#content').html('Add a new item');		
+				
 		$('#lightbox').removeAttr('style');
 		$('#lightbox').show();
 		$('#lightbox').offset( myoffset);
