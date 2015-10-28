@@ -1,4 +1,4 @@
-body{margin: 0px;}
+body{margin: 0px; width: 100%; max-width: 960px; margin-left: auto;margin-right: auto;}
 	
 a {text-decoration: none; }
 #header{
@@ -10,3 +10,4 @@ a {text-decoration: none; }
 	font-size: 30px; 
 	min-width: 100%; 
 	}
+	

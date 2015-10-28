@@ -1,9 +1,16 @@
+#navcontent{float:left; width: 90%; }
+#navactions{float:right;}
+.logo{float:left; }
+.link{float:left; font-size: 14px; padding-left: 10px;   }
+
+
 #listactions {font-size: 40px; }
 #listactions .fa{margin-right: 10px;}
 .editbutton{display:none;}
 
+
 .editpageOff{display:none; font-size: 15px;  padding: 5px;  text-decoration: none;  float: right;}
-.editpageOn{display:none; float: right; font-size: 15px;  padding: 5px;  text-decoration: none; }
+.editpageOn{display:block; float: right; font-size: 15px;  padding: 5px;  text-decoration: none; }
 .addpageOff{display:none;}
 
 .close{margin-top: 0px; margin-left: -5px;}

@@ -7,5 +7,5 @@ while($info = mysql_fetch_object( $query ))
 	{	
 	$arr[] = $info;			
 	}
-echo '{"info":'.json_encode($arr).'}';
+echo '{"navinfo":'.json_encode($arr).'}';
 ?>

@@ -3,7 +3,7 @@
 window.helperadd = function() {
 	
 		var myoffset = $( this ).offset();
-				
+		$('.secretmenu').slideUp(500);	
 		$('#lightbox').removeAttr('style');
 		$('#lightbox').show();
 		$('#lightbox').offset( myoffset);

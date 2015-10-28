@@ -1,4 +1,5 @@
-<?include('../connect.php');
+<? if ($admin!='true'){
+	include('../connect.php');
 if (isset($_COOKIE['ID_myapp']))
 	{ 
 	$email = $_COOKIE['ID_myapp']; 
@@ -25,6 +26,7 @@ while($info = mysql_fetch_array( $query1 ))
 	<a class="register" href="login/register.php">Sign Up</a><br>
 	</div>';
 		}
+}	
 ?>
 
 
