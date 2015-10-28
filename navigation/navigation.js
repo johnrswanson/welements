@@ -14,17 +14,20 @@ window.deletePage = function (itemId) {
 	window.showPages= function (){
 		$("#navcontent").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
 		var url="navigation/data.php";
+		$("#navcontent").html('<ul></ul>');
 		$.getJSON(url,function(json){
-			$("#navcontent").html('');
+				
 			$.each(json.navinfo,function(i,ldat){
-				$("#navcontent").append(''+
-				'<p class="plist link" ID="plist'+ldat.ID+'"> '+
-				'<a class="editbutton dlist" ID="dlist'+ldat.ID+'" href="#" onclick="deletePage(' + ldat.ID + ');">'+
+				$("#navcontent>ul").append(''+
+				'<li class="plist link" ID="pageArray_'+ldat.ID+'"> '+
+				'<a class="deletebutton dlist" ID="dlist'+ldat.ID+'" href="#" onclick="deletePage(' + ldat.ID + ');">'+
 				'<i class="fa fa-remove"></i></a>'+
 				'<a href="'+ldat.link+'" onclick="">'+ldat.title+'</a> ' + 
-				'</p>');	
+				'</li>');	
 			});	
+			
 		});	
+		
 	}
 	
 	
@@ -56,30 +59,37 @@ window.deletePage = function (itemId) {
 		}
 
 	
-	window.showEditButtons= function(){
-		$(".editbutton").show(0);
-		$(".editOn").hide(0);
-		$(".editOff").show(0);
+	window.showDeleteButtons= function(){
+		$(".deletebutton").show(0);
+		$(".deleteOn").hide(0);
+		$(".deleteOff").show(0);
 		window.helperdelete();
+		$(".secretmenu").toggle(200);
 		}
 		
-	window.hideEditButtons= function(){
-		$(".editbutton").hide(0);
-		$(".editOn").show(0);
-		$(".editOff").hide(0);
+	window.hideDeleteButtons= function(){
+		$(".deletebutton").hide(0);
+		$(".deleteOn").show(0);
+		$(".deleteOff").hide(0);
+		$(".secretmenu").toggle(200);
 		}	
 }(this));
 
 
-	
+
   
   
 $(document).ready(function(){
+	
+
+
+
 
 	$("#nav").html(''+
 	'<div id="navcontent"></div>'+
 	'<div id="navactions">'+
 		'<a href="#" class="links" onclick="showPages()"><i class="fa fa-bars"></i></a> '+
+		
 	'</div>'+
 	'<div id="navadd"></div>'+
 	'');
