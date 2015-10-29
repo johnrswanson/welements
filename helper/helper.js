@@ -36,7 +36,8 @@ $(function() {
 		stop: function( z, ui ) {
 			$( "#lightbox" ).attr('style', $(this).attr("style") + " width:auto;");
 			}
-	});});
+	});
+});
 
   
     function positionf(e)
