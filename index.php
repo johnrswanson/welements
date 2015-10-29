@@ -20,8 +20,7 @@
 <script type="text/javascript" type="text/javascript" src="helper/helper.js"></script>
 
 
-<script type="text/javascript" type="text/javascript" src="login/login.js"></script>
-<script type="text/javascript" type="text/javascript" src="list/list.js"></script>
+
 
 <div ID="maincontent">
 	
@@ -41,16 +40,17 @@
 		<a class="logo" href="./index.php"><i class="fa fa-home"></i></a>
 		<div id="nav"></div>
 	</div>
-
-
-
-	<?include('./login/usercheck.php');?>
-	<div id="logincontent"></div>
-	<?if($loggedin=='true'){?>
-			<div id="list"></div>
-						
-	<?}?>	
+	<div id="page"></div>
 	
+
+	<?
+	//include('./login/usercheck.php');
+	//echo'<div id="logincontent"></div>';
+	if($loggedin=='true'){
+			//echo'<div id="list"></div>';				
+	}?>	
+	
+	<div id="footer"></div>
 </div>
 </body>
 </html>

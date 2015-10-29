@@ -1,6 +1,6 @@
  
 $(document).ready(function(){
-	
+	var login='y';
 
 	$(function() {$("#navcontent ul").sortable({
 		opacity: 0.6,  forcePlaceholderSize: true, delay: 0, forceHelperSize: true, cursor: 'move',

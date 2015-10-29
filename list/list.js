@@ -36,10 +36,12 @@
 	  	$("#listadd").html(myresult);
 	  	window.showList(); 	
 	  	window.hideAddNew();
+	  	window.helperclose();
 	}
 	
 	window.addNew= function(){
-		$("#listadd").html(''+
+		window.helperadd();
+		$("#lightbox #content").html('Add A New Item'+
 		'<form  ID="newItem" method="POST">'+
 		'<input type="hidden" name="new" value="add">'+
 		'<input type="text" name="title" placeholder="Enter A Title"><br>'+
@@ -49,7 +51,8 @@
 		$("#listadd").slideDown(300);	
 		$(".addon").hide(0);
 		$(".addoff").show(0);
-		window.helperadd();
+		
+		
 		
 	}
 	
@@ -57,7 +60,8 @@
 		$("#listadd").slideUp(500);
 		$(".addoff").hide(0);
 		$(".addon").show(0);
-		}
+			$("#lightbox").fadeOut(500);		
+			}
 
 	
 	window.showEditButtons= function(){
