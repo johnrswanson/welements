@@ -278,7 +278,6 @@ window.deleteElement = function (pageID) {
 		'<input type="text" name="pagetitle" placeholder="Page Title"><br>'+
 		'<input type="button" name="submit" value="Add Page" onclick="addPage(); ">'+
 		'</form>');
-
 	}
 		
 		
@@ -290,10 +289,8 @@ window.deleteElement = function (pageID) {
 		'<textarea name="mytext" ID="pagecontent" placeholder="Write some words here."></textarea><br>'+
 		'<input name="color" id="html5colorpicker" class="form-control colorpicker" type="color" value="#777777" onchange="clickColor(0, -1, -1, 5)" style="">' +
 		'<input type="button" name="submit" value="Add" onclick="addElement('+ pageID +'); ">'+
-		'</form>');
-		
-					
-}
+		'</form>');					
+	}
 		
 	
 	
@@ -304,7 +301,7 @@ window.deleteElement = function (pageID) {
 		'<div style="float:left; auto min-height:250px; margin: auto; text-align: center;">' + 
 		'<div class="flippers">' +
 
-		'<div class=" addtext_button buttons"><a href="#" onclick="addText('+pageID+')"><img src="img/icons/text.png"><br>Add Text</a></div>' +
+		'<div class=" addtext_button buttons"><a href="#" onclick="addText('+pageID+')"><i class="fa fa-pencil" style="font-size:80px;"></i><br>Add Text</a></div>' +
 		/*
 		'<div class=" addphoto_button buttons"><a href="" onclick="return false"><img src="/img/icons/camera.png"><br>Add Photo</a></div>' +
 		'<div class="addbox_button buttons" > <a class="loadbox_trigger"  href="/admin/admin_new_pagebox.php?page='.$thispage.'&type=2"><img src="/img/icons/gallerybox.png"><br>Photo box</a></div> ' +
@@ -385,39 +382,7 @@ $(document).ready(function(){
 	});
 	
 		window.showPages();	
-
-
-	
-	$(".addphoto_button a").click(function(){
-		$(".flippers").hide();
-		$(".addphoto").slideDown(200);
-			$(".buttons").css("background","none");
-		$(".addphoto_button").css("background","#aaa");
-		
-		
-	});
-	
-	
-	$(".addtext_button a").click(function(){
-		$(".flippers").hide();
-		$(".addtext").slideDown(200);
-		$(".buttons").css("background","none");
-		$(".addtext_button").css("background","#aaa");
-	});
-	
-	
-$('.loadbox_trigger').click(function(e) {
-		e.preventDefault();
-
-		var link_href = $(this).attr("href");
-		$(".flippers").hide();
-		$('#addboxhere').html('loading...');		
-		$('#addboxhere').load(link_href);
-		
-		
-	});
-	
-	
+//		window.loadhomepage()
 
 	
 });
