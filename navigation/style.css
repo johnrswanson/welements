@@ -8,11 +8,14 @@
 #listactions .fa{margin-right: 10px;}
 .deletebutton{display:none;}
 
+.ui-icon {
+    background-image: url("");
+}
 
 .deleteOff{display:none; }
 .deleteOn{display:block; }
 .addpageOff{display:none;}
-
+.elements .designer{box-shadow:inset 0px 0px 0px 1px #0000ff;}
 .close{margin-top: 0px; margin-left: -5px;}
 .boxtitle{margin-top: -32px; margin-left: 12px; margin-bottom: 10px;}
 #lightbox{
@@ -37,3 +40,22 @@
  
     }
     
+    
+   .editbutton{position: absolute; top:90%;
+	   			z-index:0;  
+				text-align: left; 
+				display:none;
+				min-width:80%; 
+				height: 20px;
+				line-height: 20px;
+				margin:0px;
+				padding:-5%;
+				font-size: 15px;  opacity: 0.9;
+				background: #eeeeee; 
+				color #000 ;
+				font-family: helvetica; 
+				font-weight: bold;
+				}
+								
+
+				 

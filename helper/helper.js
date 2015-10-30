@@ -40,19 +40,18 @@ $(function() {
 });
 
   
-    function positionf(e)
-    {
-	    x = e.clientX+window.scrollX;
-	    y = e.clientY+window.scrollY;        
-	    document.getElementById("lightbox").style.left=x+"px";
-	    document.getElementById("lightbox").style.top=y+"px";
-	}  
-
+   
 
   
   }(this));
 
-
+function positionf(e)
+    {
+      x = e.clientX+window.scrollX;
+      y = e.clientY+window.scrollY;        
+        document.getElementById("lightbox").style.left=x+"px";
+        document.getElementById("lightbox").style.top=y+"px";
+    }   
   	
 	
 
