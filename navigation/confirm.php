@@ -94,7 +94,10 @@ if ($newelement=='add'){
 
 if ($deletepage!=''){	
 	$delete = mysql_query("delete from pages where ID='$deletepage' limit 1");
-	echo 'Item Deleted Successfully';
+	$delete = mysql_query("delete from page_element where pageID='$deleteelement' ");
+
+	echo 'Page Deleted Successfully';
+	echo 'Page Items Deleted Successfully';
 }
 	
 	
@@ -209,5 +212,23 @@ if ($action == "updatePageOrder"){
 	echo '</pre>';
 	echo 'Page Order Saved';
 }
+	
+	
+//reorder elements links	
+$elementaction = mysql_real_escape_string($_POST['elementaction']); 
+$updateElements = $_POST['element'];
+if ($elementaction == "updateElementOrder"){
+	$elementCounter = 1;
+	foreach ($updateElements as $value) {
+		$updatenow=mysql_query("UPDATE page_element SET pageorder = '$elementCounter' WHERE ID = '$value'")or die(mysql_error('Element order was not updated in DB'));
+		$elementCounter = $elementCounter + 1;	
+	}
+	echo '<pre>';
+	print_r($updateRecordsArray);
+	echo '</pre>';
+	echo 'Element Order Saved';
+}
+	
+
 	
 ?>

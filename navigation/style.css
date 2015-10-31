@@ -41,7 +41,7 @@
  
     }
     
-    
+    #formElement{text-align: center; }
    .editbutton{position: absolute; top:90%;
 	   			z-index:0;  
 				text-align: left; 

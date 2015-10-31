@@ -1,5 +1,6 @@
 (function (window) {
 	var firstpage='true';
+	var mode='designer';
 	
 	window.addElement = function (pageID){	
 		var elementdata= $( "#addform" ).serialize();
@@ -129,15 +130,15 @@
 		$.getJSON(url,function(json){
 			$.each(json.elementinfo,function(i,ldat){
 				$("#page").append(''+
-				'<div class="elements element_'+ldat.ID+' plist" ID="element_'+ldat.ID+'">'+
 				'<style>' +
 				'.element_' + ldat.ID +  '{' +
 					'position : absolute' + ';' +
 					'z-index: ' + ldat.layer + ';' +
 					'top: ' + ldat.posx + 'px;' +
 					'left:' + ldat.posy + '%;' +
-					'font-size:' + ldat.fontsize + ';' +
-					'line-height:' + ldat.fontsize 	+ ';' +
+					'font-size:' + ldat.fontsize + 'px;' +
+					'line-height:' + ldat.fontsize 	+ 'px;' +
+					'letter-spacing: ' + ldat.spacing + 'px;' +
 					'color: ' + ldat.color 	+ ';' +
 					'background: ' + ldat.background + ';' +
 					'font-family: ' + ldat.fontfamily + ';' +
@@ -146,12 +147,10 @@
 					'text-align: ' + ldat.textalign+';' +
 					'height: ' + ldat.height + ';' +
 					'width:	' + ldat.width + ';' +
-					'line-height: ' + ldat.lineheight + 'px;' +
-					'letter-spacing: ' + ldat.spacing + ';' +
-					'padding:' + ldat.padding + ';' +
+					'padding:' + ldat.padding + 'px;' +
 					'margin:0px;' +
 					'opacity: ' + ldat.opacity  + ';' +	
-					'border-radius: ' + ldat.radius + ';' +
+					'border-radius: ' + ldat.radius + 'px;' +
 					'}	' +
 					'@media (max-width:479px){' +
 						'.element' + ldat.ID +
@@ -159,6 +158,8 @@
 						'position: relative;}' +
 						'}'+
 				'</style>'+
+				'<div class="elements element_'+ldat.ID+' plist" ID="element_'+ldat.ID+'">'+
+				
 				
 				
 					'<div class="editbutton">' +
@@ -175,7 +176,7 @@
 							'onclick="deleteElement(' + ldat.ID + ');">'+
 							'<i class="fa fa-remove"></i></a>'+
 					'</div>'+	
-					''+ldat.pagecontent +
+					'<div ID="pagecontent'+ldat.ID+'">'+ldat.pagecontent +' </div>'+
 				'</div>');	
 					
 					
@@ -247,6 +248,10 @@
 				        }
 				  		
 					});
+					
+				$('.box').droppable({  
+					
+					});
 
 							
 				});	//each
@@ -257,73 +262,54 @@
 	
 	}//loadpage
 	
-		window.editNow = function (elementID) {	
-			var elementdata= $( "#formElement" ).serialize();
-			var myresult = $.post("navigation/confirm.php" , elementdata);
-			
-			window.reloadElement(''+elementID+'');		
-		}	
+	
+	
+	
+	
+	
+	
+	window.editNow = function (elementID) {	
+		var elementdata= $( "#formElement" ).serialize();
+		var myresult = $.post("navigation/confirm.php" , elementdata);
+		
+		window.reloadElement(''+elementID+'');		
+	}	//editnow
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	window.reloadElement= function (elementID){
-		
-		
-		
 		var login='y';
 		var url="navigation/elements.php?e="+ elementID;
 		$.getJSON(url,function(json){
 			
 			$.each(json.elementinfo,function(i,ldat){
-				$("#element_"+ldat.ID).html('');
-				$("#element_"+ldat.ID).html(' '+
-				'<style>' +
-				'.element_' + ldat.ID +  '{' +
-					'position : absolute' + ';' +
-					'z-index: ' + ldat.layer + ';' +
-					'top: ' + ldat.posx + 'px;' +
-					'left:' + ldat.posy + '%;' +
-					'font-size:' + ldat.fontsize + ';' +
-					'line-height:' + ldat.fontsize 	+ ';' +
-					'color: ' + ldat.color 	+ ';' +
-					'background: ' + ldat.background + ';' +
-					'font-family: ' + ldat.fontfamily + ';' +
-					'font-weight: ' + ldat.fontweight + ';' +
-					'float: none; ' +
-					'text-align: ' + ldat.textalign+';' +
-					'height: ' + ldat.height + ';' +
-					'width:	' + ldat.width + ';' +
-					'line-height: ' + ldat.lineheight + 'px;' +
-					'letter-spacing: ' + ldat.spacing + ';' +
-					'padding:' + ldat.padding + ';' +
-					'margin:0px;' +
-					'opacity: ' + ldat.opacity  + ';' +	
-					'border-radius: ' + ldat.radius + ';' +
-					'}	' +
-					'@media (max-width:479px){' +
-						'.element' + ldat.ID +
-						'{font-size: 15px;' +
-						'position: relative;}' +
-						'}'+
-				'</style>'+
+				$(".element_"+ldat.ID).css("font-family", ldat.fontfamily);
+				$(".element_"+ldat.ID).css("font-weight", ldat.fontweight);
+				$(".element_"+ldat.ID).css("font-size", ldat.fontsize +'px');
+				$(".element_"+ldat.ID).css("line-height", ldat.fontsize +'px');
+				$(".element_"+ldat.ID).css("letter-spacing", ldat.spacing +'px');
+				$(".element_"+ldat.ID).css("text-align", ldat.textalign +'');
+				$(".element_"+ldat.ID).css("color", ldat.color +'');
+				$(".element_"+ldat.ID).css("background", ldat.background +'');
+				$(".element_"+ldat.ID).css("padding", ldat.padding +'px');
+				$(".element_"+ldat.ID).css("opacity", ldat.opacity +'');
+				$(".element_"+ldat.ID).css("border-radius", ldat.radius +'px');
+				$(".element_"+ldat.ID).css("z-index", ldat.layer);
 				
+				$("#pagecontent"+ldat.ID).html(''+ldat.pagecontent+'');
 				
-					'<div class="editbutton">' +
-						'<div class="mover"> ' +
-						'<i class="fa fa-arrows"></i>'+
-						'</div>'+
-						
-						'<a class="editelement" ID="dlist'+ldat.ID+'" href="#" '+
-							'onclick="editElement( '+ ldat.ID + ');">'+
-							'<i class="fa fa-pencil"></i></a>'+
-						
-						
-						'<a class="deleteelement" ID="dlist'+ldat.ID+'" href="#" '+
-							'onclick="deleteElement(' + ldat.ID + ');">'+
-							'<i class="fa fa-remove"></i></a>'+
-					'</div>'+ldat.pagecontent +'');	
-				});
 			});
-}
+		
+		});
+	}
 	
 
 
@@ -344,21 +330,33 @@ window.editElement = function (itemID) {
 			'<form  ID="formElement">'+
 			'<input type="hidden" name="editme" value="'+idat.ID+'">'+
 			'<input type="hidden" name="pageID" value="'+idat.pageID+'">'+
-			'<textarea name="pagecontent" placeholder="Enter Text Here" >'+safetext+'</textarea><br>'+
-			'<input type="text" name="fontfamily" placeholder="Font Family" value="'+idat.fontfamily+'"><br>'+
-			'<input type="text" name="fontsize" placeholder="Font Size" value="'+idat.fontsize+'"><br>'+		
-			'<input type="text" name="fontweight" placeholder="Font Weight" value="'+idat.fontweight+'"><br>'+
-			'<input type="text" name="textalign" placeholder="Text align" value="'+idat.textalign+'"><br>'+
-			'<input type="text" name="lineheight" placeholder="Letter Spacing" value="'+idat.spacing+'"><br>'+
-			'<input type="text" name="lineheight" placeholder="Line Height" value="'+idat.lineheight+'"><br>'+
 			
-			'<input type="text" name="color" placeholder="Color" value="'+idat.color+'"><br>'+
-			'<input type="text" name="background" placeholder="Background Color" value="'+idat.background+'"><br>'+
-			'<input type="text" name="layer" placeholder="Layer" value="'+idat.layer+'"><br>'+
-			'<input type="text" name="padding" placeholder="Padding" value="'+idat.padding+'"><br>'+
-			'<input type="text" name="radius" placeholder="Border Radius" value="'+idat.radius+'"><br>'+
-			'<input type="text" name="opacity" placeholder="opacity" value="'+idat.opacity+'"><br>'+
-			'<input style="width: 0px; overflow: hidden; " ID="saveedit" type="button" name="submit" value="Save" onclick="editNow('+idat.ID+'); ">'+
+			
+			'<textarea style="width: 100%; max-width: 100% ; min-height: 100px; margin: auto;" name="pagecontent" placeholder="Enter Text Here">'+safetext+'</textarea><br>'+
+			
+			
+			'<div style=" float: left; " >Text Color<br>'+
+				'<input name="color" id="html5colorpicker" class="form-control" type="color" value="'+idat.color+'" onchange="clickColor(0, -1, -1, 5)" '+
+					'style="height: 30px; width: 100px; float: left; padding: 0px; margin-right: 3px;">'+
+			'</div>'+
+			
+			'<div style=" float: left; " >Background<br>'+
+				'<input name="background" id="html5colorpicker" class="form-control" type="color" value="'+idat.background+'" onchange="clickColor(0, -1, -1, 5)" '+
+					'style="height: 30px; width: 100px;padding: 0px; margin-right: 3px;">'+
+			'</div>'+ 
+		
+
+			'<div style=" clear:both;"></div><input  type="text" name="fontfamily" placeholder="Enter Font Family" value="'+idat.fontfamily+'"><br>'+
+			'<input type="text" name="textalign" placeholder="Text align" value="'+idat.textalign+'"><br>'+
+			'Weight <br> <input  type="range" data-show-value="true" min="-100" max="900" step="100" name="fontweight" placeholder="Font Weight" value="'+idat.fontweight+'"><br>'+
+			'Size <br> <input  type="range" data-show-value="true" min="10" max="100" name="fontsize" placeholder="Font Size" value="'+idat.fontsize+'"><br>'+		
+			'Spacing <br> <input type="range" data-show-value="true" min="1" max="20" type="text" name="spacing" placeholder="Letter Spacing" value="'+idat.spacing+'"><br>'+
+			//'LineHeight<input type="range" data-show-value="true" min="10" max="150" type="text" name="lineheight" placeholder="Line Height" value="'+idat.lineheight+'"><br>'+
+			'Padding <br> <input type="range" data-show-value="true" min="0" max="40" name="padding" placeholder="Padding" value="'+idat.padding+'"><br>'+
+			'Radius <br> <input type="range" data-show-value="true" min="0" max="1000" name="radius"  placeholder="Border Radius" value="'+idat.radius+'"><br>'+
+			'Opacity:<input type="text" style="width: 40px;" name="opacity" placeholder="opacity" value="'+idat.opacity+'"><br>'+
+			' Layer : <input  style="width: 40px;" type="text" name="layer" placeholder="Layer" value="'+idat.layer+'"><br>'+
+			'<input style=" display:none; " ID="saveedit" type="button" name="submit" value="Save" onclick="editNow('+idat.ID+'); ">'+
 			'</form>');
 			
 $('#formElement>input').on('input', function() {
@@ -467,9 +465,9 @@ window.deleteElement = function (pageID) {
 		'<div style="float:left; auto min-height:250px; margin: auto; text-align: center;">' + 
 		'<div class="flippers">' +
 
-		'<div class=" addtext_button buttons"><a href="#" onclick="addText('+pageID+')"><i class="fa fa-pencil" style="font-size:80px;"></i><br>Add Text</a></div>' +
+		'<div class=" addtext_button buttons"><a href="#" onclick="addText('+pageID+')"><i class="fa fa-pencil" style="font-size:60px;"></i><br>Add Text</a></div>' +
 		
-		'<div class=" addphoto_button buttons"><a href="" onclick="addPhoto('+pageID+')"><i class="fa fa-camera"></i><br>Add Photo</a></div>' +
+		'<div class=" addphoto_button buttons"><a href="" onclick="addPhoto('+pageID+')"><i class="fa fa-camera" style="font-size:60px;"></i><br>Add Photo</a></div>' +
 		/*
 		'<div class="addbox_button buttons" > <a class="loadbox_trigger"  href="/admin/admin_new_pagebox.php?page='.$thispage.'&type=2"><img src="/img/icons/gallerybox.png"><br>Photo box</a></div> ' +
 		'<div class="addbox_button buttons" style="clear:both;" > <a class="loadbox_trigger"  href="/admin/admin_new_pagebox.php?page='.$thispage.'&type=3"><img src="/img/icons/blogbox.png"><br>Blog box</a></div> ' +
