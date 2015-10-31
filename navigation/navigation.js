@@ -1,4 +1,5 @@
 (function (window) {
+	var firstpage='true';
 	
 	window.addElement = function (pageID){	
 		var elementdata= $( "#addform" ).serialize();
@@ -39,15 +40,26 @@
 	}
 
 
-	window.loadHomePage= function (pageID){
-		loadPage(''+ window.homePage +'');
-	}
-	
-	
-	
-	window.showPages= function (pageID){
+	window.loadHomePage= function (){
 		$("#navcontent").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
-		var x='x';
+		var url="navigation/data.php";
+		var x='1';	
+		$("#navcontent").html('<ul></ul>');
+		$.getJSON(url,function(json){
+			$.each(json.navinfo,function(i,ldat){
+				if( x=='1'){ 
+					x='2'; 
+					var home = ''+ldat.ID+'';
+					loadPage(''+ home +'');
+				}	
+
+			});	
+		});
+}
+	
+	
+	window.showPages= function (){
+		$("#navcontent").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
 		var url="navigation/data.php";
 		$("#navcontent").html('<ul></ul>');
 		$.getJSON(url,function(json){
@@ -58,24 +70,22 @@
 				'<i class="fa fa-remove"></i></a>'+
 				'<a href="#" onclick="loadPage('+ldat.ID+')">'+ldat.title+'</a> ' + 
 				'</li>');	
-				
-				if( x='x'){ 
-					x='y'; 
-					var homePage = ldat.ID;
-				}
-					
-					
-					
-			});	
 			
+			});	
 		});	
 		
+	if(firstpage=='true'){	
+				loadHomePage();
+				firstpage='false';	
+				}
+
+	
 	}
 	
 
 	
 	window.loadPage= function (pageID){
-		window.closehelper();
+		window.closehelper();	
 		if( pageID ==''){ loadHomePage();}
 		$("#page").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
 		var login='y';

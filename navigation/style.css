@@ -1,8 +1,9 @@
 #navcontent{float:left; width: 90%; }
+
 #navactions{float:right;}
 .logo{float:left; }
 .link{float:left; font-size: 14px; padding-left: 10px;   }
-
+#page{max-width: 1200px; margin: auto; width: 100%; min-width: 100%;  }
 
 #listactions {font-size: 40px; }
 #listactions .fa{margin-right: 10px;}
