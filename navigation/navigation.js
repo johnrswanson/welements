@@ -31,7 +31,25 @@
 					'<i class="fa fa-remove"></i>Delete Pages</a>'+
 				'<a href="#" class="deleteOff" onclick="hideDeleteButtons()">'+
 					'<i class="fa fa-remove"></i>Done</a>'+
-				
+				'<form ID="livesaver"  method="POST"> '+	
+	'<input type="hidden" ID="elementID" name="elementID" value=""/>'+	
+	'top:<input type="text" ID="dragtop" name="dragtop" value="" />px<br>'+	
+	'left:<input type="text" ID="dragleft" name="dragleft" value="" /> %'+	
+	'<input type="hidden" ID="suxess" name="suxess" value="ready"/>'+	
+	'<input type="hidden" ID="mode" name="mode" value="designer"/>'+	
+	'<input  type="submit" ID="elementpos" name="elementpos" value="Save Position">'+	
+	'</form>'+
+	'<form  ID="sizesaver" method="POST"> '+	
+	'<input type="hidden" ID="sizeelementID" name="sizeelementID" value="">'+	
+	'width : <input type="text" ID="resleft" name="resleft" value="" /> %<br>'+	
+	'abs w : <input type="text" ID="absresleft" name="absresleft" value=""/>px<br>'+	
+	'height:<input type="text" ID="restop" name="restop" value=""/>px<br>'+	
+	'top:<input type="text" ID="respostop" name="dragrestop" value=""/>px<br>'+	
+	'left:<input type="text" ID="resposleft" name="dragresleft" value=""/> %'+	
+	'<input type="hidden" ID="suxess" name="suxess" value="ready"/>'+	
+	'<input type="hidden" ID="mode" name="mode" value="designer"/>'+	
+	'<input  type="submit" ID="elementres" name="elementres" value="Save Size">'+	
+	'</form>'+
 				'<p><a class="logout pop" href="admin/logout.php">'+
 					'<i class="fa fa-user"></i>Log out</p></div>');
 			});
@@ -50,6 +68,7 @@
 				if( x=='1'){ 
 					x='2'; 
 					var home = ''+ldat.ID+'';
+					showPages();
 					loadPage(''+ home +'');
 				}	
 
@@ -59,6 +78,7 @@
 	
 	
 	window.showPages= function (){
+			
 		$("#navcontent").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
 		var url="navigation/data.php";
 		$("#navcontent").html('<ul></ul>');
@@ -71,8 +91,23 @@
 				'<a href="#" onclick="loadPage('+ldat.ID+')">'+ldat.title+'</a> ' + 
 				'</li>');	
 			
-			});	
-		});	
+			});	//each
+		});//get
+			
+			
+		$("#navcontent ul").sortable({
+			opacity: 0.6,  forcePlaceholderSize: true, delay: 0, forceHelperSize: true, cursor: 'move',
+			update: function() {
+				var pageorder = $(this).sortable("serialize") + '&action=updatePageOrder'; 
+				$.post("navigation/confirm.php", pageorder, function(theResponse){	
+					window.helperadd();
+					$('#lightbox>#content').html('Page Order Saved');
+					$('#lightbox').fadeOut(2000);
+				});
+			}
+		});
+		
+		
 		
 	if(firstpage=='true'){	
 				loadHomePage();
@@ -85,7 +120,7 @@
 
 	
 	window.loadPage= function (pageID){
-		window.closehelper();	
+		window.closehelper();
 		if( pageID ==''){ loadHomePage();}
 		$("#page").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
 		var login='y';
@@ -94,6 +129,7 @@
 		$.getJSON(url,function(json){
 			$.each(json.elementinfo,function(i,ldat){
 				$("#page").append(''+
+				'<div class="elements element_'+ldat.ID+' plist" ID="element_'+ldat.ID+'">'+
 				'<style>' +
 				'.element_' + ldat.ID +  '{' +
 					'position : absolute' + ';' +
@@ -124,7 +160,7 @@
 						'}'+
 				'</style>'+
 				
-				'<div class="elements element_'+ldat.ID+' plist" ID="element_'+ldat.ID+'">'+
+				
 					'<div class="editbutton">' +
 						'<div class="mover"> ' +
 						'<i class="fa fa-arrows"></i>'+
@@ -179,10 +215,15 @@
 					$(this).find('.editbutton').show(0);
 					});
 						
+					$('.elements').hover(function(){
+					$('.elements').css('box-shadow', 'inset 0px 0px 0px #fff');
+					$(this).css('box-shadow', 'inset 0px 0px 1px #f60');
+					});
 						
 									
 				$('.elements').draggable({  
 					delay: 100,  
+					containment:"parent",
 					cursor: "move", 
 					cancel:".stacker", 
 					cancel:"iframe",
@@ -214,29 +255,134 @@
 					
 		window.secretmenu(''+pageID+'');	
 	
-		}//loadpage
-
-
-		
-window.editNow = function (itemID) {
-		
-		
-	}
+	}//loadpage
 	
-	
-	
-window.editElement = function (itemID, itemtitle) {
-	window.helperadd()
-		$('#lightbox>#content').html('<div class="boxtitle">Edit Element</span>');
-		$("#lightbox>#content").append(''+
-		'<form  ID="formElement">'+
-		'<input type="hidden" name="editelement" value="'+itemID+'">'+
-		'<input type="text" name="title" placeholder="Enter Text Here " value="'+itemtitle+'"><br>'+
-		'<input type="button" name="submit" value="Save" onclick="editNow(); ">'+
-		'</form>');
-		
-		
+		window.editNow = function (elementID) {	
+			var elementdata= $( "#formElement" ).serialize();
+			var myresult = $.post("navigation/confirm.php" , elementdata);
+			
+			window.reloadElement(''+elementID+'');		
 		}	
+	
+	
+	window.reloadElement= function (elementID){
+		
+		
+		
+		var login='y';
+		var url="navigation/elements.php?e="+ elementID;
+		$.getJSON(url,function(json){
+			
+			$.each(json.elementinfo,function(i,ldat){
+				$("#element_"+ldat.ID).html('');
+				$("#element_"+ldat.ID).html(' '+
+				'<style>' +
+				'.element_' + ldat.ID +  '{' +
+					'position : absolute' + ';' +
+					'z-index: ' + ldat.layer + ';' +
+					'top: ' + ldat.posx + 'px;' +
+					'left:' + ldat.posy + '%;' +
+					'font-size:' + ldat.fontsize + ';' +
+					'line-height:' + ldat.fontsize 	+ ';' +
+					'color: ' + ldat.color 	+ ';' +
+					'background: ' + ldat.background + ';' +
+					'font-family: ' + ldat.fontfamily + ';' +
+					'font-weight: ' + ldat.fontweight + ';' +
+					'float: none; ' +
+					'text-align: ' + ldat.textalign+';' +
+					'height: ' + ldat.height + ';' +
+					'width:	' + ldat.width + ';' +
+					'line-height: ' + ldat.lineheight + 'px;' +
+					'letter-spacing: ' + ldat.spacing + ';' +
+					'padding:' + ldat.padding + ';' +
+					'margin:0px;' +
+					'opacity: ' + ldat.opacity  + ';' +	
+					'border-radius: ' + ldat.radius + ';' +
+					'}	' +
+					'@media (max-width:479px){' +
+						'.element' + ldat.ID +
+						'{font-size: 15px;' +
+						'position: relative;}' +
+						'}'+
+				'</style>'+
+				
+				
+					'<div class="editbutton">' +
+						'<div class="mover"> ' +
+						'<i class="fa fa-arrows"></i>'+
+						'</div>'+
+						
+						'<a class="editelement" ID="dlist'+ldat.ID+'" href="#" '+
+							'onclick="editElement( '+ ldat.ID + ');">'+
+							'<i class="fa fa-pencil"></i></a>'+
+						
+						
+						'<a class="deleteelement" ID="dlist'+ldat.ID+'" href="#" '+
+							'onclick="deleteElement(' + ldat.ID + ');">'+
+							'<i class="fa fa-remove"></i></a>'+
+					'</div>'+ldat.pagecontent +'');	
+				});
+			});
+}
+	
+
+
+
+	
+	
+	
+	
+window.editElement = function (itemID) {
+	window.helperadd();
+		var url="navigation/elements.php?e="+ itemID;
+	$.getJSON(url,function(json){
+		$.each(json.elementinfo,function(i,idat){
+			$('#lightbox>#content').html('<div class="boxtitle">Edit Element</span>');
+			var str = idat.pagecontent;
+			var safetext= str.replace(/<br>/g, "\r");
+			$("#lightbox>#content").append(''+
+			'<form  ID="formElement">'+
+			'<input type="hidden" name="editme" value="'+idat.ID+'">'+
+			'<input type="hidden" name="pageID" value="'+idat.pageID+'">'+
+			'<textarea name="pagecontent" placeholder="Enter Text Here" >'+safetext+'</textarea><br>'+
+			'<input type="text" name="fontfamily" placeholder="Font Family" value="'+idat.fontfamily+'"><br>'+
+			'<input type="text" name="fontsize" placeholder="Font Size" value="'+idat.fontsize+'"><br>'+		
+			'<input type="text" name="fontweight" placeholder="Font Weight" value="'+idat.fontweight+'"><br>'+
+			'<input type="text" name="textalign" placeholder="Text align" value="'+idat.textalign+'"><br>'+
+			'<input type="text" name="lineheight" placeholder="Letter Spacing" value="'+idat.spacing+'"><br>'+
+			'<input type="text" name="lineheight" placeholder="Line Height" value="'+idat.lineheight+'"><br>'+
+			
+			'<input type="text" name="color" placeholder="Color" value="'+idat.color+'"><br>'+
+			'<input type="text" name="background" placeholder="Background Color" value="'+idat.background+'"><br>'+
+			'<input type="text" name="layer" placeholder="Layer" value="'+idat.layer+'"><br>'+
+			'<input type="text" name="padding" placeholder="Padding" value="'+idat.padding+'"><br>'+
+			'<input type="text" name="radius" placeholder="Border Radius" value="'+idat.radius+'"><br>'+
+			'<input type="text" name="opacity" placeholder="opacity" value="'+idat.opacity+'"><br>'+
+			'<input style="width: 0px; overflow: hidden; " ID="saveedit" type="button" name="submit" value="Save" onclick="editNow('+idat.ID+'); ">'+
+			'</form>');
+			
+$('#formElement>input').on('input', function() {
+				 $('#saveedit').click( );}).on('focus', function() { $('#saveedit').click( );}).on('blur', function() {	$('#saveedit').click( );});
+		
+		$('#formElement>textarea').on('input',function(){
+			$('#saveedit').click( );}).on('focus', function(){$('#saveedit').click( );}).on('blur', function() {  $('#saveedit').click( );});
+	
+
+
+		});//each
+	});//get
+	
+		
+		
+				
+		$('#formElement>textarea').on('input',function(){
+			$('#saveedit').click( );}).on('focus', function(){$('#saveedit').click( );}).on('blur', function() {  $('#saveedit').click( );});
+	
+
+
+	
+
+}	
 
 
 
@@ -302,6 +448,16 @@ window.deleteElement = function (pageID) {
 		'</form>');					
 	}
 		
+		window.addPhoto= function(pageID){	
+		$("#lightbox>#content").html('<div class="boxtitle">Add Photo</div>'+
+		'<form  ID="addform">'+
+		'<input type="hidden" name="newelement" value="add">'+
+		'<input type="hidden" name="pageID" value="'+ pageID +'">'+
+		'<textarea name="mytext" ID="pagecontent" placeholder="Write some words here."></textarea><br>'+
+		'<input name="color" id="html5colorpicker" class="form-control colorpicker" type="color" value="#777777" onchange="clickColor(0, -1, -1, 5)" style="">' +
+		'<input type="button" name="submit" value="Add" onclick="addElement('+ pageID +'); ">'+
+		'</form>');					
+	}
 	
 	
 	window.formNewElement= function(pageID){
@@ -312,8 +468,9 @@ window.deleteElement = function (pageID) {
 		'<div class="flippers">' +
 
 		'<div class=" addtext_button buttons"><a href="#" onclick="addText('+pageID+')"><i class="fa fa-pencil" style="font-size:80px;"></i><br>Add Text</a></div>' +
+		
+		'<div class=" addphoto_button buttons"><a href="" onclick="addPhoto('+pageID+')"><i class="fa fa-camera"></i><br>Add Photo</a></div>' +
 		/*
-		'<div class=" addphoto_button buttons"><a href="" onclick="return false"><img src="/img/icons/camera.png"><br>Add Photo</a></div>' +
 		'<div class="addbox_button buttons" > <a class="loadbox_trigger"  href="/admin/admin_new_pagebox.php?page='.$thispage.'&type=2"><img src="/img/icons/gallerybox.png"><br>Photo box</a></div> ' +
 		'<div class="addbox_button buttons" style="clear:both;" > <a class="loadbox_trigger"  href="/admin/admin_new_pagebox.php?page='.$thispage.'&type=3"><img src="/img/icons/blogbox.png"><br>Blog box</a></div> ' +
 		'<div class="addbox_button buttons" > <a  class="loadbox_trigger"  href="/admin/admin_new_pagebox.php?page='.$thispage.'&type=4"><img src="/img/icons/videobox.png"><br>Video box</a></div>' +
@@ -350,6 +507,7 @@ window.deleteElement = function (pageID) {
 
 }(this));
 
+
 	
 $(document).ready(function(){
 	
@@ -361,36 +519,9 @@ $(document).ready(function(){
 		'<a href="#" class="links" onclick="showPages()"><i class="fa fa-bars"></i></a> '+
 		
 	'</div>'+
-	'<div id="navadd"></div>	'+	
-	'<form ID="livesaver"  method="POST"> '+	
-	'<input type="hidden" ID="elementID" name="elementID" value=""/>'+	
-	'top:<input type="text" ID="dragtop" name="dragtop" value="" />px<br>'+	
-	'left:<input type="text" ID="dragleft" name="dragleft" value="" /> %'+	
-	'<input type="hidden" ID="suxess" name="suxess" value="ready"/>'+	
-	'<input type="hidden" ID="mode" name="mode" value="designer"/>'+	
-	'<input  type="submit" ID="elementpos" name="elementpos" value="Save Position">'+	
-	'</form>'+
-	
-	
-					
-	
-	'<form  ID="sizesaver" method="POST"> '+	
-	'<input type="hidden" ID="sizeelementID" name="sizeelementID" value="">'+	
-	'width : <input type="text" ID="resleft" name="resleft" value="" /> %<br>'+	
-	'abs w : <input type="text" ID="absresleft" name="absresleft" value=""/>px<br>'+	
-	'height:<input type="text" ID="restop" name="restop" value=""/>px<br>'+	
-	'top:<input type="text" ID="respostop" name="dragrestop" value=""/>px<br>'+	
-	'left:<input type="text" ID="resposleft" name="dragresleft" value=""/> %'+	
-	'<input type="hidden" ID="suxess" name="suxess" value="ready"/>'+	
-	'<input type="hidden" ID="mode" name="mode" value="designer"/>'+	
-	'<input  type="submit" ID="elementres" name="elementres" value="Save Size">'+	
-	'</form>'+
+	'<div id="navadd"></div>'+	
 		'');
 		
-	(function(){
-		$(".elements" ).draggable();
-	});
-	
 		window.showPages();	
 //		window.loadhomepage()
 

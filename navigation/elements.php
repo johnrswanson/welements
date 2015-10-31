@@ -1,8 +1,18 @@
 <?
 include('../connect.php');
 $load=addslashes($_GET['l']);
-$query = mysql_query("SELECT * FROM page_element where pageID='$load' order by elementlist asc ")
-or die(mysql_error());	
+$thiselement=addslashes($_GET['e']);
+if($load!=''){
+	$query = mysql_query("SELECT * FROM page_element where pageID='$load' order by elementlist asc ")or die(mysql_error());
+	}
+	
+if($thiselement!=''){
+	$query = mysql_query("SELECT * FROM page_element where ID='$thiselement' order by elementlist asc ")or die(mysql_error());
+	}
+if($load!=''){
+	$query = mysql_query("SELECT * FROM page_element where pageID='$load' order by elementlist asc ")or die(mysql_error());
+	}
+	
 $arr = array();
 while($info = mysql_fetch_object( $query )) 
 	{	

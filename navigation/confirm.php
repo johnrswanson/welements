@@ -1,6 +1,6 @@
 <?
 include('../connect.php');
-echo'Hello';
+echo'Hello ';
 $pageID=$_POST['pageID'];
 $title=$_POST['title'];
 $pagetitle=$_POST['pagetitle'];
@@ -10,22 +10,22 @@ $newelement=$_POST['newelement'];
 $update=$_POST['update'];
 $deletepage=$_POST['deleteme'];
 $deleteelement=$_POST['deleteelement'];
-$editelement=$_POST['editelement'];
+$editme=$_POST['editme'];
 
 
 
 
 echo $title; 
 
-if ($newpage=='add')
-	{	echo 'adding... ';
+if ($newpage=='add'){
+	echo 'adding... ';
 	mysql_query("insert into pages (ID, title, urltext) values('', '$pagetitle', '$urltext')")or die(mysql_error());
-	echo 'New Page Added';
-	}
+	echo ' New Page Added';
+}
 	
 	
-if ($newelement=='add')
-	{	
+	
+if ($newelement=='add'){	
 	$newtext = str_replace("\r",'<br>',$_POST['mytext']);			
 	$cleantext=addslashes($newtext);
 	$margin=addslashes($_POST['margin']);
@@ -89,44 +89,121 @@ if ($newelement=='add')
 	'2' )
 	") or die (mysql_error());
 	echo 'New Element Added';
-	}
+}
 
 
-if ($deletepage!='')
-	{	
+if ($deletepage!=''){	
 	$delete = mysql_query("delete from pages where ID='$deletepage' limit 1");
 	echo 'Item Deleted Successfully';
-	}
+}
 	
 	
-if ($deleteelement!='')
-	{	
+if ($deleteelement!=''){	
 	$delete = mysql_query("delete from page_element where ID='$deleteelement' limit 1");
 	echo 'Item Deleted Successfully';
-	}
+}
 
 
 	
-if ($editelement!='')
-	{	
-		//update query
+if ($editme!=''){	
+	echo $editmy;
+	$newtext = str_replace("\r",'<br>',$_POST['pagecontent']);			
+	$pagecontent=addslashes($newtext);
+	$pageID=addslashes($_POST['pageID']);
+	$elementID=addslashes($_POST['editme']);
+	$layer=addslashes($_POST['layer']);
+	$spacing=addslashes($_POST['spacing']);
+	$lineheight=addslashes($_POST['lineheight']);
+	$margin=addslashes($_POST['margin']);
+	$padding=addslashes($_POST['padding']);
+	//$height=addslashes($_POST['height']);
+	//$width=addslashes($_POST['width']);
+	$color=addslashes($_POST['color']);
+	$background=addslashes($_POST['background']);
+	$fontfamily=addslashes($_POST['fontfamily']);
+	$fontsize=addslashes($_POST['fontsize']);
+	$fontweight=addslashes($_POST['fontweight']);
+	$margin=addslashes($_POST['margin']);
+	$padding=addslashes($_POST['padding']);
+	$opacity=addslashes($_POST['opacity']);
+	$textalign=addslashes($_POST['textalign']);
+	$radius=addslashes($_POST['radius']);
+	$columnset=addslashes($_POST['columnset']);
+	$boxtitle=addslashes($_POST['boxtitle']);
+	
+	$update=mysql_query("update page_element set layer= '$layer' where ID='$elementID' limit 1");		
+	$update=mysql_query("update page_element set pagecontent= '$pagecontent' where ID='$elementID' limit 1");
+	$update=mysql_query("update page_element set fontfamily= '$fontfamily' where ID='$elementID' limit 1");
+	$update=mysql_query("update page_element set fontsize= '$fontsize' where ID='$elementID' limit 1");
+	$update=mysql_query("update page_element set fontweight= '$fontweight' where ID='$elementID' limit 1");
+	$update=mysql_query("update page_element set textalign= '$textalign' where ID='$elementID' limit 1");
+	$update=mysql_query("update page_element set background= '$background' where ID='$elementID' limit 1");
+	$update=mysql_query("update page_element set color= '$color' where ID='$elementID' limit 1");
+	//$update=mysql_query("update page_element set width= '$width' where ID='$elementID' limit 1");
+	//$update=mysql_query("update page_element set height= '$height' where ID='$elementID' limit 1");
+	$update=mysql_query("update page_element set margin= '$margin' where ID='$elementID' limit 1");
+	$update=mysql_query("update page_element set padding= '$padding' where ID='$elementID' limit 1");
+	$update=mysql_query("update page_element set opacity= '$opacity' where ID='$elementID' limit 1");
+	$update=mysql_query("update page_element set fontweight= '$fontweight' where ID='$elementID' limit 1");
+	$update=mysql_query("update page_element set radius= '$radius' where ID='$elementID' limit 1");
+	$update=mysql_query("update page_element set spacing= '$spacing' where ID='$elementID' limit 1");
+	$update=mysql_query("update page_element set lineheight= '$lineheight' where ID='$elementID' limit 1");
+	$myphoto=addslashes($_FILES[file][name]);
+	if($myphoto!=''){
+		$add="./img/full/".$_FILES[file][name];
+		//echo $add;
+		echo'<br>';
+
+		if(move_uploaded_file ($_FILES[file][tmp_name],$add)){
+			chmod("$add",0777);
+		}
+		else{
+		echo "Permissions Failed.";
+		exit;
+		}
+		$photoerror='true';
+		if ($_FILES[file][type]=="image/jpg"){$photoerror='false';}
+		if ($_FILES[file][type]=="image/jpeg"){$photoerror='false';}
+		if ($_FILES[file][type]=="image/png"){$photoerror='false';}
+		if ($_FILES[file][type]=="image/gif"){$photoerror='false';}
+		if ($_FILES[file]['size'] > 20000000) { $photoerror='true';}
+		if ($photoerror=='true'){
+			echo "Your file must be a Photo ( Jpeg , PNG , or GIF) <br>
+			Other file types are not allowed. <br>
+			Maximum Default File size for uploading is set to 2MB for now.
+			<br>You must resize your photos and try again.  <BR>";
+			exit;
+			}
+		else{
+			$photo=addslashes($_FILES[file][name]);
+			mysql_query("update page_element set file='$photo' where ID='$elementID' limit 1") or die (mysql_error());
+		}
+	}
+
+	
+	//$update=mysql_query("update page_element set floaty= '$floaty' where ID='$elementID' limit 1");
+	$data3=mysql_query("select * from page_element where ID='$elementID' ");
+	while($info3=mysql_fetch_array($data3))
+		{$thisPage=$info3['pageID'];
+		$boxID=$info3['boxID'];
+		$update=mysql_query("update page_box set columnset= '$columnset' where ID='$boxID' limit 1");
+		
+		$update=mysql_query("update page_box set title= '$boxtitle' where ID='$boxID' limit 1");
+	}
 	echo 'Item Saved Successfully';
-	}
+}
 
 	
 	
-	
+//reorder navigation links	
 $action = mysql_real_escape_string($_POST['action']); 
 $updatepage = $_POST['pageArray'];
-
 if ($action == "updatePageOrder"){
-	
 	$pageCounter = 1;
 	foreach ($updatepage as $value) {
 		$updatenow=mysql_query("UPDATE pages SET pageorder = '$pageCounter' WHERE ID = '$value'")or die(mysql_error('Page order was not updated in DB'));
 		$pageCounter = $pageCounter + 1;	
 	}
-	
 	echo '<pre>';
 	print_r($updateRecordsArray);
 	echo '</pre>';

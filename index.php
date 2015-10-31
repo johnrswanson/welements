@@ -31,7 +31,6 @@
 	include('./admin/usercheck.php');
 	if($admin=='true'){?>
 	
-	<script type="text/javascript" type="text/javascript" src="navigation/actions.js"></script>
 	
 	<?}?>
 	<? include('./helper/helper.php');	?>
