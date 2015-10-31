@@ -14,9 +14,6 @@ $editme=$_POST['editme'];
 
 
 
-
-echo $title; 
-
 if ($newpage=='add'){
 	echo 'adding... ';
 	mysql_query("insert into pages (ID, title, urltext) values('', '$pagetitle', '$urltext')")or die(mysql_error());

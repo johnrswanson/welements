@@ -348,12 +348,12 @@ window.editElement = function (itemID) {
 
 			'<div style=" clear:both;"></div><input  type="text" name="fontfamily" placeholder="Enter Font Family" value="'+idat.fontfamily+'"><br>'+
 			'<input type="text" name="textalign" placeholder="Text align" value="'+idat.textalign+'"><br>'+
-			'Weight <br> <input  type="range" data-show-value="true" min="-100" max="900" step="100" name="fontweight" placeholder="Font Weight" value="'+idat.fontweight+'"><br>'+
-			'Size <br> <input  type="range" data-show-value="true" min="10" max="100" name="fontsize" placeholder="Font Size" value="'+idat.fontsize+'"><br>'+		
-			'Spacing <br> <input type="range" data-show-value="true" min="1" max="20" type="text" name="spacing" placeholder="Letter Spacing" value="'+idat.spacing+'"><br>'+
+			'FontSize<input  type="range" data-show-value="true" min="10" max="100" name="fontsize" placeholder="Font Size" value="'+idat.fontsize+'"><br>'+		
+			'Weight :<input  type="range" data-show-value="true" min="-100" max="900" step="100" name="fontweight" placeholder="Font Weight" value="'+idat.fontweight+'"><br>'+
+			'Spacing:<input type="range" data-show-value="true" min="1" max="20" type="text" name="spacing" placeholder="Letter Spacing" value="'+idat.spacing+'"><br>'+
 			//'LineHeight<input type="range" data-show-value="true" min="10" max="150" type="text" name="lineheight" placeholder="Line Height" value="'+idat.lineheight+'"><br>'+
-			'Padding <br> <input type="range" data-show-value="true" min="0" max="40" name="padding" placeholder="Padding" value="'+idat.padding+'"><br>'+
-			'Radius <br> <input type="range" data-show-value="true" min="0" max="1000" name="radius"  placeholder="Border Radius" value="'+idat.radius+'"><br>'+
+			'Padding:<input type="range" data-show-value="true" min="0" max="40" name="padding" placeholder="Padding" value="'+idat.padding+'"><br>'+
+			'Radius :<input type="range" data-show-value="true" min="0" max="1000" name="radius"  placeholder="Border Radius" value="'+idat.radius+'"><br>'+
 			'Opacity:<input type="text" style="width: 40px;" name="opacity" placeholder="opacity" value="'+idat.opacity+'"><br>'+
 			' Layer : <input  style="width: 40px;" type="text" name="layer" placeholder="Layer" value="'+idat.layer+'"><br>'+
 			'<input style=" display:none; " ID="saveedit" type="button" name="submit" value="Save" onclick="editNow('+idat.ID+'); ">'+
