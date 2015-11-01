@@ -28,7 +28,7 @@ if ($newelement=='add'){
 	$margin=addslashes($_POST['margin']);
 	$padding=addslashes($_POST['padding']);
 	$height=addslashes($_POST['height']);
-	$width='50';
+	$width='500';
 	$color=addslashes($_POST['color']);
 	$background=addslashes($_POST['background']);
 	$posy='2';
@@ -40,12 +40,39 @@ if ($newelement=='add'){
 	$opacity=addslashes($_POST['opacity']);
 	$textalign=addslashes($_POST['textalign']);
 	$radius=addslashes($_POST['radius']);
-	echo 'adding... ';
-	
+	echo 'Adding element';
+	$photo=addslashes($_FILES[file][name]);
+	if($photo!=''){
+		echo ' -> Adding Photo ';
+		$add="../img/full/".$_FILES[file][name];
+		echo $add;
+		if(move_uploaded_file ($_FILES[file][tmp_name],$add)){
+
+			//echo "<P>Successfully uploaded the image<P>";
+			chmod("$add",0777);
+		}
+		else{
+			echo " -> Photo Upload Directory Error";exit;}
+			
+			$photoerror='true';
+			if ($_FILES[file][type]=="image/jpg"){$photoerror='false';}
+			if ($_FILES[file][type]=="image/jpeg"){$photoerror='false';}
+			if ($_FILES[file][type]=="image/png"){$photoerror='false';}
+			if ($_FILES[file][type]=="image/gif"){$photoerror='false';}
+			if ($_FILES[file]['size'] > 2000000000) {
+	        $photoerror='true';
+	            }	
+			if ($photoerror=='true'){
+				echo " -> Photo Upload Type Error";
+				exit;
+			}
+		else{echo' -> Photo Upload Success';}
+	}
 	mysql_query("insert into page_element (
 	ID,
 	 pagecontent, 
 	 fontsize, 
+	 file,
 	 fontfamily, 
 	 color, 
 	 fontweight, 
@@ -67,6 +94,7 @@ if ($newelement=='add'){
 	('',
 	'$cleantext', 
 	'$fontsize', 
+	'$photo', 
 	'$fontfamily', 
 	'$color', 
 	'$fontweight',
