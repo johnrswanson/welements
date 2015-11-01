@@ -20,9 +20,7 @@
 			}
 		});
 		$('#lightbox>#content').html('Element Added!');
-		window.closehelper();
-		
-		window.loadPage(pageID); 	
+		window.loadPage(''+pageID+''); 	
 	
 	}
 	
@@ -42,30 +40,35 @@
 				
 				'<a href="#" class="pop"  onclick="formNewElement('+pageID+')">'+
 					'<i class="fa fa-plus-circle"></i>Add Element</a><br>'+
+					
+				'<a href="#" class="pop"  onclick="cssEditor()">'+
+					'<i class="fa fa-plus-terminal"></i>CSS Editor</a><br>'+
+				
 				
 				'<a href="#" class="deleteOn" onclick="showDeleteButtons()">'+
 					'<i class="fa fa-remove"></i>Delete Pages</a>'+
 				'<a href="#" class="deleteOff" onclick="hideDeleteButtons()">'+
 					'<i class="fa fa-remove"></i>Done</a>'+
+					
 				'<form ID="livesaver"  method="POST"> '+	
-	'<input type="hidden" ID="elementID" name="elementID" value=""/>'+	
-	'top:<input type="text" ID="dragtop" name="dragtop" value="" />px<br>'+	
-	'left:<input type="text" ID="dragleft" name="dragleft" value="" /> %'+	
-	'<input type="hidden" ID="suxess" name="suxess" value="ready"/>'+	
-	'<input type="hidden" ID="mode" name="mode" value="designer"/>'+	
-	'<input  type="submit" ID="elementpos" name="elementpos" value="Save Position">'+	
-	'</form>'+
-	'<form  ID="sizesaver" method="POST"> '+	
-	'<input type="hidden" ID="sizeelementID" name="sizeelementID" value="">'+	
-	'width : <input type="text" ID="resleft" name="resleft" value="" /> %<br>'+	
-	'abs w : <input type="text" ID="absresleft" name="absresleft" value=""/>px<br>'+	
-	'height:<input type="text" ID="restop" name="restop" value=""/>px<br>'+	
-	'top:<input type="text" ID="respostop" name="dragrestop" value=""/>px<br>'+	
-	'left:<input type="text" ID="resposleft" name="dragresleft" value=""/> %'+	
-	'<input type="hidden" ID="suxess" name="suxess" value="ready"/>'+	
-	'<input type="hidden" ID="mode" name="mode" value="designer"/>'+	
-	'<input  type="submit" ID="elementres" name="elementres" value="Save Size">'+	
-	'</form>'+
+				'<input type="hidden" ID="elementID" name="elementID" value=""/>'+	
+				'top:<input type="text" ID="dragtop" name="dragtop" value="" />px<br>'+	
+				'left:<input type="text" ID="dragleft" name="dragleft" value="" /> %'+	
+				'<input type="hidden" ID="suxess" name="suxess" value="ready"/>'+	
+				'<input type="hidden" ID="mode" name="mode" value="designer"/>'+	
+				'<input  type="submit" ID="elementpos" name="elementpos" value="Save Position">'+	
+				'</form>'+
+				'<form  ID="sizesaver" method="POST"> '+	
+				'<input type="hidden" ID="sizeelementID" name="sizeelementID" value="">'+	
+				'width : <input type="text" ID="resleft" name="resleft" value="" /> %<br>'+	
+				'abs w : <input type="text" ID="absresleft" name="absresleft" value=""/>px<br>'+	
+				'height:<input type="text" ID="restop" name="restop" value=""/>px<br>'+	
+				'top:<input type="text" ID="respostop" name="dragrestop" value=""/>px<br>'+	
+				'left:<input type="text" ID="resposleft" name="dragresleft" value=""/> %'+	
+				'<input type="hidden" ID="suxess" name="suxess" value="ready"/>'+	
+				'<input type="hidden" ID="mode" name="mode" value="designer"/>'+	
+				'<input  type="submit" ID="elementres" name="elementres" value="Save Size">'+	
+				'</form>'+
 				'<p><a class="logout pop" href="admin/logout.php">'+
 					'<i class="fa fa-user"></i>Log out</p></div>');
 			});
@@ -371,11 +374,11 @@
 				'<div style=" clear:both;"></div><input  type="text" name="fontfamily" placeholder="Enter Font Family" value="'+idat.fontfamily+'"><br>'+
 				'<input type="text" name="textalign" placeholder="Text align" value="'+idat.textalign+'"><br>'+
 				'FontSize<input  type="range" data-show-value="true" min="10" max="100" name="fontsize" placeholder="Font Size" value="'+idat.fontsize+'"><br>'+		
-				'Weight :<input  type="range" data-show-value="true" min="-100" max="900" step="100" name="fontweight" placeholder="Font Weight" value="'+idat.fontweight+'"><br>'+
-				'Spacing:<input type="range" data-show-value="true" min="0" max="20" type="text" name="spacing" placeholder="Letter Spacing" value="'+idat.spacing+'"><br>'+
+				'Weight :<input  type="range" data-show-value="true" min="0" max="900" step="100" name="fontweight" placeholder="Font Weight" value="'+idat.fontweight+'"><br>'+
+				'Spacing:<input type="range" data-show-value="true" min="0" max="10" type="text" name="spacing" placeholder="Letter Spacing" value="'+idat.spacing+'"><br>'+
 				//'LineHeight<input type="range" data-show-value="true" min="10" max="150" type="text" name="lineheight" placeholder="Line Height" value="'+idat.lineheight+'"><br>'+
-				'Padding:<input type="range" data-show-value="true" min="0" max="40" name="padding" placeholder="Padding" value="'+idat.padding+'"><br>'+
-				'Radius :<input type="range" data-show-value="true" min="0" max="1000" name="radius"  placeholder="Border Radius" value="'+idat.radius+'"><br>'+
+				'Padding:<input type="range" data-show-value="true" min="0" max="50" name="padding" placeholder="Padding" value="'+idat.padding+'"><br>'+
+				'Radius :<input type="range" data-show-value="true" min="0" max="50" name="radius"  placeholder="Border Radius" value="'+idat.radius+'"><br>'+
 				'Opacity:<input type="text" style="width: 40px;" name="opacity" placeholder="opacity" value="'+idat.opacity+'"><br>'+
 				' Layer : <input  style="width: 40px;" type="text" name="layer" placeholder="Layer" value="'+idat.layer+'"><br>'+
 				'<input style=" display:none; " ID="saveedit" type="button" name="submit" value="Save" onclick="editNow('+idat.ID+'); ">'+

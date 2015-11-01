@@ -12,7 +12,7 @@
 .ui-icon {
     background-image: url("");
 }
-
+.deleteelement{float:right;text-align:right; }
 .deleteOff{display:none; }
 .deleteOn{display:block; }
 .addpageOff{display:none;}
