@@ -1,6 +1,3 @@
-var dropbox;
-
-
 
 (function (window) {
 	var firstpage='true';
