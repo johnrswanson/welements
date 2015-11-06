@@ -42,15 +42,15 @@
     }
     
     #formElement{text-align: center; }
-   .editbutton{position: absolute; top:90%;
+   .editbutton{position: absolute; top:-20px; 
 	   			z-index:0;  
 				text-align: left; 
 				display:none;
-				min-width:80%; 
+				min-width:90%; 
 				height: 20px;
 				line-height: 20px;
 				margin:0px;
-				padding:-5%;
+				padding:-30px;
 				font-size: 15px;  opacity: 0.9;
 				background: #eeeeee; 
 				color #000 ;

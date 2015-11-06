@@ -198,7 +198,7 @@
 						
 						'<a class="deleteelement" ID="dlist'+ldat.ID+'" href="#" '+
 							'onclick="deleteElement(' + ldat.ID + ');">'+
-							'<i class="fa fa-remove"></i></a>'+
+							'<i class="fa fa-trash"></i></a>'+
 					'</div>'+	
 					'<div ID="pagecontent'+ldat.ID+'">'+ldat.pagecontent +'</div>'+
 				'</div>');	
