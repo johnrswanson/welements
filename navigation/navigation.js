@@ -36,13 +36,17 @@
 				'<div class="secretmenu"> Hello '+dat.shortname + '<br>'+
 				
 				'<a href="#" class="pop"  onclick="addNewPage()">'+
-					'<i class="fa fa-plus-circle"></i>New Page</a><br>'+
+					'<i class="fa  fa-file-text-o"></i>New Page</a><br>'+
 				
 				'<a href="#" class="pop"  onclick="formNewElement('+pageID+')">'+
 					'<i class="fa fa-plus-circle"></i>Add Element</a><br>'+
 					
-				'<a href="#" class="pop"  onclick="cssEditor()">'+
-					'<i class="fa fa-plus-terminal"></i>CSS Editor</a><br>'+
+					
+					//'<a href="#" class="pop"  onclick="formNewElement('+pageID+')">'+
+					//'<i class="fa fa-photo"></i>Page Background</a><br>'+
+					
+				'<a href="#" class="pop"  onclick="editCss()">'+
+					'<i class="fa fa-paperclip"></i>CSS Editor</a><br>'+
 				
 				
 				'<a href="#" class="deleteOn" onclick="showDeleteButtons()">'+
@@ -143,6 +147,8 @@
 		if( pageID ==''){ loadHomePage();}
 		$("#page").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
 		var login='y';
+		
+		
 		var url="navigation/elements.php?l="+ pageID;
 		$("#page").html(' ');
 		$.getJSON(url,function(json){
@@ -297,15 +303,6 @@
 	}	//editnow
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	window.reloadElement= function (elementID){
 		var login='y';
 		var url="navigation/elements.php?e="+ elementID;
@@ -336,9 +333,9 @@
 		});
 	}
 	
-
-
-
+	
+	
+	
 	
 	
 	
@@ -351,38 +348,63 @@
 				$('#lightbox>#content').html('<div class="boxtitle">Edit Element</span>');
 				var str = idat.pagecontent;
 				var safetext= str.replace(/<br>/g, "\r");
+				
 				$("#lightbox>#content").append(''+
-				'<form  ID="formElement">'+
-				'<input type="hidden" name="editme" value="'+idat.ID+'">'+
-				'<input type="hidden" name="pageID" value="'+idat.pageID+'">'+
 				
+					'<form  ID="formElement">'+
+					'<input type="hidden" name="editme" value="'+idat.ID+'">'+
+					'<input type="hidden" name="pageID" value="'+idat.pageID+'">'+
+					
+					'<textarea style="width: 100%; max-width: 100% ; min-height: 100px; margin: auto;" name="pagecontent" '+
+					'placeholder="Enter Text Here">'+safetext+'</textarea><br>'+
+					
+					
+					'<div style=" float: left; " >Text Color<br>'+
+						'<input name="color" id="html5colorpicker" class="form-control" type="color" '+
+							'value="'+idat.color+'" onchange="editNow('+idat.ID+'); " '+
+							'style="height: 30px; width: 100px; float: left; padding: 0px; margin-right: 3px;">'+
+					'</div>'+
+					
+					'<div style=" float: left; " >Background<br>'+
+						'<input name="background" id="html5colorpicker" class="form-control" type="color" '+
+							'value="'+idat.background+'" onchange="editNow('+idat.ID+'); " '+
+							'style="height: 30px; width: 100px;padding: 0px; margin-right: 3px;">'+
+					'</div>'+ 
+					
+					'<div style=" clear:both;"></div>'+
+					
+					'<input  type="text" name="fontfamily" placeholder="Enter Font Family" '+
+						'value="'+idat.fontfamily+'"><br>'+
+					
+					'<input type="text" name="textalign" placeholder="Text align" '+
+						'value="'+idat.textalign+'"><br>'+
 				
-				'<textarea style="width: 100%; max-width: 100% ; min-height: 100px; margin: auto;" name="pagecontent" placeholder="Enter Text Here">'+safetext+'</textarea><br>'+
-				
-				
-				'<div style=" float: left; " >Text Color<br>'+
-					'<input name="color" id="html5colorpicker" class="form-control" type="color" value="'+idat.color+'" onchange="editNow('+idat.ID+'); " '+
-						'style="height: 30px; width: 100px; float: left; padding: 0px; margin-right: 3px;">'+
-				'</div>'+
-				
-				'<div style=" float: left; " >Background<br>'+
-					'<input name="background" id="html5colorpicker" class="form-control" type="color" value="'+idat.background+'" onchange="editNow('+idat.ID+'); " '+
-						'style="height: 30px; width: 100px;padding: 0px; margin-right: 3px;">'+
-				'</div>'+ 
-			
-	
-				'<div style=" clear:both;"></div><input  type="text" name="fontfamily" placeholder="Enter Font Family" value="'+idat.fontfamily+'"><br>'+
-				'<input type="text" name="textalign" placeholder="Text align" value="'+idat.textalign+'"><br>'+
-				'FontSize<input  type="range" data-show-value="true" min="10" max="100" name="fontsize" placeholder="Font Size" value="'+idat.fontsize+'"><br>'+		
-				'Weight :<input  type="range" data-show-value="true" min="0" max="900" step="100" name="fontweight" placeholder="Font Weight" value="'+idat.fontweight+'"><br>'+
-				'Spacing:<input type="range" data-show-value="true" min="0" max="10" type="text" name="spacing" placeholder="Letter Spacing" value="'+idat.spacing+'"><br>'+
-				//'LineHeight<input type="range" data-show-value="true" min="10" max="150" type="text" name="lineheight" placeholder="Line Height" value="'+idat.lineheight+'"><br>'+
-				'Padding:<input type="range" data-show-value="true" min="0" max="50" name="padding" placeholder="Padding" value="'+idat.padding+'"><br>'+
-				'Radius :<input type="range" data-show-value="true" min="0" max="50" name="radius"  placeholder="Border Radius" value="'+idat.radius+'"><br>'+
-				'Opacity:<input type="text" style="width: 40px;" name="opacity" placeholder="opacity" value="'+idat.opacity+'"><br>'+
-				' Layer : <input  style="width: 40px;" type="text" name="layer" placeholder="Layer" value="'+idat.layer+'"><br>'+
-				'<input style=" display:none; " ID="saveedit" type="button" name="submit" value="Save" onclick="editNow('+idat.ID+'); ">'+
-				'</form>');
+					'Font Size<input  type="range" data-show-value="true" min="10" max="100" name="fontsize" '+
+						'value="'+idat.fontsize+'"><br>'+		
+					
+					'Weight :<input  type="range" data-show-value="true" min="0" max="900" step="100" name="fontweight"'+		 					
+						'value="'+idat.fontweight+'"><br>'+
+					
+					'Spacing:<input type="range" data-show-value="true" min="0" max="10" name="spacing" '+
+						'value="'+idat.spacing+'"><br>'+
+						
+					'Padding:<input type="range" data-show-value="true" min="0" max="50" name="padding" '+
+						'value="'+idat.padding+'"><br>'+
+					
+					'Radius :<input type="range" data-show-value="true" min="0" max="50" name="radius"  '+
+						'value="'+idat.radius+'"><br>'+
+					
+					'Opacity:<input type="text" style="width: 40px;" name="opacity" '+
+						'value="'+idat.opacity+'"><br>'+
+					
+					'Layer : <input  style="width: 40px;" type="text" name="layer"'+
+						'value="'+idat.layer+'"><br>'+
+					
+					'<input style=" display:none; " ID="saveedit" type="button" name="submit" '+
+						'value="Save" onclick="editNow('+idat.ID+'); ">'+
+					
+					'</form>'+
+				'');
 				
 				$('#formElement>input').on('input', function() {
 					$('#saveedit').click( );
@@ -400,8 +422,8 @@
 					$('#saveedit').click( );	
 					});
 			
-			});//each
-		});//get
+			});
+		});
 	
 		
 		
@@ -414,11 +436,47 @@
 	
 
 	}	
+	
+window.loadCss = function(){
+		var url="admin/userdata.php";
+		$("#userCss").html('');
+		$.getJSON(url,function(json){
+			$.each(json.userinfo,function(i,ldat){
+			$("#userCss").html(''+
+				'<style>'+ldat.usercss+'</style>'+	
+				'');
+			});
+		});
+	}
+
+	
+
+window.saveCss = function(){
+		var elementdata= $( "#cssEditor" ).serialize();
+		var myresult = $.post("navigation/confirm.php" , elementdata);
+		window.loadCss()
+	}
 
 
+	
+	window.editCss= function(){
+		var url="admin/userdata.php";
+		window.helperadd();
+		$("#lightbox>content").html('');
+		$.getJSON(url,function(json){
+			$.each(json.userinfo,function(i,ldat){
+				$("#lightbox>#content").html(''+
+				'<form ID="cssEditor">'+
+				'<input type = "hidden" name="css" value="edit">'+
+				'<a class="button" href="#" style="float: right;color: #333; background:#eee; padding: 10px; " name="updatecss" value="Save CSS" onclick="saveCss(); return false;">SAVE CSS</a>'+
+				'<textarea name="usercss"  style="width:300px; min-height: 400px">'+ldat.usercss+'</textarea>'+
+				'');
+			});
+		});
+	}
 
 
-
+	
 window.deletePage = function (itemID) {
 	$('#pageArray_'+itemID+'').slideUp(300);
 	$.post('navigation/confirm.php', { deleteme: itemID },
@@ -426,20 +484,20 @@ window.deletePage = function (itemID) {
 			// 200, it worked; resource deleted
 			}, function () {
 				// it didn't delete			
-		});
+				});
 	}
 	
 	
 		
 
-window.deleteElement = function (pageID) {
-	$('#element_'+pageID+'').slideUp(300);
-	$.post('navigation/confirm.php', { deleteelement: pageID },
-	function () {
-			// 200, it worked; resource deleted
-			}, function () {
-				// it didn't delete			
-		});
+	window.deleteElement = function (pageID) {
+		$('#element_'+pageID+'').slideUp(300);
+		$.post('navigation/confirm.php', { deleteelement: pageID },
+		function () {
+				// 200, it worked; resource deleted
+				}, function () {
+					// it didn't delete			
+					});
 	}	
 	
 
@@ -561,9 +619,12 @@ $(document).ready(function(){
 		
 	'</div>'+
 	'<div id="navadd"></div>'+	
+	'<div id="usercss"></div>'+
+	
 		'');
-		
+			
 		window.showPages();	
+		window.loadCss();
 //		window.loadhomepage()
 
 	

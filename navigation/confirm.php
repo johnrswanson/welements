@@ -11,6 +11,7 @@ $update=$_POST['update'];
 $deletepage=$_POST['deleteme'];
 $deleteelement=$_POST['deleteelement'];
 $editme=$_POST['editme'];
+$css=$_POST['css'];
 
 
 
@@ -21,6 +22,13 @@ if ($newpage=='add'){
 }
 	
 	
+if ($css=='edit'){
+	$newcss = addslashes($_POST['usercss']);
+	$update=mysql_query("update admin set usercss= '$newcss'");
+	echo'CSS was updated';
+}
+			
+			
 	
 if ($newelement=='add'){	
 	$newtext = str_replace("\r",'<br>',$_POST['mytext']);			
