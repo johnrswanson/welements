@@ -9,7 +9,8 @@ a {text-decoration: none; }
 	margin:0px; 
 	padding-top: 20px; 
 	font-size: 30px; 
-	min-width: 100%; 
+	width: 100%; 
+	max-width: 1200px;
 	}
 	
 li{list-style-type: none;}

@@ -16,7 +16,7 @@
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
-<script type="text/javascript" type="text/javascript" src="navigation/navigation.js"></script>
+
 <script type="text/javascript" type="text/javascript" src="admin/admin.js"></script>
 <script type="text/javascript" type="text/javascript" src="helper/helper.js"></script>
 
@@ -31,8 +31,14 @@
 	include('./admin/usercheck.php');
 	if($admin=='true'){?>
 	
+	<script type="text/javascript" type="text/javascript" src="navigation/editor.js"></script>
 	
-	<?}?>
+	<?}
+	else{
+		?>
+	<script type="text/javascript" type="text/javascript" src="navigation/viewer.js"></script>
+
+	<?	}	?>
 	<? include('./helper/helper.php');	?>
 	
 	<div ID="admincontent"></div>
