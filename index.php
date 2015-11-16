@@ -17,8 +17,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
 
-<script type="text/javascript" type="text/javascript" src="admin/admin.js"></script>
-<script type="text/javascript" type="text/javascript" src="helper/helper.js"></script>
+<script type="text/javascript" src="admin/admin.js"></script>
+<script type="text/javascript" src="helper/helper.js"></script>
+<script type="text/javascript" src="navigation/touchpunch.js"></script>
 
 
 
