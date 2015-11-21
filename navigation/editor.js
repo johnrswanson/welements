@@ -3,11 +3,10 @@
 	var firstpage='true';
 	var mode='designer';
 
-	
+
 
 	window.addElement = function (pageID){	
-		//var elementdata= $( "#addform" ).serialize();	
-		
+		//var elementdata= 
 		var elementdata = new FormData($("#addform")[0]);
 		$.ajax({
 			'url' : "navigation/confirm.php",
@@ -16,11 +15,17 @@
 			processData: false,
 			contentType: false,
 			beforeSend: function(XHR){
-				$('#lightbox>#content').html('Uploading Photo...');
+			
 			}
+			
+		}).done (function(){
+			window.loadPage(''+pageID+'');	
+			
+			
 		});
-		$('#lightbox>#content').html('Element Added!');
-		window.loadPage(''+pageID+''); 	
+		
+	
+	
 	
 	}
 	
@@ -41,7 +46,7 @@
 				'<a href="#" class="pop"  onclick="formNewElement('+pageID+')">'+
 					'<i class="fa fa-plus-circle"></i>Add Element</a><br>'+
 					
-					
+				
 					//'<a href="#" class="pop"  onclick="formNewElement('+pageID+')">'+
 					//'<i class="fa fa-photo"></i>Page Background</a><br>'+
 					
@@ -91,7 +96,7 @@
 				if( x=='1'){ 
 					x='2'; 
 					var home = ''+ldat.ID+'';
-					showPages();
+					
 					loadPage(''+ home +'');
 				}	
 
@@ -140,9 +145,19 @@
 	
 	}
 	
+	
+	window.showEdit = function(elementID){
+
+					$('.elements>.editbutton').hide(0); 
+					$('.elements').css('box-shadow', '0px 0px 0px 0px #fff');
+					$('.element_'+elementID).css('box-shadow', '0px 0px 1px 1px #00F');
+					$('.element_'+elementID).find('.editbutton').show(0);
+					}
+	
 
 	
 	window.loadPage= function (pageID){
+					
 		window.closehelper();
 		if( pageID ==''){ loadHomePage();}
 		$("#page").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
@@ -182,7 +197,7 @@
 						'position: relative;}' +
 						'}'+
 				'</style>'+
-				'<div class="elements element_'+ldat.ID+' plist" ID="element_'+ldat.ID+'">'+
+				'<div class="elements element_'+ldat.ID+' plist" ID="element_'+ldat.ID+'" onclick=showEdit('+ldat.ID+')>'+
 				
 				
 				
@@ -191,12 +206,12 @@
 						'<i class="fa fa-arrows"></i>'+
 						'</div>'+
 						
-						'<a class="editelement" ID="dlist'+ldat.ID+'" href="#" '+
+						'<a class="editelement nodrag" ID="edit'+ldat.ID+' edit" href="#" '+
 							'onclick="editElement( '+ ldat.ID + ');">'+
 							'<i class="fa fa-pencil"></i></a>'+
 						
 						
-						'<a class="deleteelement" ID="dlist'+ldat.ID+'" href="#" '+
+						'<a class="deleteelement nodrag" ID="dlist'+ldat.ID+'" href="#" '+
 							'onclick="deleteElement(' + ldat.ID + ');">'+
 							'<i class="fa fa-trash"></i></a>'+
 					'</div>'+	
@@ -205,11 +220,12 @@
 				if (ldat.file != ''){
 					$("#pagecontent"+ldat.ID).append('<img src="img/full/'+ldat.file+'" style="width: 100%; ">');
 				}
-					
-					
+															
+															
+			
 					
 				$( ".elements" ).resizable({  
-					handles: "n, e, s, w, ne, se, sw, nw",
+					handles: "n, e, w, s, se, sw, ne, nw",
 					containment:"parent",
 				 	stop: function( event, ui ) {	
 						var width = ui.size.width;
@@ -231,32 +247,22 @@
 						$('#sizeelementID').val(''+thisID+'');
 						var data= $( "#sizesaver" ).serialize();
 						$.post('admin/confirm_live.php' , data);	
-					}	
+
+					}
 				});
 				
 				
 				
-				$('.elements').click(function(){
-					$('.elements>.editbutton').hide(0); 
-					$('.elements').css('box-shadow', 'inset 0px 0px 0px #fff');
-					$(this).css('box-shadow', 'inset 0px 0px 1px #00F');
-					$(this).find('.editbutton').show(0);
-					});
-						
-					$('.elements').hover(function(){
-					$('.elements').css('box-shadow', 'inset 0px 0px 0px #fff');
-					$(this).css('box-shadow', 'inset 0px 0px 1px #f60');
-					});
+				
 						
 									
 				$('.elements').draggable({  
 					delay: 100,  
+					distance:20,
+					handle:".mover",
 					containment:"parent",
-					cursor: "move", 
-					cancel:".stacker", 
-					cancel:"iframe",
+					cursor: "move",
 					grid: [ 5, 5 ],
-				 
 					drag:function(b,ui){ 
 						dragposition = ui.position;
 						var myleft=dragposition['left'];
@@ -269,12 +275,17 @@
 					    $('#elementID').val(''+thisID+'');
 						}, 
 						
-					stop: function(b,ui){
+					stop: function(c,ui){
 				        var data= $( "#livesaver" ).serialize();
 				        $.post('admin/confirm_live.php' , data);	
 				        }
+				        
 				  		
 					});
+					
+						
+			
+					
 					
 				$('.box').droppable({  
 					
@@ -282,11 +293,20 @@
 
 							
 				});	//each
+				
+				
 					
 			});//get
 					
 		window.secretmenu(''+pageID+'');	
 	
+					
+					$('.elements').click(function(){
+					$('.elements>.editbutton').hide(0); 
+					$('.elements').css('box-shadow', '0px 0px 0px 0px #fff');
+					$(this).css('box-shadow', '0px 0px 1px 0px #00F');
+					$(this).find('.editbutton').show(0);
+					});
 	}//loadpage
 	
 	
@@ -550,8 +570,10 @@ window.deletePage = function (itemID) {
 			'Drag Photos into here or select them below <form ID="addform">'+
 			'<input type="hidden" name="newelement" value="add">'+
 			'<input type="hidden" name="pageID" value="'+ pageID +'">'+
-			'<input style="padding: 100px; "type="file" id="file" name="file" value="Drag N Drop Photos Here or select from your files" onchange="addElement('+ pageID +'); ">'+
-			//'<input ID="addPhoto" type="button" name="submit" value="Add" onclick="addElement('+ pageID +'); ">'+
+			'<input type="file" id="file" name="file" value="Drag N Drop Photos Here or select from your files"'+
+			// onchange="addElement('+ pageID +'); ">'+
+			'">'+
+			'<input ID="addPhoto" type="button" name="submit" value="Add" onclick="addElement('+ pageID +'); ">'+
 			'</form>');	
 			
 							
@@ -625,7 +647,7 @@ $(document).ready(function(){
 			
 		window.showPages();	
 		window.loadCss();
-//		window.loadhomepage()
+		window.loadPage('userchosenhome')
 
 	
 });

@@ -9,9 +9,12 @@
 #listactions .fa{margin-right: 10px;}
 .deletebutton{display:none;}
 
-.ui-icon {
+.ui-icon , .ui-resizeable-sw, .ui-resizeable-se, .ui-resizeable-s, .ui-resizeable-e, .ui-resizeable-w
+{
     background-image: url("");
+    border:solid 1px #0000ff;
 }
+
 .deleteelement{float:right;text-align:right; }
 .deleteOff{display:none; }
 .deleteOn{display:block; }
@@ -42,21 +45,24 @@
     }
     
     #formElement{text-align: center; }
-   .editbutton{position: absolute; top:-20px; 
+   .editbutton{position: absolute; top:20px; 
 	   			z-index:0;  
 				text-align: left; 
 				display:none;
 				min-width:90%; 
-				height: 20px;
+				height: 25px;
 				line-height: 20px;
 				margin:0px;
 				padding:-30px;
-				font-size: 15px;  opacity: 0.9;
+				font-size: 25px;  opacity: 0.9; 
+				padding: 5px; 
+				border-radius: 5px; 
 				background: #eeeeee; 
 				color #000 ;
 				font-family: helvetica; 
 				font-weight: bold;
 				}
-								
+				
+		.editbutton a{color: #000000;}						
 
 	

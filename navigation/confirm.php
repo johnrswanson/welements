@@ -39,8 +39,8 @@ if ($newelement=='add'){
 	$width='500';
 	$color=addslashes($_POST['color']);
 	$background=addslashes($_POST['background']);
-	$posy='2';
-	$posx='2';
+	$posy='100';
+	$posx='100';
 	$fontfamily=addslashes($_POST['fontfamily']);
 	$fontsize=addslashes($_POST['fontsize']);
 	$fontweight=addslashes($_POST['fontweight']);	
@@ -101,25 +101,25 @@ if ($newelement=='add'){
 	  )VALUES
 	('',
 	'$cleantext', 
-	'$fontsize', 
+	'20', 
 	'$photo', 
-	'$fontfamily', 
+	'helvetica', 
 	'$color', 
-	'$fontweight',
-	'$background', 
+	'100',
+	'none', 
 	'0', 
-	'$padding', 
-	'$height', 
-	'500', 
-	'$floaty',
+	'0', 
+	'300', 
+	'300', 
+	'none',
 	'$opacity', 
 	'$textalign', 
-	'$radius',
+	'0',
 	'$pageID', 
 	'5',
 	'1000', 
-	'2', 
-	'2' )
+	'100', 
+	'30' )
 	") or die (mysql_error());
 	echo 'New Element Added';
 }
