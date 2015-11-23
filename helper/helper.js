@@ -13,6 +13,9 @@ window.helperadd = function() {
 	
 	window.helperdelete = function() {
 	
+	
+	
+	
 		var myoffset = $( this ).offset();
 		$('#content').html('Press X to delete any item');		
 		$('#lightbox').removeAttr('style');
@@ -28,11 +31,10 @@ window.closehelper= function() {
 		
 	}
 
-
 $(function() {
 	$( "#lightbox" ).draggable({
-		cancel:"form, input, ui-sortable",
-		stop: function( z, ui ) {
+		cancel:"form",
+		stop: function() {
 			$( "#lightbox" ).attr('style', $(this).attr("style") + " width:auto;");
 			}
 	});

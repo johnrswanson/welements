@@ -22,7 +22,10 @@
 		});
 		window.loadPage(''+pageID+'');	
 	
-	}
+	
+	
+	
+		}
 	
 	window.secret= function(){
 		$(".secretmenu").toggle(200);
@@ -555,10 +558,10 @@ window.deletePage = function (itemID) {
 		
 		window.addPhoto= function(pageID){	
 			$("#lightbox>#content").html('<div class="boxtitle">Add Photo</div>'+
-			'Drag Photos into here or select them below <form ID="addform" enctype="multipart/form-data">'+
+			'Drag Photos into here or select them below <form ID="addform">'+
 			'<input type="hidden" name="newelement" value="add">'+
 			'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
-			'<input type="file" ID="file" name="file"  accept="image/*;capture=camera"> '+
+			'<input type="file" name="file"  accept="image/*;capture=camera"> '+
 			'<input type="button" name="submit" value="Add" onclick="addElement('+ pageID +');">'+
 			'</form>');	
 			
