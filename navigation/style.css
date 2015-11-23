@@ -1,19 +1,19 @@
 #nav{clear: both; width: 100%; margin-top: -30px;  }
 #navcontent{float:left; width: 90%; }
-
+#bg{height: 100%; width: 100%; overflow: hidden; }
 #navactions{float:right;}
 .logo{float:none; text-align: center; width: 100%;  }
 .link{float:left; font-size: 14px; padding-left: 10px;   }
-#page{max-width: 1200px; margin: auto; width: 100%; min-width: 100%;  }
+#page{margin: auto; width: 100%; min-width: 100%;  max-width: 960px; position: relative;  }
 
 #listactions {font-size: 40px; }
 #listactions .fa{margin-right: 10px;}
 .deletebutton{display:none;}
 
-.ui-icon , .ui-resizeable-sw, .ui-resizeable-se, .ui-resizeable-s, .ui-resizeable-e, .ui-resizeable-w
-{
+.ui-resizable-handle, .ui-resizable-se, .ui-icon, .ui-icon-gripsmall-diagonal-se
+{ display:none; 
     background-image: url("");
-    border:solid 1px #0000ff;
+     display:none; 
 }
 
 .deleteelement{float:right;text-align:right; }
@@ -47,7 +47,7 @@
     
     #formElement{text-align: center; }
    .editbutton{position: absolute; top:20px; 
-	   			z-index:0;  
+	   			z-index:1000000;  
 				text-align: left; 
 				display:none;
 				min-width:90%; 
@@ -64,6 +64,25 @@
 				font-weight: bold;
 				}
 				
-		.editbutton a{color: #000000;}						
+		.editbutton a{color: #000000;}	
+		
+		@media (max-width:960px){
+		.elements
+			{
+			width: 90%;
+			font-size: 15px; 
+				line-height: 15px; 
+			position: relative;
+			left:0px;
+			top: 0px;
+			margin:auto; 
+			
+			height: auto;} 
+				
+			.mover{display:none;}	
+			.ui-icon, .ui-resizeable-sw, .ui-resizeable-se, .ui-resizeable-s, .ui-resizeable-e, .ui-resizeable-w{display:none;}	
+			 				
+			 				
+			 				}	
 
 	

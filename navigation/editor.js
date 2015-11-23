@@ -4,9 +4,6 @@
 	var mode='designer';
 
 
-
-
-
 	window.addElement = function (pageID){	
 		//var elementdata= 
 		var elementdata = new FormData($("#addform")[0]);
@@ -19,11 +16,10 @@
 			beforeSend: function(XHR){
 				
 			}
-		});
-		window.loadPage(''+pageID+'');	
-	
-	
-	
+		}).done(function(){
+			window.loadPage(''+pageID+'');	
+			});
+		
 	
 		}
 	
@@ -41,8 +37,11 @@
 				'<a href="#" class="pop"  onclick="addNewPage()">'+
 					'<i class="fa  fa-file-text-o"></i>New Page</a><br>'+
 				
-				'<a href="#" class="pop"  onclick="formNewElement('+pageID+')">'+
-					'<i class="fa fa-plus-circle"></i>Add Element</a><br>'+
+				'<div ID="addText"><a href="#" class="pop"   onclick="addText('+pageID+')">'+
+					'<i class="fa fa-pencil"></i>Add Text</a></div>'+
+					
+					'<div ID="addPhoto"><a href="#" class="pop"  ID="addPhoto"onclick="addPhoto('+pageID+')">'+
+					'<i class="fa fa-camera"></i>Add Photo</a></div>'+
 					
 				
 					//'<a href="#" class="pop"  onclick="formNewElement('+pageID+')">'+
@@ -102,6 +101,19 @@
 		});
 }
 	
+	window.sortem = function(){	$("#navcontent ul").sortable({
+			opacity: 0.6,  forcePlaceholderSize: true, delay: 0, forceHelperSize: true, cursor: 'move',
+			update: function() {
+				var pageorder = $(this).sortable("serialize") + '&action=updatePageOrder'; 
+				$.post("navigation/confirm.php", pageorder, function(theResponse){	
+					window.helperadd();
+					$('#lightbox>#content').html('Page Order Saved');
+					$('#lightbox').fadeOut(2000);
+				});
+			}
+		});
+	
+}
 	
 	window.showPages= function (){
 			
@@ -121,17 +133,7 @@
 		});//get
 			
 			
-		$("#navcontent ul").sortable({
-			opacity: 0.6,  forcePlaceholderSize: true, delay: 0, forceHelperSize: true, cursor: 'move',
-			update: function() {
-				var pageorder = $(this).sortable("serialize") + '&action=updatePageOrder'; 
-				$.post("navigation/confirm.php", pageorder, function(theResponse){	
-					window.helperadd();
-					$('#lightbox>#content').html('Page Order Saved');
-					$('#lightbox').fadeOut(2000);
-				});
-			}
-		});
+		
 		
 		
 		
@@ -140,9 +142,10 @@
 				firstpage='false';	
 				}
 
-	
+	window.sortem();
 	}
 	
+
 	
 	window.showEdit = function(elementID){
 
@@ -163,7 +166,7 @@
 		
 		
 		var url="navigation/elements.php?l="+ pageID;
-		$("#page").html(' ');
+		$("#page").html('<div ID="bg"></div> ');
 		$.getJSON(url,function(json){
 			$.each(json.elementinfo,function(i,ldat){
 				$("#page").append(''+
@@ -172,7 +175,7 @@
 					'position : absolute' + ';' +
 					'z-index: ' + ldat.layer + ';' +
 					'top: ' + ldat.posx + 'px;' +
-					'left:' + ldat.posy + '%;' +
+					'left:' + ldat.posy + 'px;' +
 					'font-size:' + ldat.fontsize + 'px;' +
 					'line-height:' + ldat.fontsize 	+ 'px;' +
 					'letter-spacing: ' + ldat.spacing + 'px;' +
@@ -182,8 +185,8 @@
 					'font-weight: ' + ldat.fontweight + ';' +
 					'float: none; ' +
 					'text-align: ' + ldat.textalign+';' +
-					'height: ' + ldat.height + ';' +
-					'width:	' + ldat.width + ';' +
+					'height: auto;' +
+					'width:	' + ldat.absw + ';' +
 					'padding:' + ldat.padding + 'px;' +
 					'margin:0px;' +
 					'opacity: ' + ldat.opacity  + ';' +	
@@ -213,14 +216,45 @@
 							'onclick="deleteElement(' + ldat.ID + ');">'+
 							'<i class="fa fa-trash"></i></a>'+
 					'</div>'+	
-					'<div ID="pagecontent'+ldat.ID+'">'+ldat.pagecontent +'</div>'+
+					'<div ID="pagecontent'+ldat.ID+'"></div>'+
 				'</div>');	
 				if (ldat.file != ''){
 					$("#pagecontent"+ldat.ID).append('<img src="img/full/'+ldat.file+'" style="width: 100%; ">');
 				}
+					else if (ldat.boxID != ''){
+					$("#pagecontent"+ldat.ID).append(''+ldat.pagecontent+'');
+				}
+
+				else if (ldat.pagecontent != ''){
+					$("#pagecontent"+ldat.ID).append(''+ldat.pagecontent+'');
+				}
 															
 															
-			
+			$('.elements').draggable({  
+					handle:".mover",
+					containment:"#page",
+					cursor: "move",
+					distance: 0,
+					grid: [ 5, 5 ],
+					drag:function(b,ui){ 
+						dragposition = ui.position;
+						var myleft=dragposition['left'];
+						var sideWidth = $(this).offsetParent().width();
+						var leftpct = 100 * myleft / sideWidth;
+						var safeleft=leftpct.toFixed(3);
+					    $('#dragtop').val(''+dragposition['top']+'');
+					    $('#dragleft').val(''+myleft+'');
+					    var thisID=$(this).attr("ID");
+					    $('#elementID').val(''+thisID+'');
+					   
+						}, 
+						
+					stop: function(c,ui){
+				        var data= $( "#livesaver" ).serialize();
+				        $.post('admin/confirm_live.php' , data);	
+				        }	
+					});//drag
+					
 					
 				$( ".elements" ).resizable({  
 					containment:"#page",
@@ -236,9 +270,9 @@
 						var leftpct = 100 * myleft / sideWidth;
 						var safeleft=leftpct.toFixed(3);
 						$('#respostop').val(''+dragposition['top']+'');
-						$('#resposleft').val(''+safeleft+'');
+						$('#resposleft').val(''+myleft+'');
 						$('#absresleft').val(''+width+'');
-						$('#resleft').val(''+safewidth+'');
+						$('#resleft').val(''+width+'');
 						$('#restop').val(''+height+'');
 						var thisID=$(ui.element).attr("ID");
 						$('#sizeelementID').val(''+thisID+'');
@@ -246,46 +280,8 @@
 						$.post('admin/confirm_live.php' , data);	
 
 					}
-				});
+				});//resize
 				
-				
-				
-				
-						
-									
-				$('.elements').draggable({  
-					handle:".mover",
-					containment:"#page",
-					cursor: "move",
-					grid: [ 5, 5 ],
-					drag:function(b,ui){ 
-						dragposition = ui.position;
-						var myleft=dragposition['left'];
-						var sideWidth = $(this).offsetParent().width();
-						var leftpct = 100 * myleft / sideWidth;
-						var safeleft=leftpct.toFixed(3);
-					    $('#dragtop').val(''+dragposition['top']+'');
-					    $('#dragleft').val(''+safeleft+'');
-					    var thisID=$(this).attr("ID");
-					     $('#elementID').val(''+thisID+'');
-						}, 
-						
-					stop: function(c,ui){
-				        var data= $( "#livesaver" ).serialize();
-				        $.post('admin/confirm_live.php' , data);	
-				        }
-				        
-				  		
-					});
-					
-						
-			
-					
-					
-				$('.box').droppable({  
-					
-					});
-
 							
 				});	//each
 				
@@ -294,14 +290,24 @@
 			});//get
 					
 		window.secretmenu(''+pageID+'');	
-	
-					
-					$('.elements').click(function(){
+		$('#page>#bg').click(function(){
 					$('.elements>.editbutton').hide(0); 
+					$('.elements').css('box-shadow', '0px 0px 0px 0px #fff');
+					});
+
+					
+					$('#page>.elements').click(function(){
+					$('.elements>.editbutton').hide(0); 
+					$('.elements .ui-resizable-handle, .ui-resizable-se, .ui-icon, .ui-icon-gripsmall-diagonal-se').hide(0); 
 					$('.elements').css('box-shadow', '0px 0px 0px 0px #fff');
 					$(this).css('box-shadow', '0px 0px 1px 0px #00F');
 					$(this).find('.editbutton').show(0);
+					$(this).find('.ui-resizable-handle, .ui-resizable-se, .ui-icon, .ui-icon-gripsmall-diagonal-se').show(0);
+					
 					});
+					
+					
+					
 	}//loadpage
 	
 	
@@ -370,7 +376,7 @@
 					'<input type="hidden" name="editme" value="'+idat.ID+'">'+
 					'<input type="hidden" name="pageID" value="'+idat.pageID+'">'+
 					
-					'<textarea style="width: 100%; max-width: 100% ; min-height: 100px; margin: auto;" name="pagecontent" '+
+					'<textarea style="width: 100%; max-width: 100% ; min-height: 100px; margin: auto;" name="pagecontent"'+
 					'placeholder="Enter Text Here">'+safetext+'</textarea><br>'+
 					
 					
@@ -389,10 +395,10 @@
 					'<div style=" clear:both;"></div>'+
 					
 					'<input  type="text" name="fontfamily" placeholder="Enter Font Family" '+
-						'value="'+idat.fontfamily+'"><br>'+
+						'value="'+idat.fontfamily+'" onkeyup="editNow('+idat.ID+');"><br>'+
 					
 					'<input type="text" name="textalign" placeholder="Text align" '+
-						'value="'+idat.textalign+'"><br>'+
+						'value="'+idat.textalign+'" onkeyup="editNow('+idat.ID+');"><br>'+
 				
 					'Font Size<input  type="range" data-show-value="true" min="10" max="100" name="fontsize" '+
 						'value="'+idat.fontsize+'"><br>'+		
@@ -401,10 +407,10 @@
 						'value="'+idat.fontweight+'"><br>'+
 					
 					'Spacing:<input type="range" data-show-value="true" min="0" max="10" name="spacing" '+
-						'value="'+idat.spacing+'"><br>'+
+						'value="'+idat.spacing+'" ><br>'+
 						
 					'Padding:<input type="range" data-show-value="true" min="0" max="50" name="padding" '+
-						'value="'+idat.padding+'"><br>'+
+						'value="'+idat.padding+'" ><br>'+
 					
 					'Radius :<input type="range" data-show-value="true" min="0" max="50" name="radius"  '+
 						'value="'+idat.radius+'"><br>'+
@@ -421,35 +427,34 @@
 					'</form>'+
 				'');
 				
-				$('#formElement>input').on('input', function() {
+				$('#formElement>input').on('input',function(){
 					$('#saveedit').click( );
-					}).on('focus', function() { 
+					}).on('focus', function(){
 					$('#saveedit').click( );
-					}).on('blur', function() {	
+					}).on('blur', function() { 
+					$('#saveedit').click( );	
+					}).on('keyup', function() {	
 					$('#saveedit').click( );
 					});
-						
+
+								
 				$('#formElement>textarea').on('input',function(){
 					$('#saveedit').click( );
 					}).on('focus', function(){
 					$('#saveedit').click( );
 					}).on('blur', function() { 
 					$('#saveedit').click( );	
+					}).on('keyup', function() {	
+					$('#saveedit').click( );
 					});
+
 			
 			});
 		});
 	
 		
-		
-				
-		$('#formElement>textarea').on('input',function(){
-			$('#saveedit').click( );}).on('focus', function(){$('#saveedit').click( );}).on('blur', function() {  $('#saveedit').click( );});
+			
 	
-
-
-	
-
 	}	
 	
 window.loadCss = function(){
@@ -520,21 +525,29 @@ window.deletePage = function (itemID) {
 	
 		
 	window.addPage = function (){	
-		window.helperadd();
-	    var pagedata= $( "#addform" ).serialize();
-	  	var myresult = $.post("navigation/confirm.php" , pagedata);
-	  	$('#lightbox>#content').html('New Page Added!');	
-	 	$('#lightbox').fadeOut(2000);
-	 	window.showPages();
-	  	 window.sortnav();
-	  	   $(".links").click();
-	  	   	}
+		//var elementdata= 
+		var pagedata = new FormData($("#newpageform")[0]);
+		$.ajax({
+			'url' : "navigation/confirm.php",
+			'type' : 'post',
+			'data'	: pagedata,
+			processData: false,
+			contentType: false,
+			beforeSend: function(XHR){
+				
+			}
+		}).done(function(){
+			window.showPages();	
+			});
+		
+	
+		}
 	
 	window.addNewPage= function(){
 		window.helperadd();
 		$('#lightbox>#content').html('<div class="boxtitle">Add a New Page</div>');
 		$("#lightbox>#content").append(''+
-		'<form  ID="addform">'+
+		'<form  ID="newpageform">'+
 		'<input type="hidden" name="newpage" value="add">'+
 		'<input type="text" name="pagetitle" placeholder="Page Title"><br>'+
 		'<input type="button" name="submit" value="Add Page" onclick="addPage();">'+
@@ -542,8 +555,14 @@ window.deletePage = function (itemID) {
 	}
 		
 		
-	window.addText= function(pageID){	
-		$("#lightbox>#content").html('<div class="boxtitle">Add Text</div>'+
+	window.addText= function(pageID){
+			
+					
+		$("#addPhoto").html('<a href="#" class="pop"  ID="addPhoto"onclick="addPhoto('+pageID+')">'+
+		'<i class="fa fa-camera"></i>Add Photo</a>').css("background", "none");
+					
+		$("#addText").css("background", "#dddddd");
+		$("#addText").html('<i class="fa fa-pencil"></i>Add Text<br>'+
 		'<form  ID="addform">'+
 		'<input type="hidden" name="newelement" value="add">'+
 		'<input type="hidden" name="pageID" value="'+ pageID +'">'+
@@ -557,8 +576,11 @@ window.deletePage = function (itemID) {
 	
 		
 		window.addPhoto= function(pageID){	
-			$("#lightbox>#content").html('<div class="boxtitle">Add Photo</div>'+
-			'Drag Photos into here or select them below <form ID="addform">'+
+			$("#addText").html('<div ID="addText"><a href="#" class="pop"   onclick="addText('+pageID+')">'+
+					'<i class="fa fa-pencil"></i>Add Text</a></div>').css("background", "none");
+			$("#addPhoto").css("background", "#dddddd");
+			$("#addPhoto").html('<i class="fa fa-camera"></i>Add Photo<br>'+
+			'<form ID="addform">'+
 			'<input type="hidden" name="newelement" value="add">'+
 			'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
 			'<input type="file" name="file"  accept="image/*;capture=camera"> '+
@@ -635,9 +657,12 @@ $(document).ready(function(){
 		'');
 				
 		
-		$(".links").click();
+		
 		window.loadCss();
+	window.showPages();
 		window.loadPage('userchosenhome')
+		
+		
 
 	
 });

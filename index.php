@@ -75,19 +75,8 @@
 </div>
 
 <style>
- @media (max-width:700px){
-		.elements
-			{
-			width: 98%;
-			font-size: 15px; 
-				line-height: 15px; 
-			position: relative;
-			left:0px;
-			top: 0px;
-			margin:auto; 
-			padding: 5px;
-			height: auto;} 
-			}			 
+	
+ 
 </style>
 <div id="userCss"></div>
 <link rel="stylesheet" href="navigation/style.css">

@@ -14,7 +14,7 @@ if (isset($restop)){
 	$dragrestop=$_POST['dragrestop'];
 	$dragresleft=$_POST['dragresleft'];
 	$restop = addslashes($_POST['restop']).'px';
-	$resleft = $_POST['resleft'].'%';
+	$resleft = $_POST['resleft'].'px';
 	$absresleft = $_POST['absresleft'].'px';
 	$sizeelementID=addslashes($_POST['sizeelementID']);
 	$sizeelement=str_replace('element_', '', $sizeelementID );

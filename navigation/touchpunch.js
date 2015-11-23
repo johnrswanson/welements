@@ -200,6 +200,10 @@
     // Call the original $.ui.mouse destroy method
     _mouseDestroy.call(self);
   };
+  
+  $('input').bind('click', function(){
+    $(this).focus();
+});
 
 })(jQuery);
 

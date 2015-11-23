@@ -1,7 +1,7 @@
 (function (window) {
 	
 window.helperadd = function() {
-	
+		$('#content').html('');
 		var myoffset = $( this ).offset();
 		$('.secretmenu').slideUp(500);	
 		$('#lightbox').removeAttr('style');
@@ -33,7 +33,7 @@ window.closehelper= function() {
 
 $(function() {
 	$( "#lightbox" ).draggable({
-		cancel:"form",
+		handle:".boxtitle",
 		stop: function() {
 			$( "#lightbox" ).attr('style', $(this).attr("style") + " width:auto;");
 			}

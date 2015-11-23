@@ -97,7 +97,8 @@ if ($newelement=='add'){
 	 layer,
 	 elementlist,
 	 posx, 
-	 posy
+	 posy, 
+	 absw 
 	  )VALUES
 	('',
 	'$cleantext', 
@@ -106,7 +107,7 @@ if ($newelement=='add'){
 	'helvetica', 
 	'$color', 
 	'100',
-	'none', 
+	'#ffffff', 
 	'0', 
 	'0', 
 	'300', 
@@ -119,7 +120,8 @@ if ($newelement=='add'){
 	'5',
 	'1000', 
 	'100', 
-	'30' )
+	'30', 
+	'400' )
 	") or die (mysql_error());
 	echo 'New Element Added';
 }
