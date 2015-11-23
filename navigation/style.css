@@ -1,7 +1,8 @@
+#nav{clear: both; width: 100%; margin-top: -30px;  }
 #navcontent{float:left; width: 90%; }
 
 #navactions{float:right;}
-.logo{float:left; }
+.logo{float:none; text-align: center; width: 100%;  }
 .link{float:left; font-size: 14px; padding-left: 10px;   }
 #page{max-width: 1200px; margin: auto; width: 100%; min-width: 100%;  }
 

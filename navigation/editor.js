@@ -5,6 +5,8 @@
 
 
 
+
+
 	window.addElement = function (pageID){	
 		//var elementdata= 
 		var elementdata = new FormData($("#addform")[0]);
@@ -15,17 +17,10 @@
 			processData: false,
 			contentType: false,
 			beforeSend: function(XHR){
-			
+				
 			}
-			
-		}).done (function(){
-			window.loadPage(''+pageID+'');	
-			
-			
 		});
-		
-	
-	
+		window.loadPage(''+pageID+'');	
 	
 	}
 	
@@ -37,7 +32,7 @@
 		var url="admin/userdata.php";
 		$.getJSON(url,function(json){
 			$.each(json.userinfo,function(i,dat){
-				$("#admincontent").html('<a href="#" class="adminsecret" onclick="secret();"><i class="fa fa-star "></i></a>'+
+				$("#admincontent").html('<a href="#" class="adminsecret" onclick="secret();"><i class="fa fa-star" style=" font-size: 40px; "></i></a>'+
 				'<div class="secretmenu"> Hello '+dat.shortname + '<br>'+
 				
 				'<a href="#" class="pop"  onclick="addNewPage()">'+
@@ -225,8 +220,7 @@
 			
 					
 				$( ".elements" ).resizable({  
-					handles: "n, e, w, s, se, sw, ne, nw",
-					containment:"parent",
+					containment:"#page",
 				 	stop: function( event, ui ) {	
 						var width = ui.size.width;
 						var height = ui.size.height;
@@ -257,10 +251,8 @@
 						
 									
 				$('.elements').draggable({  
-					delay: 100,  
-					distance:20,
 					handle:".mover",
-					containment:"parent",
+					containment:"#page",
 					cursor: "move",
 					grid: [ 5, 5 ],
 					drag:function(b,ui){ 
@@ -272,7 +264,7 @@
 					    $('#dragtop').val(''+dragposition['top']+'');
 					    $('#dragleft').val(''+safeleft+'');
 					    var thisID=$(this).attr("ID");
-					    $('#elementID').val(''+thisID+'');
+					     $('#elementID').val(''+thisID+'');
 						}, 
 						
 					stop: function(c,ui){
@@ -529,10 +521,11 @@ window.deletePage = function (itemID) {
 	    var pagedata= $( "#addform" ).serialize();
 	  	var myresult = $.post("navigation/confirm.php" , pagedata);
 	  	$('#lightbox>#content').html('New Page Added!');	
-	  	window.showPages(); 	
-	  	$('#lightbox').fadeOut(2000);
-	  	window.sortnav();
-	}
+	 	$('#lightbox').fadeOut(2000);
+	 	window.showPages();
+	  	 window.sortnav();
+	  	   $(".links").click();
+	  	   	}
 	
 	window.addNewPage= function(){
 		window.helperadd();
@@ -541,7 +534,7 @@ window.deletePage = function (itemID) {
 		'<form  ID="addform">'+
 		'<input type="hidden" name="newpage" value="add">'+
 		'<input type="text" name="pagetitle" placeholder="Page Title"><br>'+
-		'<input type="button" name="submit" value="Add Page" onclick="addPage(); ">'+
+		'<input type="button" name="submit" value="Add Page" onclick="addPage();">'+
 		'</form>');
 	}
 		
@@ -559,21 +552,14 @@ window.deletePage = function (itemID) {
 		
 		
 	
-		window.handleFiles=function(){
-			addElement();
-			$("#lightbox>#content").html('Success');
-			$("#lightbox").fadeOut(2000);
-		}
 		
 		window.addPhoto= function(pageID){	
 			$("#lightbox>#content").html('<div class="boxtitle">Add Photo</div>'+
-			'Drag Photos into here or select them below <form ID="addform">'+
+			'Drag Photos into here or select them below <form ID="addform" enctype="multipart/form-data">'+
 			'<input type="hidden" name="newelement" value="add">'+
-			'<input type="hidden" name="pageID" value="'+ pageID +'">'+
-			'<input type="file" id="file" name="file" value="Drag N Drop Photos Here or select from your files"'+
-			// onchange="addElement('+ pageID +'); ">'+
-			'">'+
-			'<input ID="addPhoto" type="button" name="submit" value="Add" onclick="addElement('+ pageID +'); ">'+
+			'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
+			'<input type="file" ID="file" name="file"  accept="image/*;capture=camera"> '+
+			'<input type="button" name="submit" value="Add" onclick="addElement('+ pageID +');">'+
 			'</form>');	
 			
 							
@@ -637,15 +623,16 @@ $(document).ready(function(){
 	$("#nav").html(''+
 	'<div id="navcontent"></div>'+
 	'<div id="navactions">'+
-		'<a href="#" class="links" onclick="showPages()"><i class="fa fa-bars"></i></a> '+
+		'<a href="#" class="links" onclick="showPages();"><i class="fa fa-bars"></i></a> '+
 		
 	'</div>'+
 	'<div id="navadd"></div>'+	
 	'<div id="usercss"></div>'+
 	
 		'');
-			
-		window.showPages();	
+				
+		
+		$(".links").click();
 		window.loadCss();
 		window.loadPage('userchosenhome')
 

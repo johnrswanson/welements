@@ -5,8 +5,8 @@ window.helperadd = function() {
 		var myoffset = $( this ).offset();
 		$('.secretmenu').slideUp(500);	
 		$('#lightbox').removeAttr('style');
-		$('#lightbox').show();
-		$('#lightbox').offset( myoffset);
+		$('#lightbox').offset( myoffset);        
+        $('#lightbox').show();
 		$('#lightbox').animate({left: "15%"}, 300, "swing" );
 	
 	}
@@ -31,8 +31,7 @@ window.closehelper= function() {
 
 $(function() {
 	$( "#lightbox" ).draggable({
-		cancel:".ui-sortable",
-		cancel:"form",
+		cancel:"form, input, ui-sortable",
 		stop: function( z, ui ) {
 			$( "#lightbox" ).attr('style', $(this).attr("style") + " width:auto;");
 			}
@@ -41,17 +40,9 @@ $(function() {
 
   
    
-
   
   }(this));
 
-function positionf(e)
-    {
-      x = e.clientX+window.scrollX;
-      y = e.clientY+window.scrollY;        
-        document.getElementById("lightbox").style.left=x+"px";
-        document.getElementById("lightbox").style.top=y+"px";
-    }   
   	
 	
 

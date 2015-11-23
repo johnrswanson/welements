@@ -2,9 +2,16 @@
 <head>
 	<title>Web-elements</title>
 	
-</head>
+<!--IPHONE-->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="380" content="width=device-width, user-scalable=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimal-ui" />
+
+
 	
-<body>
+
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -12,20 +19,20 @@
 <link rel="stylesheet" href="admin/style.css">
 <link rel="stylesheet" href="login/style.css">
 <link rel="stylesheet" href="list/style.css">
-<link rel="stylesheet" href="navigation/style.css">
+
+</head>
+<body>
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script src="navigation/touchpunch.js"></script>
 
-<<<<<<< HEAD
-<script type="text/javascript"  src="admin/admin.js"></script>
-<script type="text/javascript"  src="helper/helper.js"></script>
-=======
+
+
 
 <script type="text/javascript" src="admin/admin.js"></script>
 <script type="text/javascript" src="helper/helper.js"></script>
-<script type="text/javascript" src="navigation/touchpunch.js"></script>
->>>>>>> origin/master
+
+
 
 
 
@@ -46,7 +53,7 @@
 	<script type="text/javascript" type="text/javascript" src="navigation/viewer.js"></script>
 
 	<?	}	?>
-	<? include('./helper/helper.php');	?>
+	
 	
 	<div ID="admincontent"></div>
 	<div ID="header">
@@ -64,7 +71,7 @@
 	}?>	
 	
 	<div id="footer"></div>
-	
+	<? include('./helper/helper.php');	?>
 </div>
 
 <style>
@@ -83,5 +90,7 @@
 			}			 
 </style>
 <div id="userCss"></div>
+<link rel="stylesheet" href="navigation/style.css">
+
 </body>
 </html>
