@@ -11,6 +11,8 @@ a {text-decoration: none; }
 	font-size: 30px; 
 	width: 100%; 
 	max-width: 1200px;
+	position: relative; 
+	z-index: 2;
 	}
 	
 li{list-style-type: none;}
