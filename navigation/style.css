@@ -21,8 +21,10 @@
 .deleteOn{display:block; }
 .addpageOff{display:none;}
 .elements .designer{box-shadow:inset 0px 0px 0px 1px #0000ff;}
-.close{margin-top: 0px; margin-left: -5px;}
-.boxtitle{margin-top: -32px; margin-left: 12px; margin-bottom: 10px;}
+.close{margin: 0px; margin-left: -5px;}
+
+
+.boxtitle{margin-top: -18px; margin-left: 20px; margin-bottom: 10px;}
 #lightbox{
 	position:fixed;
 	 top:100px; 

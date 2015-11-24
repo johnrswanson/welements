@@ -173,6 +173,7 @@
 		$("#page").html('<div ID="bg"></div> ');
 		$.getJSON(url,function(json){
 			$.each(json.elementinfo,function(i,ldat){
+				
 				$("#page").append(''+
 				'<style>' +
 				'#element_' + ldat.ID +  '{' +
@@ -187,12 +188,12 @@
 					'font-weight: ' + ldat.fontweight + ';' +
 					'float: none; ' +
 					'text-align: ' + ldat.textalign+';' +
-					'height: '+ldat.height+';' +
-					'width:	' + ldat.absw + ';' +
-					'padding:' + ldat.padding + 'px;' +
-					'margin:0px;' +
+					'padding-top: -'+ldat.padding+';' +
 					
-					'border-radius: ' + ldat.radius + 'px;' +
+					'padding-bottom: '+ldat.padding+';' +
+					'width:	' + ldat.absw + ';' +
+					'height: '+ldat.height+';' +
+					'margin:0px;'+
 					'}' +
 				'#pagecontent'+ldat.ID+'{' +
 					'position:relative;'+
@@ -200,6 +201,8 @@
 					'z-index: ' + ldat.layer + ';' +
 					'opacity: ' + ldat.opacity  + ';' +	
 					'height: 100%;' +
+					'padding:' + ldat.padding + 'px;' +
+					'border-radius: ' + ldat.radius + 'px;' +
 					'}' +
 					'@media (max-width:479px){' +
 						'.element' + ldat.ID +
@@ -383,9 +386,9 @@
 				$("#element_"+ldat.ID).css("text-align", ldat.textalign +'');
 				$("#element_"+ldat.ID).css("color", ldat.color +'');
 				$("#pagecontent"+ldat.ID).css("background", ldat.background +'');
-				$("#element_"+ldat.ID).css("padding", ldat.padding +'px');
+				$("#pagecontent"+ldat.ID).css("padding", ldat.padding +'px');
 				$("#pagecontent"+ldat.ID).css("opacity", ldat.opacity +'');
-				$("#element_"+ldat.ID).css("border-radius", ldat.radius +'px');
+				$("#pagecontent"+ldat.ID).css("border-radius", ldat.radius +'px');
 				$("#pagecontent"+ldat.ID).css("z-index", ldat.layer);
 				
 				$("#pagecontent"+ldat.ID).html(''+ldat.pagecontent+'');
