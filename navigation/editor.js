@@ -300,11 +300,9 @@
 															
 			$('.elements').draggable({  
 					handle:".mover",
-					
 					containment:"#page",
 					cursor: "move",
 					distance: 0,
-					opacity: 0.8,
 					snap:".elements",
 					grid: [ 3, 3 ],
 				
