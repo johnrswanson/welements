@@ -1,11 +1,11 @@
 #nav{clear: both; width: 100%; margin-top: -30px; z-index: 2; position:relative; }
 #navcontent{float:left; width: 90%; position: relative; z-index: 2; }
-#bg{height: 100%; width: 100%; overflow: hidden; position: fixed; top: 0px; left: 0px; z-index: 1; }
+#bg{height: 100%; width: 100%; overflow: hidden; position: fixed; top: 0px; left: 0px; }
 #navactions{float:right;}
 .logo{float:none; text-align: center; width: 100%; position: relative; z-index: 3;  }
 .link{float:left; font-size: 14px; padding-left: 10px;   }
-#page{margin: auto; width: 100%; min-width: 100%;  max-width: 960px; position: relative;  }
-
+#page{margin: auto; width: 100%; min-width: 100%;  width: 1200px; position: relative; opacity: 0.99; }
+.front{z-index: 10000; !important}
 #listactions {font-size: 40px; }
 #listactions .fa{margin-right: 10px;}
 .deletebutton{display:none;}
@@ -67,6 +67,7 @@
 		.editbutton a{color: #000000;}	
 	
 		@media (max-width:960px){
+			#maincontent{width: 100%;}
 		.elements
 			{
 			width: 90%;
