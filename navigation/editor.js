@@ -43,9 +43,13 @@
 					'<div ID="addPhoto"><a href="#" class="pop"  ID="addPhoto"onclick="addPhoto('+pageID+')">'+
 					'<i class="fa fa-camera"></i>Add Photo</a></div>'+
 					
+					'<div ID="addBox"><a href="#" class="pop"  ID="addPhoto"onclick="addBox('+pageID+')">'+
+					'<i class="fa fa-th"></i>Add Box</a></div>'+
+					
+
 				
-					//'<a href="#" class="pop"  onclick="formNewElement('+pageID+')">'+
-					//'<i class="fa fa-photo"></i>Page Background</a><br>'+
+				//	'<a href="#" class="pop"  onclick="formNewElement('+pageID+')">'+
+				//	'<i class="fa fa-image"></i>Page Background</a><br>'+
 					
 				'<a href="#" class="pop"  onclick="editCss()">'+
 					'<i class="fa fa-paperclip"></i>CSS Editor</a><br>'+
@@ -152,8 +156,8 @@
 
 					$('.elements>.editbutton').hide(0); 
 					$('.elements').css('box-shadow', '0px 0px 0px 0px #fff');
-					$('#element_'+elementID).css('box-shadow', '0px 0px 1px 1px #00F');
-					$('#element_'+elementID).find('.editbutton').show(0);
+					$('.element_'+elementID).css('box-shadow', '0px 0px 1px 1px #00F');
+					$('.element_'+elementID).find('.editbutton').show(0);
 					}
 	
 
@@ -176,7 +180,7 @@
 				
 				$("#page").append(''+
 				'<style>' +
-				'#element_' + ldat.ID +  '{' +
+				'.element_' + ldat.ID +  '{' +
 					'position : absolute' + ';' +
 					'top: ' + ldat.posx + 'px;' +
 					'left:' + ldat.posy + 'px;' +
@@ -188,54 +192,51 @@
 					'font-weight: ' + ldat.fontweight + ';' +
 					'float: none; ' +
 					'text-align: ' + ldat.textalign+';' +
-					'padding-top: -'+ldat.padding+';' +
-					
-					'padding-bottom: '+ldat.padding+';' +
+					'padding-bottom:' + ldat.padding + 'px;' +
 					'width:	' + ldat.absw + ';' +
 					'height: '+ldat.height+';' +
 					'margin:0px;'+
 					'}' +
-				'#pagecontent'+ldat.ID+'{' +
+				'.pagecontent'+ldat.ID+'{' +
 					'position:relative;'+
 					'background: ' + ldat.background + ';' +
 					'z-index: ' + ldat.layer + ';' +
 					'opacity: ' + ldat.opacity  + ';' +	
 					'height: 100%;' +
 					'padding:' + ldat.padding + 'px;' +
+					
 					'border-radius: ' + ldat.radius + 'px;' +
 					'}' +
-					'@media (max-width:479px){' +
-						'.element' + ldat.ID +
-						'{font-size: 15px;' +
-						'position: relative;}' +
-						'}'+
-				'</style>'+
+					
+				'</style>');
 				
+				$("#page").append(''+
+				'<div class="elements element_'+ldat.ID+'" ID="element_'+ldat.ID+'" onclick=showEdit('+ldat.ID+')></div>' );
 				
-				'<div class="elements" ID="element_'+ldat.ID+'" onclick=showEdit('+ldat.ID+')>' +
-				
-						'<div class="editbutton">' +
+				$("#element_"+ldat.ID).append(''+	
+					'<div class="editbutton" ID="editbutton'+ldat.ID+'">' +
 						'<div class="mover"> ' +
 						'<i class="fa fa-arrows"></i>'+
 						'</div>'+
+						'</div><div class="pagecontents pagecontent'+ldat.ID+'" ID="pagecontent'+ldat.ID+'"></div>');
 						
+				if (ldat.file == ''){
+					$("#editbutton"+ldat.ID).append(''+
 						'<a class="editelement nodrag" ID="edit'+ldat.ID+' edit" href="#" '+
 							'onclick="editElement( '+ ldat.ID + ');">'+
 							'<i class="fa fa-pencil"></i></a>'+
-						
-						
+						'');
+				}
+					
+					$("#editbutton"+ldat.ID).append(''+
 						'<a class="deleteelement nodrag" ID="dlist'+ldat.ID+'" href="#" '+
 							'onclick="deleteElement(' + ldat.ID + ');">'+
 							'<i class="fa fa-trash"></i></a>'+
-						'</div>'+	
-				
-				
-						'<div class="pagecontents" ID="pagecontent'+ldat.ID+'"></div>'+
-				'</div>');	
+						'');	
 				if (ldat.file != ''){
-					$("#pagecontent"+ldat.ID).append('<img src="img/full/'+ldat.file+'" style="width: 100%; ">');
+					$(".pagecontent"+ldat.ID).append('<img src="img/full/'+ldat.file+'" style="width: 100%; ">');
 									
-				$( '#element_'+ldat.ID ).resizable({   
+				$( '.element_'+ldat.ID ).resizable({   
 					aspectRatio: "true", 
 					containment:"#page",
 				 	stop: function( event, ui ) {	
@@ -264,14 +265,11 @@
 
 				
 				}
-					else if (ldat.boxID != ''){
-					$("#pagecontent"+ldat.ID).append(''+ldat.pagecontent+'');
-				}
-
-				else if (ldat.pagecontent != ''){
-					$("#pagecontent"+ldat.ID).append(''+ldat.pagecontent+'');
+					
+				else {
+					$(".pagecontent"+ldat.ID).append(''+ldat.pagecontent+'');
 										
-				$( '#element_'+ldat.ID ).resizable({   
+				$( '.element_'+ldat.ID ).resizable({   
 					
 					containment:"#page",
 				 	stop: function( event, ui ) {	
@@ -609,7 +607,9 @@ window.deletePage = function (itemID) {
 					
 		$("#addPhoto").html('<a href="#" class="pop"  ID="addPhoto"onclick="addPhoto('+pageID+')">'+
 		'<i class="fa fa-camera"></i>Add Photo</a>').css("background", "none");
-					
+		$("#addBox").html('<a href="#" class="pop"   onclick="addBox('+pageID+')">'+
+			'<i class="fa fa-th"></i>Add Box</a>').css("background", "none");	
+			
 		$("#addText").css("background", "#dddddd");
 		$("#addText").html('<i class="fa fa-pencil"></i>Add Text<br>'+
 		'<form  ID="addform">'+
@@ -625,8 +625,11 @@ window.deletePage = function (itemID) {
 	
 		
 		window.addPhoto= function(pageID){	
-			$("#addText").html('<div ID="addText"><a href="#" class="pop"   onclick="addText('+pageID+')">'+
-					'<i class="fa fa-pencil"></i>Add Text</a></div>').css("background", "none");
+			$("#addText").html('<a href="#" class="pop"   onclick="addText('+pageID+')">'+
+					'<i class="fa fa-pencil"></i>Add Text</a>').css("background", "none");
+			$("#addBox").html('<a href="#" class="pop"   onclick="addBox('+pageID+')">'+
+					'<i class="fa fa-th"></i>Add Box</a>').css("background", "none");
+			
 			$("#addPhoto").css("background", "#dddddd");
 			$("#addPhoto").html('<i class="fa fa-camera"></i>Add Photo<br>'+
 			'<form ID="addform">'+
@@ -639,6 +642,24 @@ window.deletePage = function (itemID) {
 							
 		}
 	
+		window.addBox= function(pageID){	
+			$("#addText").html('<a href="#" class="pop"   onclick="addText('+pageID+')">'+
+					'<i class="fa fa-pencil"></i>Add Text</a>').css("background", "none");
+					
+			$("#addPhoto").html('<a href="#" class="pop"  ID="addPhoto"onclick="addPhoto('+pageID+')">'+
+				'<i class="fa fa-camera"></i>Add Photo</a>').css("background", "none");
+		
+			$("#addBox").css("background", "#dddddd");
+			$("#addBox").html('<i class="fa fa-th"></i>Add Box<br>'+
+			'<form ID="addform">'+
+			'<input type="hidden" name="newelement" value="add">'+
+			'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
+			'<input type="text" name="boxtitle" ID="boxtitle" placeholder="Title for New Box"><br>'+
+			'<input type="button" name="submit" value="Add" onclick="addElement('+ pageID +');">'+
+			'</form>');	
+			
+							
+		}
 	
 	
 	window.formNewElement= function(pageID){

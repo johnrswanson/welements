@@ -70,17 +70,19 @@
 	
 		@media (max-width:960px){
 			#maincontent{width: 100%;}
-		.elements
+			#page{width: 100%;}
+			.elements
 			{
 			width: 90%;
+			height: auto;
 			font-size: 15px; 
-				line-height: 15px; 
+			line-height: 15px; 
 			position: relative;
 			left:0px;
 			top: 0px;
 			margin:auto; 
-			
-			height: auto;} 
+			}
+			.pagecontents{height: auto;} 
 				
 			.mover{display:none;}	
 			.ui-icon, .ui-resizeable-sw, .ui-resizeable-se, .ui-resizeable-s, .ui-resizeable-e, .ui-resizeable-w{display:none;}	

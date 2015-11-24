@@ -33,12 +33,14 @@ if ($css=='edit'){
 if ($newelement=='add'){	
 	$newtext = str_replace("\r",'<br>',$_POST['mytext']);			
 	$cleantext=addslashes($newtext);
+	
 	$margin=addslashes($_POST['margin']);
 	$padding=addslashes($_POST['padding']);
 	$height=addslashes($_POST['height']);
 	$width='500';
 	$color=addslashes($_POST['color']);
 	$background=addslashes($_POST['background']);
+
 	$posy='100';
 	$posx='100';
 	$fontfamily=addslashes($_POST['fontfamily']);
@@ -49,6 +51,12 @@ if ($newelement=='add'){
 	$textalign=addslashes($_POST['textalign']);
 	$radius=addslashes($_POST['radius']);
 	echo 'Adding element';
+	
+	$boxtitle=addslashes($_POST['boxtitle']);
+	if($boxtitle!=''){
+		$cleantext=addslashes($_POST['boxtitle']);
+		}
+	
 	$photo=addslashes($_FILES[file][name]);
 	if($photo!=''){
 		echo ' -> Adding Photo ';
@@ -99,7 +107,8 @@ if ($newelement=='add'){
 	 elementlist,
 	 posx, 
 	 posy, 
-	 absw 
+	 absw, 
+	 boxID
 	  )VALUES
 	('',
 	'$cleantext', 
@@ -123,7 +132,8 @@ if ($newelement=='add'){
 	'1000', 
 	'100', 
 	'30', 
-	'400' )
+	'400',
+	'1' )
 	") or die (mysql_error());
 	echo 'New Element Added';
 }
