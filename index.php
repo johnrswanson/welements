@@ -16,6 +16,8 @@
 
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/spectrum.css">
+
 <link rel="stylesheet" href="admin/style.css">
 <link rel="stylesheet" href="login/style.css">
 <link rel="stylesheet" href="list/style.css">
@@ -26,6 +28,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script src="navigation/touchpunch.js"></script>
 
+  <script src="navigation/spectrum.js"></script>
+
 
 
 
@@ -33,7 +37,8 @@
 <script type="text/javascript" src="helper/helper.js"></script>
 
 
-
+    
+    
 
 
 

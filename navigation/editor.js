@@ -199,7 +199,7 @@
 					'}' +
 				'.pagecontent'+ldat.ID+'{' +
 					'position:relative;'+
-					'background: ' + ldat.background + ';' +
+					'background-color: ' + ldat.background + ';' +
 					'z-index: ' + ldat.layer + ';' +
 					'opacity: ' + ldat.opacity  + ';' +	
 					'height: 100%;' +
@@ -220,21 +220,37 @@
 						'</div>'+
 						'</div><div class="pagecontents pagecontent'+ldat.ID+'" ID="pagecontent'+ldat.ID+'"></div>');
 						
-				if (ldat.file == ''){
+			
+						
+				
 					$("#editbutton"+ldat.ID).append(''+
 						'<a class="editelement nodrag" ID="edit'+ldat.ID+' edit" href="#" '+
 							'onclick="editElement( '+ ldat.ID + ');">'+
 							'<i class="fa fa-pencil"></i></a>'+
 						'');
+			if (ldat.file == ''){
+					if (ldat.boxID != ''){
+							$("#editbutton"+ldat.ID).append(''+
+							'<a class="addboxitem nodrag" href="#" '+
+							'onclick="boxItemForm( '+ ldat.ID + ');">'+
+							'<i class="fa fa-plus"></i>Add</a>'+
+							'');
+							
+					}
 				}
 					
 					$("#editbutton"+ldat.ID).append(''+
 						'<a class="deleteelement nodrag" ID="dlist'+ldat.ID+'" href="#" '+
 							'onclick="deleteElement(' + ldat.ID + ');">'+
-							'<i class="fa fa-trash"></i></a>'+
-						'');	
+							'<i class="fa fa-trash"></i></a><br><div class="newitem"></div>'+
+						'');
+						
+				
+						
 				if (ldat.file != ''){
 					$(".pagecontent"+ldat.ID).append('<img src="img/full/'+ldat.file+'" style="width: 100%; ">');
+											
+								
 									
 				$( '.element_'+ldat.ID ).resizable({   
 					aspectRatio: "true", 
@@ -363,10 +379,27 @@
 	
 	
 	window.editNow = function (elementID) {	
-		var elementdata= $( "#formElement" ).serialize();
-		var myresult = $.post("navigation/confirm.php" , elementdata);
+	
 		
-		window.reloadElement(''+elementID+'');		
+		var elementdata = new FormData($("#formElement")[0]);
+		$.ajax({
+			'url' : "navigation/confirm.php",
+			'type' : 'post',
+			'data'	: elementdata,
+			processData: false,
+			contentType: false,
+			beforeSend: function(XHR){
+				
+			}
+		}).done(function(){
+	window.reloadElement(''+elementID+'');	
+			});
+		
+	
+		
+
+		
+			
 	}	//editnow
 	
 	
@@ -383,7 +416,7 @@
 				$("#element_"+ldat.ID).css("letter-spacing", ldat.spacing +'px');
 				$("#element_"+ldat.ID).css("text-align", ldat.textalign +'');
 				$("#element_"+ldat.ID).css("color", ldat.color +'');
-				$("#pagecontent"+ldat.ID).css("background", ldat.background +'');
+				$("#pagecontent"+ldat.ID).css("background-color", ldat.background +'');
 				$("#pagecontent"+ldat.ID).css("padding", ldat.padding +'px');
 				$("#pagecontent"+ldat.ID).css("opacity", ldat.opacity +'');
 				$("#pagecontent"+ldat.ID).css("border-radius", ldat.radius +'px');
@@ -401,10 +434,41 @@
 	}
 	
 	
+	window.usecolor = function(elementID){
+		$("#overridebg").html('');
+		$("#clearall").html('<input type="button" name="clearbg"'+
+							 'value="transparent" onclick="clearall('+elementID+');">');
+							 
+		$("#color2").html(''+
+				'-  Background<br>'+
+				'<input type="color" name="background"  ID="pickbg"'+
+				'value="#ffffff" onchange="editNow('+elementID+');" onfocus="editNow('+elementID+');" '+
+				'style="height: 30px; width: 100px; padding: 0px; margin-right: 3px;">'+
+				'');
+				
+		$("#pickbg").spectrum({
+		    showButtons:true,
+		    showInput:true,
+			showInitial:true,
+			preferredFormat: "hex"
+		
+    	});
+	}
+
+	
+	
+	window.clearall = function(elementID){
+	
+	$("#overridebg").html('<input type="hidden" name="background"  value="transparent"></div>');
+	
+	$("#clearall").html('<input type="button" name="clearbg"'+
+						 'value="Use BG Color" onclick="usecolor('+elementID+');">');
+	$("#color2").html('');
 	
 	
 	
-	
+	window.editNow(''+elementID+'');
+	}
 	
 	
 	window.editElement = function (itemID) {
@@ -415,28 +479,41 @@
 				$('#lightbox>#content').html('<div class="boxtitle">Edit Element</span>');
 				var str = idat.pagecontent;
 				var safetext= str.replace(/<br>/g, "\r");
+			
 				
 				$("#lightbox>#content").append(''+
 				
 					'<form  ID="formElement">'+
 					'<input type="hidden" name="editme" value="'+idat.ID+'">'+
-					'<input type="hidden" name="pageID" value="'+idat.pageID+'">'+
+					'<input type="hidden" name="pageID" value="'+idat.pageID+'"></form>'+
+					'');
 					
+			
+					
+			if(idat.file==''){
+				$("#formElement").append(''+
 					'<textarea style="width: 100%; max-width: 100% ; min-height: 100px; margin: auto;" name="pagecontent"'+
 					'placeholder="Enter Text Here">'+safetext+'</textarea><br>'+
 					
 					
-					'<div style=" float: left; " >Text Color<br>'+
-						'<input name="color" id="html5colorpicker" class="form-control" type="color" '+
-							'value="'+idat.color+'" onchange="editNow('+idat.ID+'); " '+
+					'<div ID="color1" style=" float: left; " >Text Color<br>'+
+						'<input type="color" name="color"   class="pick"  '+
+							'value="'+idat.color+'" onfocus="editNow('+idat.ID+');" onchange="editNow('+idat.ID+');"'+
 							'style="height: 30px; width: 100px; float: left; padding: 0px; margin-right: 3px;">'+
 					'</div>'+
 					
-					'<div style=" float: left; " >Background<br>'+
-						'<input name="background" id="html5colorpicker" class="form-control" type="color" '+
-							'value="'+idat.background+'" onchange="editNow('+idat.ID+'); " '+
-							'style="height: 30px; width: 100px;padding: 0px; margin-right: 3px;">'+
+					'<div ID ="color2" style=" float: left; " > -  Background<br>'+
+						'<input type="color" name="background"  ID="pickbg"'+
+						 'value="'+idat.background+'" onfocus="editNow('+idat.ID+');" onchange="editNow('+idat.ID+');"'+
+							'style="height: 30px; width: 100px; padding: 0px; margin-right: 3px;">'+
 					'</div>'+ 
+					
+					'<div style=" float: left; " > <br>'+
+					
+						'<div ID="clearall"><input type="button" name="clearbg"'+
+						 'value="Transparent" onclick="clearall('+idat.ID+');"></div>'+
+					'</div>'+ 
+
 					
 					'<div style=" clear:both;"></div>'+
 					
@@ -459,19 +536,72 @@
 						'value="'+idat.padding+'" ><br>'+
 					
 					'Radius :<input type="range" data-show-value="true" min="0" max="50" name="radius"  '+
-						'value="'+idat.radius+'"><br>'+
+						'value="'+idat.radius+'"><br>');
+						
+					}
 					
+					
+					
+				$("#formElement").append(''+
 					'Opacity:<input type="text" style="width: 40px;" name="opacity" '+
-						'value="'+idat.opacity+'"><br>'+
-					
+					'value="'+idat.opacity+'"><br>'+
 					'Layer : <input  style="width: 40px;" type="text" name="layer"'+
 						'value="'+idat.layer+'"><br>'+
 					
 					'<input style=" display:none; " ID="saveedit" type="button" name="submit" '+
-						'value="Save" onclick="editNow('+idat.ID+'); ">'+
-					
-					'</form>'+
+						'value="Save" onclick="editNow('+idat.ID+'); "><input type="hidden" id="dummy1"><input type="hidden" id="dummy2">'+
+						'<div ID="overridebg"></div>'+
 				'');
+				
+				if(idat.background==''||idat.background=='transparent' ){
+					$("#overridebg").html('<input type="hidden" name="background" ID="overridebg" value="transparent">');
+					$("#clearall").html('<input type="button" name="clearbg"'+
+						 'value="Use BG Color" onclick="usecolor('+idat.ID+');">'+
+						 '');
+						 $("#color2").html('');
+						 
+						 }
+						 
+						
+					
+	
+				
+			
+	$(".pick").spectrum({
+			
+		preferredFormat: "hex",
+		showInput:true,
+		showInitial:true
+		
+    });
+    
+   
+    
+    
+    
+    
+    
+     $("#pickbg").spectrum({
+	   
+	    showButtons:true,
+	    showInput:true,
+		showInitial:true,
+		preferredFormat: "hex"
+		
+		
+    });
+        
+			$('button.sp-choose').on('input',function(){
+					$('#saveedit').click( );
+					}).on('focus', function(){
+					$('#saveedit').click( );
+					}).on('blur', function() { 
+					$('#saveedit').click( );	
+					}).on('change', function() {	
+					$('#saveedit').click( );
+					});
+				
+
 				
 				$('#formElement>input').on('input',function(){
 					$('#saveedit').click( );
@@ -482,7 +612,6 @@
 					}).on('keyup', function() {	
 					$('#saveedit').click( );
 					});
-
 								
 				$('#formElement>textarea').on('input',function(){
 					$('#saveedit').click( );
@@ -616,10 +745,24 @@ window.deletePage = function (itemID) {
 		'<input type="hidden" name="newelement" value="add">'+
 		'<input type="hidden" name="pageID" value="'+ pageID +'">'+
 		'<textarea name="mytext" ID="pagecontent" placeholder="Write some words here."></textarea><br>'+
-		'<input name="color" id="html5colorpicker" class="form-control colorpicker" type="color" value="#777777" onchange="clickColor(0, -1, -1, 5)" style="">' +
-		'<input type="button" name="submit" value="Add" onclick="addElement('+ pageID +'); ">'+
+		'<input name="color" class="pick">' +
+		'<input name="background" class="pickbg" >' +
+'<input type="button" name="submit" value="Add" onclick="addElement('+ pageID +'); ">'+
 		'</form>');					
-	}
+		
+	$(".pick").spectrum({
+			
+		preferredFormat: "hex",
+		showInput:true
+    });
+    
+    $(".pickbg").spectrum({
+		
+			allowEmpty:true,
+		preferredFormat: "hex",
+		showInput:true
+    });
+}
 		
 		
 	
@@ -645,21 +788,36 @@ window.deletePage = function (itemID) {
 		window.addBox= function(pageID){	
 			$("#addText").html('<a href="#" class="pop"   onclick="addText('+pageID+')">'+
 					'<i class="fa fa-pencil"></i>Add Text</a>').css("background", "none");
-					
 			$("#addPhoto").html('<a href="#" class="pop"  ID="addPhoto"onclick="addPhoto('+pageID+')">'+
 				'<i class="fa fa-camera"></i>Add Photo</a>').css("background", "none");
 		
 			$("#addBox").css("background", "#dddddd");
 			$("#addBox").html('<i class="fa fa-th"></i>Add Box<br>'+
-			'<form ID="addform">'+
-			'<input type="hidden" name="newelement" value="add">'+
-			'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
-			'<input type="text" name="boxtitle" ID="boxtitle" placeholder="Title for New Box"><br>'+
-			'<input type="button" name="submit" value="Add" onclick="addElement('+ pageID +');">'+
+				'<form ID="addform">'+
+				'<input type="hidden" name="newelement" value="add">'+
+				'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
+				'<input type="text" name="boxtitle" ID="boxtitle" placeholder="Title for New Box"><br>'+
+				'<input type="button" name="submit" value="Add" onclick="addElement('+ pageID +');">'+
 			'</form>');	
 			
 							
 		}
+		
+		window.addBoxItem= function(boxID){
+			}	
+		
+		
+		window.boxItemForm= function(elementID){	
+			$('.element_'+elementID+' .editbutton .newitem').html('<br>'+
+				'<form ID="addform">'+
+				'<input type="hidden" name="newelement" value="add">'+
+				'<input type="hidden" name="elementID" value="'+ elementID +'" >'+
+				'<input type="file" name="file"  accept="image/*;capture=camera"> '+
+				'<input type="button" name="submit" value="Add" onclick="addBoxItem('+ elementID +');">'+
+			'</form>');		
+						
+		}
+
 	
 	
 	window.formNewElement= function(pageID){

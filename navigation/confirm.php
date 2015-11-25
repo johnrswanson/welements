@@ -117,7 +117,7 @@ if ($newelement=='add'){
 	'helvetica', 
 	'$color', 
 	'100',
-	'#ffffff', 
+	'$background', 
 	'0', 
 	'0', 
 	'auto', 
@@ -170,6 +170,7 @@ if ($editme!=''){
 	//$width=addslashes($_POST['width']);
 	$color=addslashes($_POST['color']);
 	$background=addslashes($_POST['background']);
+	if ($background==''){$background=' ';}
 	$fontfamily=addslashes($_POST['fontfamily']);
 	$fontsize=addslashes($_POST['fontsize']);
 	$fontweight=addslashes($_POST['fontweight']);
