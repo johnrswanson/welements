@@ -35,32 +35,39 @@
 				'<div class="secretmenu"> Hello '+dat.shortname + '<br>'+
 				
 				'<a href="#" class="pop"  onclick="addNewPage()">'+
-					'<i class="fa  fa-file-text-o"></i>New Page</a><br>'+
+					'<i class="fa  fa-file-text-o"></i> New Page</a><br>'+
 				
 				'<div ID="addText"><a href="#" class="pop"   onclick="addText('+pageID+')">'+
-					'<i class="fa fa-pencil"></i>Add Text</a></div>'+
+					'<i class="fa fa-pencil"></i> Add Text</a></div>'+
 					
 					'<div ID="addPhoto"><a href="#" class="pop"  ID="addPhoto"onclick="addPhoto('+pageID+')">'+
-					'<i class="fa fa-camera"></i>Add Photo</a></div>'+
+					'<i class="fa fa-camera"></i> Add Photo</a></div>'+
 					
 					'<div ID="addBox"><a href="#" class="pop"  ID="addPhoto"onclick="addBox('+pageID+')">'+
-					'<i class="fa fa-th"></i>Add Box</a></div>'+
+					'<i class="fa fa-th"></i> Add Box</a></div>'+
 					
 
 				
-				//	'<a href="#" class="pop"  onclick="formNewElement('+pageID+')">'+
-				//	'<i class="fa fa-image"></i>Page Background</a><br>'+
+				'<div ID = "addBgPhoto"><a href="#" class="pop"  onclick="addBgPhoto('+pageID+')">'+
+					'<i class="fa fa-image"></i> Page Background</a><br></div>'+
 					
-				'<a href="#" class="pop"  onclick="editCss()">'+
-					'<i class="fa fa-paperclip"></i>CSS Editor</a><br>'+
+					
+				'<div ID = "addLogo"><a href="#" class="pop"  onclick="addLogo('+pageID+')">'+
+					'<i class="fa fa-star"></i> Site Banner</a><br></div>'+
+					
+				'<div ID = "addLinkColor"><a href="#" class="pop"  onclick="addLinkColor('+pageID+')">'+
+					'<i class="fa fa-star"></i> Link Colors</a><br></div>'+
+					
+				'<a href="#" class="pop"  onclick="editCss('+pageID+')">'+
+					'<i class="fa fa-paperclip"></i> CSS Editor</a><br>'+
 				
 				
 				'<a href="#" class="deleteOn" onclick="showDeleteButtons()">'+
-					'<i class="fa fa-remove"></i>Delete Pages</a>'+
+					'<i class="fa fa-remove"></i> Delete Pages</a>'+
 				'<a href="#" class="deleteOff" onclick="hideDeleteButtons()">'+
-					'<i class="fa fa-remove"></i>Done</a>'+
+					'<i class="fa fa-remove"></i> Done</a>'+
 					
-				'<form ID="livesaver"  method="POST"> '+	
+				'<form ID="livesaver"  method="POST" style="height: 0px; overflow:hidden; "> '+	
 				'<input type="hidden" ID="elementID" name="elementID" value=""/>'+	
 				'top:<input type="text" ID="dragtop" name="dragtop" value="" />px<br>'+	
 				'left:<input type="text" ID="dragleft" name="dragleft" value="" /> %'+	
@@ -68,7 +75,7 @@
 				'<input type="hidden" ID="mode" name="mode" value="designer"/>'+	
 				'<input  type="submit" ID="elementpos" name="elementpos" value="Save Position">'+	
 				'</form>'+
-				'<form  ID="sizesaver" method="POST"> '+	
+				'<form  ID="sizesaver" method="POST"  style="height: 0px; overflow:hidden; "> '+	
 				'<input type="hidden" ID="sizeelementID" name="sizeelementID" value="">'+	
 				'width : <input type="text" ID="resleft" name="resleft" value="" /> %<br>'+	
 				'abs w : <input type="text" ID="absresleft" name="absresleft" value=""/>px<br>'+	
@@ -80,7 +87,7 @@
 				'<input  type="submit" ID="elementres" name="elementres" value="Save Size">'+	
 				'</form>'+
 				'<p><a class="logout pop" href="admin/logout.php">'+
-					'<i class="fa fa-user"></i>Log out</p></div>');
+					'<i class="fa fa-user"></i> Log out</p></div>');
 			});
 		});	
 		
@@ -141,7 +148,7 @@
 		});//get
 	
 			
-		window.sortem();
+	window.sortem();	
 
 			
 			
@@ -163,8 +170,8 @@
 
 	
 	window.loadPage= function (pageID){
-					
-		
+				$('.links').click();	
+			
 		if (pageID=='home'){
 			window.loadHomePage();	
 			}
@@ -172,9 +179,26 @@
 				window.closehelper();
 		$("#page").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
 		var login='y';
-		var backgroundPhoto='';
-		var url="navigation/elements.php?l="+ pageID;
+		
+	
 		$("#page").html('<div ID="bg"></div> ');
+		var url="navigation/data.php?page="+pageID+"";
+		$("#navcontent").html('<ul></ul>');
+		$.getJSON(url,function(json){
+			$.each(json.navinfo,function(i,ldat){
+			if (ldat.photo !='' ){
+			$('#page>#bg').html('<img src="img/full/'+ldat.photo+'" style=" max-width: 100%; min-width: 100vw; min-height: 100vh; ">');
+			}
+			if (ldat.background !='' ){
+			$('#page>#bg').css("background-color", ""+ldat.background+"");
+			$('#page>#bg').css("width", "100%");
+			$('#page>#bg').css("height", "100%");
+			}
+			});	//each
+		});//get
+
+		
+		var url="navigation/elements.php?l="+ pageID;
 		$.getJSON(url,function(json){
 			$.each(json.elementinfo,function(i,ldat){
 				
@@ -283,7 +307,7 @@
 				}
 					
 				else {
-					$(".pagecontent"+ldat.ID).append(''+ldat.pagecontent+'');
+					$(".pagecontent"+ldat.ID).append(''+ldat.pagecontent+'<br>');
 										
 				$( '.element_'+ldat.ID ).resizable({   
 					
@@ -311,6 +335,8 @@
 
 					}
 				});//resize
+
+
 
 				}
 															
@@ -343,6 +369,21 @@
 					});//drag
 					
 				
+	if (ldat.boxID != ''){
+		var url="navigation/boxelements.php?box="+ldat.boxID+"";
+		$.getJSON(url,function(json){
+			$.each(json.boxiteminfo,function(i,bdat){
+				var colwidth= 100 / ldat.columnset;
+				$( '.pagecontent' +ldat.ID).append(''+
+				'<div style="width:'+colwidth+'%; min-height: 300px; float: left; text-align: center; "><img src="img/full/'+bdat.photo+'" style="height: 160px; width: auto; margin: auto; "><br>'+
+				' <h2>'+bdat.title+'</h2>'+
+				' '+bdat.mytext+'<br>'+
+				'</div>');
+				
+			});
+		});
+						
+	}
 							
 				});	//each
 				
@@ -351,7 +392,7 @@
 			});//get
 					
 			window.secretmenu(''+pageID+'');
-			$('#page>#bg').html('<img src="'+backgroundPhoto+'" style=" max-width: 100%; min-width: 100vw; min-height: 100vh; ">');
+			
 			$('#page>#bg').click(function(){
 			$('.elements>.editbutton').hide(0); 
 			$('.elements').css('box-shadow', '0px 0px 0px 0px #fff');
@@ -654,7 +695,8 @@ window.saveCss = function(){
 
 
 	
-	window.editCss= function(){
+	window.editCss= function(pageID){
+		window.resetMenu(''+ pageID +'');
 		var url="admin/userdata.php";
 		window.helperadd();
 		$("#lightbox>content").html('');
@@ -718,10 +760,46 @@ window.deletePage = function (itemID) {
 		
 	
 		}
+		
+		
+		
+	window.resetMenu= function(pageID){
+		$("#addText").html('<a href="#" class="pop"   onclick="addText('+pageID+')">'+
+				'<i class="fa fa-pencil"></i> Add Text</a>').css("background", "none");
+		$("#addBox").html('<a href="#" class="pop"   onclick="addBox('+pageID+')">'+
+				'<i class="fa fa-th"></i> Add Box</a>').css("background", "none");
+		$("#addPhoto").html('<a href="#" class="pop"   onclick="addPhoto('+pageID+')">'+
+				'<i class="fa fa-camera"></i> Add Photo</a>').css("background", "none");
+		$("#addBgPhoto").html('<a href="#" class="pop"   onclick="addBgPhoto('+pageID+')">'+
+				'<i class="fa fa-image"></i> Page Background</a>').css("background", "none");
+		$("#addLogo").html('<a href="#" class="pop"   onclick="addLogo('+pageID+')">'+
+				'<i class="fa fa-star"></i> Site Banner</a>').css("background", "none");
+		$("#addLinkColor").html('<a href="#" class="pop"   onclick="addLinkColor('+pageID+')">'+
+				'<i class="fa fa-star"></i>Link Colors</a>').css("background", "none");
+
+
+		}	
+		
+		window.resetboxMenu= function(pageID){
+		$("#addboxPost").html('<a href="#" class="pop"   onclick="addText('+pageID+')">'+
+				'<i class="fa fa-pencil"></i> Posts</a>').css("background", "none");
+		$("#addboxPhoto").html('<a href="#" class="pop"   onclick="addBox('+pageID+')">'+
+				'<i class="fa fa-th"></i> Photos</a>').css("background", "none");
+		$("#addboxVideo").html('<a href="#" class="pop"   onclick="addPhoto('+pageID+')">'+
+				'<i class="fa fa-film"></i> Videos</a>').css("background", "none");
+		/*$("#addboxShop").html('<a href="#" class="pop"   onclick="addBgPhoto('+pageID+')">'+
+				'<i class="fa fa-image"></i> Products</a>').css("background", "none");
+		$("#addboxShop").html('<a href="#" class="pop"   onclick="addBgPhoto('+pageID+')">'+
+			'<i class="fa fa-image"></i> Products</a>').css("background", "none");
+		*/
+
+		}	
+		
 	
 	window.addNewPage= function(){
 		window.helperadd();
-		$('#lightbox>#content').html('<div class="boxtitle">Add a New Page</div>');
+		window.resetMenu();
+		$('#lightbox>#content').html('<div class="boxtitle"> Add a New Page</div>');
 		$("#lightbox>#content").append(''+
 		'<form  ID="newpageform">'+
 		'<input type="hidden" name="newpage" value="add">'+
@@ -734,17 +812,15 @@ window.deletePage = function (itemID) {
 	window.addText= function(pageID){
 			
 					
-		$("#addPhoto").html('<a href="#" class="pop"  ID="addPhoto"onclick="addPhoto('+pageID+')">'+
-		'<i class="fa fa-camera"></i>Add Photo</a>').css("background", "none");
-		$("#addBox").html('<a href="#" class="pop"   onclick="addBox('+pageID+')">'+
-			'<i class="fa fa-th"></i>Add Box</a>').css("background", "none");	
+		window.resetMenu(''+pageID+'');
+
 			
 		$("#addText").css("background", "#dddddd");
-		$("#addText").html('<i class="fa fa-pencil"></i>Add Text<br>'+
+		$("#addText").html('<i class="fa fa-pencil"></i> Add Text<br>'+
 		'<form  ID="addform">'+
 		'<input type="hidden" name="newelement" value="add">'+
 		'<input type="hidden" name="pageID" value="'+ pageID +'">'+
-		'<textarea name="mytext" ID="pagecontent" placeholder="Write some words here."></textarea><br>'+
+		'<textarea name="mytext" ID="pagecontent" style="min-width: 80%; min-height: 100px; "  placeholder="Write some words here."></textarea><br>'+
 		'<input name="color" class="pick">' +
 		'<input name="background" class="pickbg" >' +
 '<input type="button" name="submit" value="Add" onclick="addElement('+ pageID +'); ">'+
@@ -768,13 +844,10 @@ window.deletePage = function (itemID) {
 	
 		
 		window.addPhoto= function(pageID){	
-			$("#addText").html('<a href="#" class="pop"   onclick="addText('+pageID+')">'+
-					'<i class="fa fa-pencil"></i>Add Text</a>').css("background", "none");
-			$("#addBox").html('<a href="#" class="pop"   onclick="addBox('+pageID+')">'+
-					'<i class="fa fa-th"></i>Add Box</a>').css("background", "none");
+			window.resetMenu(''+pageID+'');
 			
 			$("#addPhoto").css("background", "#dddddd");
-			$("#addPhoto").html('<i class="fa fa-camera"></i>Add Photo<br>'+
+			$("#addPhoto").html('<i class="fa fa-camera"></i> Add Photo<br>'+
 			'<form ID="addform">'+
 			'<input type="hidden" name="newelement" value="add">'+
 			'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
@@ -786,15 +859,14 @@ window.deletePage = function (itemID) {
 		}
 	
 		window.addBox= function(pageID){	
-			$("#addText").html('<a href="#" class="pop"   onclick="addText('+pageID+')">'+
-					'<i class="fa fa-pencil"></i>Add Text</a>').css("background", "none");
-			$("#addPhoto").html('<a href="#" class="pop"  ID="addPhoto"onclick="addPhoto('+pageID+')">'+
-				'<i class="fa fa-camera"></i>Add Photo</a>').css("background", "none");
-		
+			window.resetMenu(''+pageID+'');
+
 			$("#addBox").css("background", "#dddddd");
-			$("#addBox").html('<i class="fa fa-th"></i>Add Box<br>'+
+			$("#addBox").html('<i class="fa fa-th"></i> Add Box<br>'+
 				'<form ID="addform">'+
 				'<input type="hidden" name="newelement" value="add">'+
+				'<input type="hidden" name="isbox" value="true">'+
+
 				'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
 				'<input type="text" name="boxtitle" ID="boxtitle" placeholder="Title for New Box"><br>'+
 				'<input type="button" name="submit" value="Add" onclick="addElement('+ pageID +');">'+
@@ -803,20 +875,180 @@ window.deletePage = function (itemID) {
 							
 		}
 		
-		window.addBoxItem= function(boxID){
-			}	
+		window.addBoxItem= function(elementID){
+		
+		var elementdata = new FormData($("#addform")[0]);
+		$.ajax({
+			'url' : "navigation/confirm.php",
+			'type' : 'post',
+			'data'	: elementdata,
+			processData: false,
+			contentType: false,
+			beforeSend: function(XHR){
+				
+			}
+		}).done(function(){
+		$('.element_'+elementID+' .editbutton .newitem').html('');
+			window.reloadElement(''+elementID+'');	
+			
+			});
+			
+
+}
+				
 		
 		
 		window.boxItemForm= function(elementID){	
 			$('.element_'+elementID+' .editbutton .newitem').html('<br>'+
 				'<form ID="addform">'+
-				'<input type="hidden" name="newelement" value="add">'+
+				'<input type="hidden" name="newboxitem" value="add">'+
 				'<input type="hidden" name="elementID" value="'+ elementID +'" >'+
-				'<input type="file" name="file"  accept="image/*;capture=camera"> '+
+				
+				'<input type="text" name="title" ID="boxtitle" placeholder="Title for New Post"><br>'+
+
+				'<textarea name="mytext" ID="pagecontent" style="min-width: 80%; min-height: 100px; "  placeholder="Write your post here."></textarea><br>'+
+				
+				'<span style="font-size: 12px; color: #555">Add Photo<br> <input type="file" name="file"  accept="image/*;capture=camera"> '+
+				
 				'<input type="button" name="submit" value="Add" onclick="addBoxItem('+ elementID +');">'+
+				
 			'</form>');		
 						
 		}
+
+window.changeBgNow= function(pageID){
+	//var elementdata= 
+		var elementdata = new FormData($("#addform")[0]);
+		$.ajax({
+			'url' : "navigation/confirm.php",
+			'type' : 'post',
+			'data'	: elementdata,
+			processData: false,
+			contentType: false,
+			beforeSend: function(XHR){
+				
+			}
+		}).done(function(){
+			window.loadPage(''+pageID+'');	
+			});
+			
+
+}
+
+	window.addBgColor= function(pageID){	
+		
+		$("#bgtoggle").html('<a href="#" onclick="addBgPhoto('+pageID+')">Use Photo</a>');
+		
+		$("#addBgPhoto").html('<i class="fa fa-image"></i> Page Background<br>'+
+		'<form ID="addform">'+
+		'<input type="hidden" name="bgcolor" value="new">'+
+		'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
+		'<input type="color" name="color" ID="bgcolorpick" >'+
+		'<input type="button" name="submit" value="Add" onclick="changeBgNow('+ pageID +');">'+
+		'</form><div ID="bgtoggle"><a href="#" onclick="addBgPhoto('+ pageID +')">Use Photo</a></div>');
+		
+		  $("#bgcolorpick").spectrum({
+		
+			allowEmpty:true,
+		preferredFormat: "hex",
+		showInput:true
+    });
+
+		
+	}
+
+
+
+	window.addBgPhoto= function(pageID){	
+	window.resetMenu(''+pageID+'');
+		
+		$("#addBgPhoto").css("background", "#dddddd");
+		$("#addBgPhoto").html('<i class="fa fa-image"></i> Page Background<br>'+
+		'<form ID="addform">'+
+		'<input type="hidden" name="bgphoto" value="new">'+
+		'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
+		'<input type="file" name="file"  accept="image/*;capture=camera"> '+
+		'<input type="button" name="submit" value="Add" onclick="changeBgNow('+ pageID +');">'+
+		'</form><div ID="bgtoggle"><a href="#" onclick="addBgColor('+ pageID +')">Use Solid Color</a></div>');	
+		
+						
+	}
+	
+	
+	
+	
+	window.addLogoNow= function(pageID){
+				var elementdata = new FormData($("#addform")[0]);
+		$.ajax({
+			'url' : "navigation/confirm.php",
+			'type' : 'post',
+			'data'	: elementdata,
+			processData: false,
+			contentType: false,
+			beforeSend: function(XHR){
+				
+			}
+		}).done(function(){
+			window.loadPage(''+pageID+'');	
+			});
+			
+
+}
+		
+		
+		
+	
+	
+	
+		window.addLogo= function(pageID){	
+		window.resetMenu(''+pageID+'');	
+		$("#addLogo").css("background", "#dddddd");
+		$("#addLogo").html('<i class="fa fa-image"></i> Site Banner<br>'+
+		'<form ID="addform">'+
+		'<input type="hidden" name="logo" value="new">'+
+		'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
+	
+		'<input type="button" name="submit" value="Add" onclick="addLogoNow('+ pageID +');">'+
+		'</form>');	
+		
+						
+	}
+	
+	window.addLinkColorNow= function(pageID){
+		
+				var elementdata = new FormData($("#addform")[0]);
+		$.ajax({
+			'url' : "navigation/confirm.php",
+			'type' : 'post',
+			'data'	: elementdata,
+			processData: false,
+			contentType: false,
+			beforeSend: function(XHR){
+				
+			}
+		}).done(function(){
+			window.loadPage(''+pageID+'');	
+			});
+			
+	
+	}
+	
+	
+	
+	
+	window.addLinkColor= function(pageID){	
+	window.resetMenu(''+pageID+'');		
+		$("#addLinkColor").css("background", "#dddddd");
+		$("#addLinkColor").html('<i class="fa fa-image"></i>Link Colors<br>'+
+		'<form ID="addform">'+
+		'<input type="hidden" name="linkColor" value="new">'+
+		'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
+		
+		'<input type="button" name="submit" value="Add" onclick="addLinkColorNow('+ pageID +');">'+
+		'</form>');	
+		
+						
+	}
 
 	
 	
@@ -884,7 +1116,8 @@ $(document).ready(function(){
 	
 		'');
 
-		window.loadCss();
 	window.showPages();
 	window.loadPage('home');
+	window.loadCss();
+		
 });

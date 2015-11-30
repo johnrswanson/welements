@@ -7,13 +7,14 @@ $pagetitle=$_POST['pagetitle'];
 $urltext=$_POST['urltext'];
 $newpage=$_POST['newpage'];
 $newelement=$_POST['newelement'];
+$newboxitem=$_POST['newboxitem'];
 $update=$_POST['update'];
 $deletepage=$_POST['deleteme'];
 $deleteelement=$_POST['deleteelement'];
 $editme=$_POST['editme'];
 $css=$_POST['css'];
-
-
+$bgphoto=$_POST['bgphoto'];
+$bgcolor=$_POST['bgcolor'];
 
 if ($newpage=='add'){
 	echo 'adding... ';
@@ -27,8 +28,50 @@ if ($css=='edit'){
 	$update=mysql_query("update admin set usercss= '$newcss'");
 	echo'CSS was updated';
 }
+		
+		
+		if ($bgcolor=='new'){
+			$color=$_POST['color'];
+		$update=mysql_query("update pages set photo= '' where ID='$pageID' limit 1");		
+		$update=mysql_query("update pages set background= '$color' where ID='$pageID' limit 1");		
+	
 			
+		}
 			
+if ($bgphoto=='new'){
+	$photo=addslashes($_FILES[file][name]);
+	if($photo!=''){
+		echo ' -> Adding Photo ';
+		$add="../img/full/".$_FILES[file][name];
+		echo $add;
+		if(move_uploaded_file ($_FILES[file][tmp_name],$add)){
+
+			//echo "<P>Successfully uploaded the image<P>";
+			chmod("$add",0777);
+		}
+		else{
+			echo " -> Photo Upload Directory Error";exit;}
+			
+			$photoerror='true';
+			if ($_FILES[file][type]=="image/jpg"){$photoerror='false';}
+			if ($_FILES[file][type]=="image/jpeg"){$photoerror='false';}
+			if ($_FILES[file][type]=="image/png"){$photoerror='false';}
+			if ($_FILES[file][type]=="image/gif"){$photoerror='false';}
+			if ($_FILES[file]['size'] > 2000000000) {
+	        $photoerror='true';
+	            }	
+			if ($photoerror=='true'){
+				echo " -> Photo Upload Type Error";
+				exit;
+			}
+		else{echo' -> Photo Upload Success';}
+		
+		$update=mysql_query("update pages set photo= '$photo' where ID='$pageID' limit 1");		
+	
+	}
+
+	
+	}			
 	
 if ($newelement=='add'){	
 	$newtext = str_replace("\r",'<br>',$_POST['mytext']);			
@@ -52,11 +95,23 @@ if ($newelement=='add'){
 	$radius=addslashes($_POST['radius']);
 	echo 'Adding element';
 	
+	$isbox=addslashes($_POST['isbox']);
+	//for New BOXES
+	if ($isbox=='true'){
 	$boxtitle=addslashes($_POST['boxtitle']);
-	if($boxtitle!=''){
-		$cleantext=addslashes($_POST['boxtitle']);
-		}
+	if ($boxtitle=='')
+	{$cleantext='Untitled Box';}
+	else{$cleantext=addslashes($_POST['boxtitle']);}
+		$insertbox=mysql_query("insert into page_box (ID, title, columnset) values  ('', '$cleantext', '3' )") or die(mysql_error());
+
 	
+		$data3=mysql_query("select * from page_box order by ID DESC limit 1");
+		while($info3=mysql_fetch_array($data3)){
+			$thisbox=$info3['ID'];
+		}				
+	}
+	
+	//for New PHOTOS
 	$photo=addslashes($_FILES[file][name]);
 	if($photo!=''){
 		echo ' -> Adding Photo ';
@@ -133,11 +188,56 @@ if ($newelement=='add'){
 	'100', 
 	'30', 
 	'400',
-	'1' )
+	'$thisbox' )
 	") or die (mysql_error());
 	echo 'New Element Added';
 }
 
+
+
+if ($newboxitem=='add'){
+	$elementID=$_POST['elementID'];
+	
+		$data3=mysql_query("select * from page_element where ID='$elementID' order by ID DESC limit 1");
+		while($info3=mysql_fetch_array($data3)){
+			$thisbox=$info3['boxID'];
+		}				
+
+	
+	$title=addslashes($_POST['title']);
+	$newtext = str_replace("\r",'<br>',$_POST['mytext']);			
+	$cleantext=addslashes($newtext);
+	$photo=addslashes($_FILES[file][name]);
+	if($photo!=''){
+		echo ' -> Adding Photo ';
+		$add="../img/full/".$_FILES[file][name];
+		echo $add;
+		if(move_uploaded_file ($_FILES[file][tmp_name],$add)){
+
+			//echo "<P>Successfully uploaded the image<P>";
+			chmod("$add",0777);
+		}
+		else{
+			echo " -> Photo Upload Directory Error";exit;}
+			
+			$photoerror='true';
+			if ($_FILES[file][type]=="image/jpg"){$photoerror='false';}
+			if ($_FILES[file][type]=="image/jpeg"){$photoerror='false';}
+			if ($_FILES[file][type]=="image/png"){$photoerror='false';}
+			if ($_FILES[file][type]=="image/gif"){$photoerror='false';}
+			if ($_FILES[file]['size'] > 2000000000) {
+	        $photoerror='true';
+	            }	
+			if ($photoerror=='true'){
+				echo " -> Photo Upload Type Error";
+				exit;
+			}
+		else{echo' -> Photo Upload Success';}
+	}
+	mysql_query("insert into box_element (ID, boxID, title, mytext, photo, date ) values  ('', '$thisbox', '$title', '$cleantext', '$photo', '') ") or die (mysql_error());
+
+
+}
 
 if ($deletepage!=''){	
 	$delete = mysql_query("delete from pages where ID='$deletepage' limit 1");
