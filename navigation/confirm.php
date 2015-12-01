@@ -115,8 +115,9 @@ if ($newelement=='add'){
 	//for New PHOTOS
 	$photo=addslashes($_FILES[file][name]);
 	if($photo!=''){
+		$photo.=date("m.d.yg:i:sa");
 		echo ' -> Adding Photo ';
-		$add="../img/full/".$_FILES[file][name];
+		$add="../img/full/".$photo;
 		echo $add;
 		if(move_uploaded_file ($_FILES[file][tmp_name],$add)){
 
@@ -140,6 +141,7 @@ if ($newelement=='add'){
 			}
 		else{echo' -> Photo Upload Success';}
 	}
+	
 	mysql_query("insert into page_element (
 	ID,
 	 pagecontent, 
@@ -210,8 +212,9 @@ if ($newboxitem=='add'){
 	$cleantext=addslashes($newtext);
 	$photo=addslashes($_FILES[file][name]);
 	if($photo!=''){
+		$photo.=date("m.d.yg:i:sa");
 		echo ' -> Adding Photo ';
-		$add="../img/full/".$_FILES[file][name];
+		$add="../img/full/".$photo;
 		echo $add;
 		if(move_uploaded_file ($_FILES[file][tmp_name],$add)){
 
@@ -255,7 +258,7 @@ if ($deleteelement!=''){
 }
 
 if ($deleteboxelement!=''){	
-	$delete = mysql_query("delete from box_element where ID='$deleteelement' limit 1");
+	$delete = mysql_query("delete from box_element where ID='$deleteboxelement' limit 1");
 	echo 'BoxItem Deleted Successfully';
 }
 
@@ -303,38 +306,9 @@ if ($editme!=''){
 	$update=mysql_query("update page_element set fontweight= '$fontweight' where ID='$elementID' limit 1");
 	$update=mysql_query("update page_element set radius= '$radius' where ID='$elementID' limit 1");
 	$update=mysql_query("update page_element set spacing= '$spacing' where ID='$elementID' limit 1");
+	$update=mysql_query("update page_element set columnset= '$columnset' where ID='$elementID' limit 1");
 	$update=mysql_query("update page_element set lineheight= '$lineheight' where ID='$elementID' limit 1");
-	$myphoto=addslashes($_FILES[file][name]);
-	if($myphoto!=''){
-		$add="./img/full/".$_FILES[file][name];
-		//echo $add;
-		echo'<br>';
-
-		if(move_uploaded_file ($_FILES[file][tmp_name],$add)){
-			chmod("$add",0777);
-		}
-		else{
-		echo "Permissions Failed.";
-		exit;
-		}
-		$photoerror='true';
-		if ($_FILES[file][type]=="image/jpg"){$photoerror='false';}
-		if ($_FILES[file][type]=="image/jpeg"){$photoerror='false';}
-		if ($_FILES[file][type]=="image/png"){$photoerror='false';}
-		if ($_FILES[file][type]=="image/gif"){$photoerror='false';}
-		if ($_FILES[file]['size'] > 20000000) { $photoerror='true';}
-		if ($photoerror=='true'){
-			echo "Your file must be a Photo ( Jpeg , PNG , or GIF) <br>
-			Other file types are not allowed. <br>
-			Maximum Default File size for uploading is set to 2MB for now.
-			<br>You must resize your photos and try again.  <BR>";
-			exit;
-			}
-		else{
-			$photo=addslashes($_FILES[file][name]);
-			mysql_query("update page_element set file='$photo' where ID='$elementID' limit 1") or die (mysql_error());
-		}
-	}
+	
 
 	
 	//$update=mysql_query("update page_element set floaty= '$floaty' where ID='$elementID' limit 1");

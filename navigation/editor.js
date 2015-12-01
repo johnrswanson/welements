@@ -386,7 +386,7 @@ window.sortBox = function(){	$(".pagecontents ul").sortable({
 				
 	if (ldat.boxID != ''){
 		var url="navigation/boxelements.php?box="+ldat.boxID+"";
-			$( '.pagecontent' +ldat.ID).append('<ul></ul>');
+			$( '.pagecontent' +ldat.ID).append('<ul ID="boxlist"></ul>');
 		$.getJSON(url,function(json){
 			$.each(json.boxiteminfo,function(i,bdat){
 				var colwidth= 100 / ldat.columnset;
@@ -394,7 +394,7 @@ window.sortBox = function(){	$(".pagecontents ul").sortable({
 				$( ".pagecontent"+ldat.ID+" > ul" ).append(''+
 				'<li ID="boxelement_'+bdat.ID+'" style="width:'+colwidth+'%; min-height: 300px; float: left; text-align: center; "><div class="boxitems"><img src="img/full/'+bdat.photo+'" style="height: 160px; width: auto; margin: auto; "><br>'+
 				' <h2>'+bdat.title+'</h2>'+
-				' '+bdat.mytext+'<br></div></li>'+
+				' '+bdat.mytext+'<br><a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+');"><i class="fa fa-trash" style="font-size: 15px;  text-align: center; "></i></a></div></li>'+
 				'');
 				
 			});
@@ -485,6 +485,25 @@ window.sortBox = function(){	$(".pagecontents ul").sortable({
 				if (ldat.file != ''){
 					$("#pagecontent"+ldat.ID).append('<img src="img/full/'+ldat.file+'" style="width: 100%; ">');
 				}
+				
+				if (ldat.boxID != ''){
+		var url="navigation/boxelements.php?box="+ldat.boxID+"";
+			$( '.pagecontent' +ldat.ID).append('<ul></ul>');
+		$.getJSON(url,function(json){
+			$.each(json.boxiteminfo,function(i,bdat){
+				var colwidth= 100.00 / ldat.columnset;
+			
+				$( ".pagecontent"+ldat.ID+" > ul" ).append(''+
+				'<li ID="boxelement_'+bdat.ID+'" style="width:'+colwidth+'%; min-height: 300px; float: left; text-align: inherit; "><div class="boxitems"><img src="img/full/'+bdat.photo+'" style="height: 160px; width: auto; margin: auto; "><br>'+
+				' <h2>'+bdat.title+'</h2>'+
+				' '+bdat.mytext+'<br><a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+');"><i class="fa fa-trash" style="font-size: 15px; text-align: center; "></i></a></div></li>'+
+				'');
+				
+			});
+			
+		});
+			window.sortBox();			
+	}
 
 				
 			});
@@ -550,11 +569,20 @@ window.sortBox = function(){	$(".pagecontents ul").sortable({
 			
 					
 			if(idat.file==''){
+				
+				if (idat.boxID != ''){
+				$("#formElement").append(''+
+					'Box Title<br><input type="text" name="pagecontent" placeholder="Enter Box Title" value="'+safetext+'"><br>'+
+					'Columns: <input type="text" style="width:100px" name="columnset" placeholder="Box Columns" value="'+idat.columnset+'"><br>'+
+					'');	
+					
+				}
+				else{
 				$("#formElement").append(''+
 					'<textarea style="width: 100%; max-width: 100% ; min-height: 100px; margin: auto;" name="pagecontent"'+
-					'placeholder="Enter Text Here">'+safetext+'</textarea><br>'+
-					
-					
+					'placeholder="Enter Text Here">'+safetext+'</textarea><br>');
+					}
+				$("#formElement").append(''+	
 					'<div ID="color1" style=" float: left; " >Text Color<br>'+
 						'<input type="color" name="color"   class="pick"  '+
 							'value="'+idat.color+'" onfocus="editNow('+idat.ID+');" onchange="editNow('+idat.ID+');"'+
@@ -746,7 +774,7 @@ window.deletePage = function (itemID) {
 		
 
 	window.deleteElement = function (pageID) {
-		$('#boxelement_'+pageID+'').slideUp(300);
+		$('#element_'+pageID+'').slideUp(300);
 		$.post('navigation/confirm.php', { deleteelement: pageID },
 		function () {
 				// 200, it worked; resource deleted
@@ -759,7 +787,7 @@ window.deletePage = function (itemID) {
 		
 
 	window.deleteBoxElement = function (pageID) {
-		$('#element_'+pageID+'').slideUp(300);
+		$('#boxelement_'+pageID+'').slideUp(300);
 		$.post('navigation/confirm.php', { deleteboxelement: pageID },
 		function () {
 				// 200, it worked; resource deleted
