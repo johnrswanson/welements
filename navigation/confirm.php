@@ -11,6 +11,7 @@ $newboxitem=$_POST['newboxitem'];
 $update=$_POST['update'];
 $deletepage=$_POST['deleteme'];
 $deleteelement=$_POST['deleteelement'];
+$deleteboxelement=$_POST['deleteboxelement'];
 $editme=$_POST['editme'];
 $css=$_POST['css'];
 $bgphoto=$_POST['bgphoto'];
@@ -253,6 +254,10 @@ if ($deleteelement!=''){
 	echo 'Item Deleted Successfully';
 }
 
+if ($deleteboxelement!=''){	
+	$delete = mysql_query("delete from box_element where ID='$deleteelement' limit 1");
+	echo 'BoxItem Deleted Successfully';
+}
 
 	
 if ($editme!=''){	
@@ -377,6 +382,21 @@ if ($elementaction == "updateElementOrder"){
 	echo 'Element Order Saved';
 }
 	
+		
+//reorder elements links	
+$action = mysql_real_escape_string($_POST['action']); 
+$updateBox = $_POST['boxelement'];
+if ($action == "updateBox"){
+	$boxCounter = 1;
+	foreach ($updateBox as $value) {
+		$updatenow=mysql_query("UPDATE box_element SET boxelementorder = '$boxCounter' WHERE ID = '$value'")or die(mysql_error('Element order was not updated in DB'));
+		$boxCounter = $boxCounter + 1;	
+	}
+	
+	echo 'Box Order Saved';
+}
+	
+
 
 	
 ?>

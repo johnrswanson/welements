@@ -112,8 +112,8 @@
 		});
 }
 	
-	window.sortem = function(){	$("#navcontent ul").sortable({
-			opacity: 0.6,  forcePlaceholderSize: true, delay: 0, distance: 40, forceHelperSize: true, cursor: 'move',
+	window.sortem = function(){	$("#navcontent ul").sortable({ cursorAt:{left: 0},
+			opacity: 0.6,  forcePlaceholderSize: true, delay: 20, distance: 20, forceHelperSize: true, cursor: 'move',
 			update: function() {
 				var pageorder = $(this).sortable("serialize") + '&action=updatePageOrder'; 
 				$.post("navigation/confirm.php", pageorder, function(theResponse){	
@@ -125,6 +125,21 @@
 		});
 	
 }
+
+window.sortBox = function(){	$(".pagecontents ul").sortable({
+			opacity: 0.6,  forcePlaceholderSize: true, delay: 20, distance: 20, forceHelperSize: true, cursor: 'move',
+			update: function() {
+				var boxelementorder = $(this).sortable("serialize") + '&action=updateBox'; 
+				$.post("navigation/confirm.php", boxelementorder, function(theResponse){	
+					window.helperadd();
+					$('#lightbox>#content').html('Box Order Saved');
+					$('#lightbox').fadeOut(2000);
+				});
+			}
+		});
+	
+}
+
 	
 	window.showPages= function (){
 			
@@ -371,18 +386,21 @@
 				
 	if (ldat.boxID != ''){
 		var url="navigation/boxelements.php?box="+ldat.boxID+"";
+			$( '.pagecontent' +ldat.ID).append('<ul></ul>');
 		$.getJSON(url,function(json){
 			$.each(json.boxiteminfo,function(i,bdat){
 				var colwidth= 100 / ldat.columnset;
-				$( '.pagecontent' +ldat.ID).append(''+
-				'<div style="width:'+colwidth+'%; min-height: 300px; float: left; text-align: center; "><img src="img/full/'+bdat.photo+'" style="height: 160px; width: auto; margin: auto; "><br>'+
+			
+				$( ".pagecontent"+ldat.ID+" > ul" ).append(''+
+				'<li ID="boxelement_'+bdat.ID+'" style="width:'+colwidth+'%; min-height: 300px; float: left; text-align: center; "><div class="boxitems"><img src="img/full/'+bdat.photo+'" style="height: 160px; width: auto; margin: auto; "><br>'+
 				' <h2>'+bdat.title+'</h2>'+
-				' '+bdat.mytext+'<br>'+
-				'</div>');
+				' '+bdat.mytext+'<br></div></li>'+
+				'');
 				
 			});
+			
 		});
-						
+			window.sortBox();			
 	}
 							
 				});	//each
@@ -728,7 +746,7 @@ window.deletePage = function (itemID) {
 		
 
 	window.deleteElement = function (pageID) {
-		$('#element_'+pageID+'').slideUp(300);
+		$('#boxelement_'+pageID+'').slideUp(300);
 		$.post('navigation/confirm.php', { deleteelement: pageID },
 		function () {
 				// 200, it worked; resource deleted
@@ -737,6 +755,20 @@ window.deletePage = function (itemID) {
 					});
 	}	
 	
+	
+		
+
+	window.deleteBoxElement = function (pageID) {
+		$('#element_'+pageID+'').slideUp(300);
+		$.post('navigation/confirm.php', { deleteboxelement: pageID },
+		function () {
+				// 200, it worked; resource deleted
+				}, function () {
+					// it didn't delete			
+					});
+	}	
+	
+
 
 	
 	
