@@ -392,9 +392,15 @@ window.sortBox = function(){	$(".pagecontents ul").sortable({
 				var colwidth= 100 / ldat.columnset;
 			
 				$( ".pagecontent"+ldat.ID+" > ul" ).append(''+
-				'<li ID="boxelement_'+bdat.ID+'" style="width:'+colwidth+'%; min-height: 300px; float: left; text-align: center; "><div class="boxitems"><img src="img/full/'+bdat.photo+'" style="height: 160px; width: auto; margin: auto; "><br>'+
+				'<li ID="boxelement_'+bdat.ID+'" style="width:'+colwidth+'%; min-height: 300px; float: left; text-align: inherit; "></li>');
+				
+				if(bdat.photo!=''){
+				$('#boxelement_'+bdat.ID).append(''+
+				'<img src="img/full/'+bdat.photo+'" style="height: 160px; width: auto; margin: auto; "><br>');
+				}
+				$('#boxelement_'+bdat.ID).append(''+
 				' <h2>'+bdat.title+'</h2>'+
-				' '+bdat.mytext+'<br><a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+');"><i class="fa fa-trash" style="font-size: 15px;  text-align: center; "></i></a></div></li>'+
+				' '+bdat.mytext+'<br><a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+');"><i class="fa fa-trash" style="font-size: 15px; text-align: center; "></i></a>'+
 				'');
 				
 			});
@@ -493,10 +499,16 @@ window.sortBox = function(){	$(".pagecontents ul").sortable({
 			$.each(json.boxiteminfo,function(i,bdat){
 				var colwidth= 100.00 / ldat.columnset;
 			
-				$( ".pagecontent"+ldat.ID+" > ul" ).append(''+
-				'<li ID="boxelement_'+bdat.ID+'" style="width:'+colwidth+'%; min-height: 300px; float: left; text-align: inherit; "><div class="boxitems"><img src="img/full/'+bdat.photo+'" style="height: 160px; width: auto; margin: auto; "><br>'+
+								$( ".pagecontent"+ldat.ID+" > ul" ).append(''+
+				'<li ID="boxelement_'+bdat.ID+'" style="width:'+colwidth+'%; min-height: 300px; float: left; text-align: inherit; "></li>');
+				
+				if(bdat.photo!=''){
+				$('#boxelement_'+bdat.ID).append(''+
+				'<img src="img/full/'+bdat.photo+'" style="height: 160px; width: auto; margin: auto; "><br>');
+				}
+				$('#boxelement_'+bdat.ID).append(''+
 				' <h2>'+bdat.title+'</h2>'+
-				' '+bdat.mytext+'<br><a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+');"><i class="fa fa-trash" style="font-size: 15px; text-align: center; "></i></a></div></li>'+
+				' '+bdat.mytext+'<br><a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+');"><i class="fa fa-trash" style="font-size: 15px; text-align: center; "></i></a>'+
 				'');
 				
 			});
