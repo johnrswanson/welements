@@ -72,7 +72,7 @@ ul {padding-left: 0px;}
 				}
 				
 		.editbutton a{color: #000000;}	
-		#bgtoggle{font-size: 14px;}
+		#bgtoggle{font-size: 14px;  magin-right: 5px;}
 		@media (max-width:1000px){
 			#maincontent{width: 100%;}
 			#page{width: 100%;}
@@ -89,7 +89,7 @@ ul {padding-left: 0px;}
 			}
 			.pagecontents{height: auto;} 
 				
-			.mover{display:none;}	
+			.mover{display:none; padding-right: 10px; }	
 			.ui-icon, .ui-resizeable-sw, .ui-resizeable-se, .ui-resizeable-s, .ui-resizeable-e, .ui-resizeable-w{display:none;}	
 			 				
 			 				

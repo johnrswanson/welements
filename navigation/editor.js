@@ -127,7 +127,7 @@
 }
 
 window.sortBox = function(){	$(".pagecontents ul").sortable({
-			opacity: 0.6,  forcePlaceholderSize: true, delay: 20, distance: 20, forceHelperSize: true, cursor: 'move',
+			opacity: 0.6,  forcePlaceholderSize: true, delay: 20, distance: 20, forceHelperSize: true, cursor: 'move', handle:".boxmover",
 			update: function() {
 				var boxelementorder = $(this).sortable("serialize") + '&action=updateBox'; 
 				$.post("navigation/confirm.php", boxelementorder, function(theResponse){	
@@ -180,8 +180,25 @@ window.sortBox = function(){	$(".pagecontents ul").sortable({
 					$('.elements').css('box-shadow', '0px 0px 0px 0px #fff');
 					$('.element_'+elementID).css('box-shadow', '0px 0px 1px 1px #00F');
 					$('.element_'+elementID).find('.editbutton').show(0);
+										
 					}
+					
+						
+	window.hideEdit = function(){
+					event.stopPropagation();
+					$('.editbutton').hide(0); 
+					$('.elements').css('box-shadow', '0px 0px 0px 0px #fff');
+
+}
 	
+	window.showBoxEdit = function(elementID){
+
+					$('.boxelements>.boxeditbutton').hide(0); 
+					
+					$('#boxelement_'+elementID).find('.boxeditbutton').show(0);
+								}
+
+
 
 	
 	window.loadPage= function (pageID){
@@ -254,7 +271,8 @@ window.sortBox = function(){	$(".pagecontents ul").sortable({
 				
 				$("#element_"+ldat.ID).append(''+	
 					'<div class="editbutton" ID="editbutton'+ldat.ID+'">' +
-						'<div class="mover"> ' +
+					'<div class="hideEdit" style="float:left;"><a  href="#" onclick="hideEdit();"><i class="fa fa-minus-circle" style=" width:25px; margin-right:20px"></i></div>'+
+						'<div class="mover"  style="float:left;"> ' +
 						'<i class="fa fa-arrows"></i>'+
 						'</div>'+
 						'</div><div class="pagecontents pagecontent'+ldat.ID+'" ID="pagecontent'+ldat.ID+'"></div>');
@@ -392,15 +410,24 @@ window.sortBox = function(){	$(".pagecontents ul").sortable({
 				var colwidth= 100 / ldat.columnset;
 			
 				$( ".pagecontent"+ldat.ID+" > ul" ).append(''+
-				'<li ID="boxelement_'+bdat.ID+'" style="width:'+colwidth+'%; min-height: 300px; float: left; text-align: inherit; "></li>');
+				'<li ID="boxelement_'+bdat.ID+'" class="boxelements" style="width:'+colwidth+'%; min-height: 100px; float: left; text-align: inherit; box-shadow:  1px 1px 1px 0px #333333; " onclick="showBoxEdit('+bdat.ID+')"></li>');
 				
+				$('#boxelement_'+bdat.ID).append(''+
+				
+				'<div class="boxeditbutton" style="width:inherit; position: absolute; top:auto;background: #eee; opacity: 0.8;display:none"><div class="boxmover" style="float:left;font-size: 25px; margin color:#333;"> ' +
+					'<i class="fa fa-arrows"></i>'+
+				'</div>'+
+
+				'<a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+');"><i class="fa fa-trash" style="font-size: 25px; margin-right:20px; float:right;"></i></a></div>'+
+				
+				'');
 				if(bdat.photo!=''){
 				$('#boxelement_'+bdat.ID).append(''+
-				'<img src="img/full/'+bdat.photo+'" style="height: 160px; width: auto; margin: auto; "><br>');
+				'<img src="img/full/'+bdat.photo+'" style=" width: 100%; margin: auto;"><br>');
 				}
 				$('#boxelement_'+bdat.ID).append(''+
-				' <h2>'+bdat.title+'</h2>'+
-				' '+bdat.mytext+'<br><a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+');"><i class="fa fa-trash" style="font-size: 15px; text-align: center; "></i></a>'+
+				' <h4>'+bdat.title+'</h4>'+
+				'<br> '+bdat.mytext+''+
 				'');
 				
 			});
@@ -421,7 +448,15 @@ window.sortBox = function(){	$(".pagecontents ul").sortable({
 			$('.elements>.editbutton').hide(0); 
 			$('.elements').css('box-shadow', '0px 0px 0px 0px #fff');
 			});
-
+			
+		/*
+		$('.hideEdit').click(function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			$('.elements>.editbutton').hide(0); 
+			$('.elements').css('box-shadow', '0px 0px 0px 0px #fff');
+			});
+*/
 			
 			$('#page>.elements').click(function(){
 				$('.elements>.editbutton').hide(0); 
@@ -500,15 +535,24 @@ window.sortBox = function(){	$(".pagecontents ul").sortable({
 				var colwidth= 100.00 / ldat.columnset;
 			
 								$( ".pagecontent"+ldat.ID+" > ul" ).append(''+
-				'<li ID="boxelement_'+bdat.ID+'" style="width:'+colwidth+'%; min-height: 300px; float: left; text-align: inherit; "></li>');
+				'<li ID="boxelement_'+bdat.ID+'" style="width:'+colwidth+'%; min-height: 300px; float: left; text-align: inherit;" onclick="showBoxEdit('+bdat.ID+')"> </li>');
 				
+				$('#boxelement_'+bdat.ID).append(''+
+				
+				'<div class="boxeditbutton" style=" display:none; width:inherit; position: absolute; top:auto;background: #eee; opacity: 0.8;"><div class="boxmover" style="float:left;font-size: 25px; margin color:#333;"> ' +
+					'<i class="fa fa-arrows"></i>'+
+				'</div>'+
+
+				'<a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+');"><i class="fa fa-trash" style="font-size: 25px; margin-right:20px; float:right;"></i></a></div>'+
+				
+				'');
 				if(bdat.photo!=''){
 				$('#boxelement_'+bdat.ID).append(''+
-				'<img src="img/full/'+bdat.photo+'" style="height: 160px; width: auto; margin: auto; "><br>');
+				'<img src="img/full/'+bdat.photo+'" style=" width: 100%; margin: auto; "><br>');
 				}
 				$('#boxelement_'+bdat.ID).append(''+
-				' <h2>'+bdat.title+'</h2>'+
-				' '+bdat.mytext+'<br><a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+');"><i class="fa fa-trash" style="font-size: 15px; text-align: center; "></i></a>'+
+				' <h4>'+bdat.title+'</h4>'+
+				'<br> '+bdat.mytext+''+
 				'');
 				
 			});
@@ -1188,7 +1232,7 @@ $(document).ready(function(){
 	
 		'');
 
-	window.showPages();
+//	window.showPages();
 	window.loadPage('home');
 	window.loadCss();
 		
