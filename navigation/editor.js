@@ -217,9 +217,11 @@ window.logo= function(){
 				'#header{background:'+bdat.bannercolor+'}'+
 				
 				'</style>');
+
 				$("#logo").html('');
 				 mybanner=bdat.bannerphoto;
 				if(bdat.bannerphoto!=''){
+
 					$("#logo").html('<a href="index.php"><img src="img/full/'+mybanner+'" style="width:100%"></a>');
 					
 					
