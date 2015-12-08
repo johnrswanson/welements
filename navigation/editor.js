@@ -210,16 +210,17 @@ $("#navcontent").html('<ul></ul>');
 window.logo= function(){
 	
 	var url="navigation/customstyle.php";
-			
+			var mybanner='';
 		$.getJSON(url,function(json){
 			$.each(json.cssinfo,function(i,bdat){
 				$('#page').append('<style>'+
 				'#header{background:'+bdat.bannercolor+'}'+
 				
 				'</style>');
-				
+				$("#logo").html('');
+				 mybanner=bdat.bannerphoto;
 				if(bdat.bannerphoto!=''){
-					$("#logo").html('<a href="index.php"><img src="img/full/'+bdat.bannerphoto+'" style="width:100%"></a>');
+					$("#logo").html('<a href="index.php"><img src="img/full/'+mybanner+'" style="width:100%"></a>');
 					
 					
 					
@@ -230,8 +231,7 @@ window.logo= function(){
 }
 	
 	window.loadPage= function (pageID){
-				window.logo();
-	$(".links").click();
+		
 
 		
 			
@@ -240,6 +240,10 @@ window.logo= function(){
 			
 			}
 			else{
+					window.showPages();
+
+				window.logo();
+	//$(".links").click();
 				window.closehelper();
 		$("#page").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
 		var login='y';
@@ -302,7 +306,7 @@ window.logo= function(){
 				
 				$("#element_"+ldat.ID).append(''+	
 					'<div class="editbutton" ID="editbutton'+ldat.ID+'">' +
-					'<div class="hideEdit" style="float:left;"><a  href="#" onclick="hideEdit();"><i class="fa fa-minus-circle" style=" width:25px; margin-right:20px"></i></div>'+
+					'<div class="hideEdit" style="float:left;"><a  href="#" onclick="hideEdit(); return false;"><i class="fa fa-minus-circle" style=" width:25px; margin-right:20px"></i></div>'+
 						'<div class="mover"  style="float:left;"> ' +
 						'<i class="fa fa-arrows"></i>'+
 						'</div>'+
@@ -313,14 +317,14 @@ window.logo= function(){
 				
 					$("#editbutton"+ldat.ID).append(''+
 						'<a class="editelement nodrag" ID="edit'+ldat.ID+' edit" href="#" '+
-							'onclick="editElement( '+ ldat.ID + ');">'+
+							'onclick="editElement( '+ ldat.ID + '); return false;">'+
 							'<i class="fa fa-pencil"></i></a>'+
 						'');
 			if (ldat.file == ''){
 					if (ldat.boxID != ''){
 							$("#editbutton"+ldat.ID).append(''+
 							'<a class="addboxitem nodrag" href="#" '+
-							'onclick="boxItemForm( '+ ldat.ID + ');">'+
+							'onclick="boxItemForm( '+ ldat.ID + ');return false;">'+
 							'<i class="fa fa-plus"></i>Add</a>'+
 							'');
 							
@@ -329,7 +333,7 @@ window.logo= function(){
 					
 					$("#editbutton"+ldat.ID).append(''+
 						'<a class="deleteelement nodrag" ID="dlist'+ldat.ID+'" href="#" '+
-							'onclick="deleteElement(' + ldat.ID + ');">'+
+							'onclick="deleteElement(' + ldat.ID + '); return false;">'+
 							'<i class="fa fa-trash"></i></a><br><div class="newitem"></div>'+
 						'');
 						
@@ -441,7 +445,7 @@ window.logo= function(){
 				var colwidth= 100 / ldat.columnset;
 			
 				$( ".pagecontent"+ldat.ID+" > ul" ).append(''+
-				'<li ID="boxelement_'+bdat.ID+'" class="boxelements" style="width:'+colwidth+'%; min-height: 100px; float: left; text-align: inherit; box-shadow:  1px 1px 1px 0px #333333; " onclick="showBoxEdit('+bdat.ID+')"></li>');
+				'<li ID="boxelement_'+bdat.ID+'" class="boxelements" style="width:'+colwidth+'%; min-height: 100px; float: left; text-align: inherit; box-shadow:  1px 1px 1px 0px #333333; " onclick="showBoxEdit('+bdat.ID+'); return false"></li>');
 				
 				$('#boxelement_'+bdat.ID).append(''+
 				
@@ -449,7 +453,7 @@ window.logo= function(){
 					'<i class="fa fa-arrows"></i>'+
 				'</div>'+
 
-				'<a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+');"><i class="fa fa-trash" style="font-size: 25px; margin-right:20px; float:right;"></i></a></div>'+
+				'<a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+'); return false;"><i class="fa fa-trash" style="font-size: 25px; margin-right:20px; float:right;"></i></a></div>'+
 				
 				'');
 				if(bdat.photo!=''){
@@ -567,7 +571,7 @@ window.logo= function(){
 				var colwidth= 100.00 / ldat.columnset;
 			
 								$( ".pagecontent"+ldat.ID+" > ul" ).append(''+
-				'<li ID="boxelement_'+bdat.ID+'" style="width:'+colwidth+'%; min-height: 300px; float: left; text-align: inherit;" onclick="showBoxEdit('+bdat.ID+')"> </li>');
+				'<li ID="boxelement_'+bdat.ID+'" style="width:'+colwidth+'%; min-height: 300px; float: left; text-align: inherit;" onclick="showBoxEdit('+bdat.ID+'); return false;"> </li>');
 				
 				$('#boxelement_'+bdat.ID).append(''+
 				
@@ -575,7 +579,7 @@ window.logo= function(){
 					'<i class="fa fa-arrows"></i>'+
 				'</div>'+
 
-				'<a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+');"><i class="fa fa-trash" style="font-size: 25px; margin-right:20px; float:right;"></i></a></div>'+
+				'<a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+'); return false; "><i class="fa fa-trash" style="font-size: 25px; margin-right:20px; float:right;"></i></a></div>'+
 				
 				'');
 				if(bdat.photo!=''){
@@ -603,12 +607,12 @@ window.logo= function(){
 	window.usecolor = function(elementID){
 		$("#overridebg").html('');
 		$("#clearall").html('<input type="button" name="clearbg"'+
-							 'value="transparent" onclick="clearall('+elementID+');">');
+							 'value="transparent" onclick="clearall('+elementID+');return false;">');
 							 
 		$("#color2").html(''+
 				'-  Background<br>'+
 				'<input type="color" name="background"  ID="pickbg"'+
-				'value="#ffffff" onchange="editNow('+elementID+');" onfocus="editNow('+elementID+');" '+
+				'value="#ffffff" onchange="editNow('+elementID+');" onfocus="editNow('+elementID+'); return false" '+
 				'style="height: 30px; width: 100px; padding: 0px; margin-right: 3px;">'+
 				'');
 				
