@@ -2,13 +2,13 @@ ul {padding-left: 0px;}
 #boxlist{padding-left;0px; !important}
 .secretmenu { font-family: helvetica; color: #333333; }
 .secretmenu a{color: #333333;}
-#nav{clear: both; width: 100%; margin-top: -30px; z-index: 2; position:relative; }
-#navcontent{float:left; width: 90%; position: relative; z-index: 2; }
+#nav{clear: both; width: 100%; z-index: 2; position:relative; }
+#navcontent{clear:both; width: 100%; position: relative; z-index: 2; }
 #bg{height: 100%; width: 100%; overflow: hidden; position: fixed; top: 0px; left: 0px; }
-#navactions{float:right;}
+#navactions{position:fixed; top:5px; right:5px;}
 .logo{float:none; text-align: center; width: 100%; position: relative; z-index: 3;  }
-.link{float:left; font-size: 14px; padding-left: 10px;   }
-#page{margin: auto; width: 100%; min-width: 100%;  width: 1000px; position: relative; opacity: 0.99; }
+.link{float:left; font-size: 14px; padding-left: 0px;   }
+#page{margin: auto; width: 100%; min-width: 100%;  width: 1000px; position: relative; opacity: 0.99;  }
 .front{z-index: 10000; !important}
 #listactions {font-size: 40px; }
 #listactions .fa{margin-right: 10px;}
@@ -29,7 +29,7 @@ ul {padding-left: 0px;}
 .close{margin: 0px; margin-left: -5px;}
 
 
-.boxtitle{margin-top: -18px; margin-left: 20px; margin-bottom: 10px;}
+.boxtitle{margin-top:0px; margin-left: 20px; margin-bottom: 10px;}
 #lightbox{
 	position:fixed;
 	 top:100px; 
@@ -73,6 +73,8 @@ ul {padding-left: 0px;}
 				
 		.editbutton a{color: #000000;}	
 		#bgtoggle{font-size: 14px;  magin-right: 5px;}
+			#bannertoggle{font-size: 14px;  magin-right: 5px;}
+
 		@media (max-width:1000px){
 			#maincontent{width: 100%;}
 			#page{width: 100%;}

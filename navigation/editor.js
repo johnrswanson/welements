@@ -31,40 +31,40 @@
 		var url="admin/userdata.php";
 		$.getJSON(url,function(json){
 			$.each(json.userinfo,function(i,dat){
-				$("#admincontent").html('<a href="#" class="adminsecret" onclick="secret();"><i class="fa fa-star" style=" font-size: 40px; "></i></a>'+
+				$("#admincontent").html('<a href="#" class="adminsecret" onclick="secret();return false;"><i class="fa fa-star" style=" font-size: 40px; "></i></a>'+
 				'<div class="secretmenu"> Hello '+dat.shortname + '<br>'+
 				
-				'<a href="#" class="pop"  onclick="addNewPage()">'+
+				'<a href="#" class="pop"  onclick="addNewPage(); return false;">'+
 					'<i class="fa  fa-file-text-o"></i> New Page</a><br>'+
 				
-				'<div ID="addText"><a href="#" class="pop"   onclick="addText('+pageID+')">'+
+				'<div ID="addText"><a href="#" class="pop"   onclick="addText('+pageID+'); return false;">'+
 					'<i class="fa fa-pencil"></i> Add Text</a></div>'+
 					
-					'<div ID="addPhoto"><a href="#" class="pop"  ID="addPhoto"onclick="addPhoto('+pageID+')">'+
+					'<div ID="addPhoto"><a href="#" class="pop"  ID="addPhoto"onclick="addPhoto('+pageID+'); return false;">'+
 					'<i class="fa fa-camera"></i> Add Photo</a></div>'+
 					
-					'<div ID="addBox"><a href="#" class="pop"  ID="addPhoto"onclick="addBox('+pageID+')">'+
+					'<div ID="addBox"><a href="#" class="pop"  ID="addPhoto"onclick="addBox('+pageID+'); return false;">'+
 					'<i class="fa fa-th"></i> Add Box</a></div>'+
 					
 
 				
-				'<div ID = "addBgPhoto"><a href="#" class="pop"  onclick="addBgPhoto('+pageID+')">'+
+				'<div ID = "addBgPhoto"><a href="#" class="pop"  onclick="addBgPhoto('+pageID+'); return false;">'+
 					'<i class="fa fa-image"></i> Page Background</a><br></div>'+
 					
 					
-				'<div ID = "addLogo"><a href="#" class="pop"  onclick="addLogo('+pageID+')">'+
-					'<i class="fa fa-star"></i> Site Banner</a><br></div>'+
+				'<div ID = "addLogo"><a href="#" class="pop"  onclick="addLogo('+pageID+'); return false;">'+
+					'<i class="fa fa-list-alt"></i> Site Banner</a><br></div>'+
 					
-				'<div ID = "addLinkColor"><a href="#" class="pop"  onclick="addLinkColor('+pageID+')">'+
+				'<div ID = "addLinkColor"><a href="#" class="pop"  onclick="addLinkColor('+pageID+'); return false;">'+
 					'<i class="fa fa-star"></i> Link Colors</a><br></div>'+
 					
-				'<a href="#" class="pop"  onclick="editCss('+pageID+')">'+
+				'<a href="#" class="pop"  onclick="editCss('+pageID+'); return false;">'+
 					'<i class="fa fa-paperclip"></i> CSS Editor</a><br>'+
 				
 				
-				'<a href="#" class="deleteOn" onclick="showDeleteButtons()">'+
+				'<a href="#" class="deleteOn" onclick="showDeleteButtons(); return false;">'+
 					'<i class="fa fa-remove"></i> Delete Pages</a>'+
-				'<a href="#" class="deleteOff" onclick="hideDeleteButtons()">'+
+				'<a href="#" class="deleteOff" onclick="hideDeleteButtons(); return false;">'+
 					'<i class="fa fa-remove"></i> Done</a>'+
 					
 				'<form ID="livesaver"  method="POST" style="height: 0px; overflow:hidden; "> '+	
@@ -95,10 +95,10 @@
 
 
 	window.loadHomePage= function (){
-		$("#navcontent").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
+		//$("#navcontent").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
 		var url="navigation/data.php";
 		var x='1';	
-		$("#navcontent").html('<ul></ul>');
+		//$("#navcontent").html('<ul></ul>');
 		$.getJSON(url,function(json){
 			$.each(json.navinfo,function(i,ldat){
 				if( x=='1'){ 
@@ -112,22 +112,12 @@
 		});
 }
 	
-	window.sortem = function(){	$("#navcontent ul").sortable({ cursorAt:{left: 0},
-			opacity: 0.6,  forcePlaceholderSize: true, delay: 20, distance: 20, forceHelperSize: true, cursor: 'move',
-			update: function() {
-				var pageorder = $(this).sortable("serialize") + '&action=updatePageOrder'; 
-				$.post("navigation/confirm.php", pageorder, function(theResponse){	
-					window.helperadd();
-					$('#lightbox>#content').html('Page Order Saved');
-					$('#lightbox').fadeOut(2000);
-				});
-			}
-		});
+	window.sortem = function(){	
 	
 }
 
 window.sortBox = function(){	$(".pagecontents ul").sortable({
-			opacity: 0.6,  forcePlaceholderSize: true, delay: 20, distance: 20, forceHelperSize: true, cursor: 'move', handle:".boxmover",
+			opacity: 0.6,  forcePlaceholderSize: false, delay: 20, distance: 20, forceHelperSize: true, cursor: 'move', handle:".boxmover",
 			update: function() {
 				var boxelementorder = $(this).sortable("serialize") + '&action=updateBox'; 
 				$.post("navigation/confirm.php", boxelementorder, function(theResponse){	
@@ -143,27 +133,45 @@ window.sortBox = function(){	$(".pagecontents ul").sortable({
 	
 	window.showPages= function (){
 			
-		$("#navcontent").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
+
+		
 		var x = 0;
 		var home='';
 		var url="navigation/data.php";
-		$("#navcontent").html('<ul></ul>');
+		
+$("#navcontent").html('');
+$("#navcontent").html('<ul></ul>');
 		$.getJSON(url,function(json){
 			$.each(json.navinfo,function(i,ldat){
-				
+			x=x+1;
 				$("#navcontent>ul").append(''+
-				'<li class="plist link" ID="pageArray_'+ldat.ID+'"> '+
-				'<a class="deletebutton dlist" ID="dlist'+ldat.ID+'" href="#" onclick="deletePage(' + ldat.ID + ');">'+
+				'<li class="plist link" ID="pageArray_'+ldat.ID+'" > '+
+				'<a class="deletebutton dlist" ID="dlist'+ldat.ID+'" href="#" onclick="deletePage(' + ldat.ID + '); return false;">'+
 				'<i class="fa fa-remove"></i></a>'+
 				'<a href="#" onclick="loadPage('+ldat.ID+')">'+ldat.title+'</a> ' + 
 				'</li>');	
+				
 			
 			
 			});	//each
-		});//get
-	
+			var linkwidth= 100/ x;
 			
-	window.sortem();	
+			$("#page").append(''+
+			'<style>#navcontent>ul>li{width:'+linkwidth+'%; float:left; text-align:center;}</style>'+
+			'');
+		});//get
+		
+	$("#navcontent ul").sortable({ cursorAt:{left: 0},
+			opacity: 0.6,  forcePlaceholderSize: true, delay: 20, distance: 20, forceHelperSize: true, cursor: 'move',
+			update: function() {
+				var pageorder = $(this).sortable("serialize") + '&action=updatePageOrder'; 
+				$.post("navigation/confirm.php", pageorder, function(theResponse){	
+					window.helperadd();
+					$('#lightbox>#content').html('Page Order Saved');
+					$('#lightbox').fadeOut(2000);
+				});
+			}
+		});
 
 			
 			
@@ -199,13 +207,37 @@ window.sortBox = function(){	$(".pagecontents ul").sortable({
 								}
 
 
-
+window.logo= function(){
+	
+	var url="navigation/customstyle.php";
+			
+		$.getJSON(url,function(json){
+			$.each(json.cssinfo,function(i,bdat){
+				$('#page').append('<style>'+
+				'#header{background:'+bdat.bannercolor+'}'+
+				
+				'</style>');
+				
+				if(bdat.bannerphoto!=''){
+					$("#logo").html('<a href="index.php"><img src="img/full/'+bdat.bannerphoto+'" style="width:100%"></a>');
+					
+					
+					
+				}
+			});
+		});
+		
+}
 	
 	window.loadPage= function (pageID){
-				$('.links').click();	
+				window.logo();
+	$(".links").click();
+
+		
 			
 		if (pageID=='home'){
-			window.loadHomePage();	
+					window.loadHomePage();	
+			
 			}
 			else{
 				window.closehelper();
@@ -215,7 +247,6 @@ window.sortBox = function(){	$(".pagecontents ul").sortable({
 	
 		$("#page").html('<div ID="bg"></div> ');
 		var url="navigation/data.php?page="+pageID+"";
-		$("#navcontent").html('<ul></ul>');
 		$.getJSON(url,function(json){
 			$.each(json.navinfo,function(i,ldat){
 			if (ldat.photo !='' ){
@@ -423,7 +454,7 @@ window.sortBox = function(){	$(".pagecontents ul").sortable({
 				'');
 				if(bdat.photo!=''){
 				$('#boxelement_'+bdat.ID).append(''+
-				'<img src="img/full/'+bdat.photo+'" style=" width: 100%; margin: auto;"><br>');
+				'<img src="img/full/'+bdat.photo+'" style=" width: 99%; margin: auto;"><br>');
 				}
 				$('#boxelement_'+bdat.ID).append(''+
 				' <h4>'+bdat.title+'</h4>'+
@@ -469,7 +500,8 @@ window.sortBox = function(){	$(".pagecontents ul").sortable({
 			});
 					
 		}			
-					
+
+
 	}//loadpage
 	
 	
@@ -880,17 +912,17 @@ window.deletePage = function (itemID) {
 		
 		
 	window.resetMenu= function(pageID){
-		$("#addText").html('<a href="#" class="pop"   onclick="addText('+pageID+')">'+
+		$("#addText").html('<a href="#" class="pop"   onclick="addText('+pageID+'); return false;">'+
 				'<i class="fa fa-pencil"></i> Add Text</a>').css("background", "none");
-		$("#addBox").html('<a href="#" class="pop"   onclick="addBox('+pageID+')">'+
+		$("#addBox").html('<a href="#" class="pop"   onclick="addBox('+pageID+'); return false;">'+
 				'<i class="fa fa-th"></i> Add Box</a>').css("background", "none");
-		$("#addPhoto").html('<a href="#" class="pop"   onclick="addPhoto('+pageID+')">'+
+		$("#addPhoto").html('<a href="#" class="pop"   onclick="addPhoto('+pageID+'); return false;">'+
 				'<i class="fa fa-camera"></i> Add Photo</a>').css("background", "none");
-		$("#addBgPhoto").html('<a href="#" class="pop"   onclick="addBgPhoto('+pageID+')">'+
+		$("#addBgPhoto").html('<a href="#" class="pop"   onclick="addBgPhoto('+pageID+'); return false;">'+
 				'<i class="fa fa-image"></i> Page Background</a>').css("background", "none");
-		$("#addLogo").html('<a href="#" class="pop"   onclick="addLogo('+pageID+')">'+
-				'<i class="fa fa-star"></i> Site Banner</a>').css("background", "none");
-		$("#addLinkColor").html('<a href="#" class="pop"   onclick="addLinkColor('+pageID+')">'+
+		$("#addLogo").html('<a href="#" class="pop"   onclick="addLogo('+pageID+'); return false;">'+
+				'<i class="fa fa-list-alt"></i> Site Banner</a>').css("background", "none");
+		$("#addLinkColor").html('<a href="#" class="pop"   onclick="addLinkColor('+pageID+'); return false;">'+
 				'<i class="fa fa-star"></i>Link Colors</a>').css("background", "none");
 
 
@@ -1032,6 +1064,8 @@ window.deletePage = function (itemID) {
 						
 		}
 
+
+
 window.changeBgNow= function(pageID){
 	//var elementdata= 
 		var elementdata = new FormData($("#addform")[0]);
@@ -1112,23 +1146,49 @@ window.changeBgNow= function(pageID){
 }
 		
 		
+			window.addBannerColor= function(pageID){	
 		
+		$("#bannertoggle").html('<a href="#" onclick="addLogo('+pageID+')">Use Photo</a>');
+		
+		$("#addLogo").html('<i class="fa fa-list-alt"></i> Site Banner<br>'+
+		'<form ID="addform">'+
+		'<input type="hidden" name="bannercolor" value="new">'+
+		'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
+		'<input type="color" name="color" ID="bannercolorpick" >'+
+		'<input type="button" name="submit" value="Add" onclick="addLogoNow('+ pageID +');">'+
+		'</form><div ID="bannertoggle"><a href="#" onclick="addLogo('+ pageID +')">Use Photo</a></div>');
+		
+		  $("#bannercolorpick").spectrum({
+		
+			allowEmpty:true,
+		preferredFormat: "hex",
+		showInput:true
+    });
+
+		
+	}
+
 	
 	
 	
 		window.addLogo= function(pageID){	
-		window.resetMenu(''+pageID+'');	
+	window.resetMenu(''+pageID+'');
+		
 		$("#addLogo").css("background", "#dddddd");
-		$("#addLogo").html('<i class="fa fa-image"></i> Site Banner<br>'+
+		$("#addLogo").html('<i class="fa fa-list-alt"></i> Site Banner<br>'+
 		'<form ID="addform">'+
-		'<input type="hidden" name="logo" value="new">'+
+		'<input type="hidden" name="bannerphoto" value="new">'+
 		'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
-	
+		'<input type="file" name="file"  accept="image/*;capture=camera"> '+
 		'<input type="button" name="submit" value="Add" onclick="addLogoNow('+ pageID +');">'+
-		'</form>');	
+		'</form><div ID="bannertoggle"><a href="#" onclick="addBannerColor('+ pageID +'); return false;">Use Solid Color</a></div>');	
 		
 						
 	}
+
+
+
+
 	
 	window.addLinkColorNow= function(pageID){
 		
@@ -1218,21 +1278,24 @@ window.changeBgNow= function(pageID){
 
 	
 $(document).ready(function(){
-
-
-		
-	$("#nav").html(''+
-	'<div id="navcontent"></div>'+
+	$("#header").html('<div ID="logo"></div>'+
+		'<div id="nav">'+
+		'<div id="navcontent"></div>'+
 	'<div id="navactions">'+
-		'<a href="#" class="links" onclick="showPages();"><i class="fa fa-bars"></i></a> '+
+	'<a href="#" class="links" onclick="showPages();"><i class="fa fa-bars"></i></a> '+
 		
 	'</div>'+
 	'<div id="navadd"></div>'+	
 	'<div id="usercss"></div>'+
+		'</div><div style="clear:both; height:10px; width:100% "></div>');
 	
-		'');
+		
+		
+		
+		
 
 //	window.showPages();
+	
 	window.loadPage('home');
 	window.loadCss();
 		

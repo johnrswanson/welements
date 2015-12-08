@@ -4,8 +4,8 @@ body{margin: 0px;}
 a {text-decoration: none; }
 #header{
 	text-align:center; 
-	background:#eeeeee; 
-	height:50px; 
+	
+	height:auto; 
 	margin:auto;
 	margin-top: 0px; 
 	padding-top: 10px; 
@@ -16,4 +16,5 @@ a {text-decoration: none; }
 	z-index: 2;
 	}
 	
+	#page{clear;both;}
 li{list-style-type: none;}

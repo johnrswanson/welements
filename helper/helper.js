@@ -2,19 +2,20 @@
 	
 window.helperadd = function() {
 		$('#content').html('');
-		var myoffset = $( this ).offset();
+		//var myoffset = $( this ).offset();
 		$('.secretmenu').slideUp(500);	
 		$('#lightbox').removeAttr('style');
-		$('#lightbox').offset( myoffset);        
+        var y=500;
+        document.getElementById("lightbox").style.top=y+"px";
+		//$('#lightbox').offset( myoffset);        
         $('#lightbox').show();
 		$('#lightbox').animate({left: "15%"}, 300, "swing" );
+		
+		return false;
 	
 	}
 	
 	window.helperdelete = function() {
-	
-	
-	
 	
 		var myoffset = $( this ).offset();
 		$('#content').html('Press X to delete any item');		
