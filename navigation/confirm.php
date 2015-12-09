@@ -40,10 +40,14 @@ if($linkcolors == 'new'){
 		$color=$_POST['linkpick'];
 		$hovercolor=$_POST['hoverpick'];
 		$selectedcolor=$_POST['selectedcolor'];
+		$linksize=$_POST['linksize'];
+		$linkfont=$_POST['linkfont'];
 		$update=mysql_query("update stylesheet set linkcolor='$color' where ID='1' ");		
 		$update=mysql_query("update stylesheet set hovercolor= '$hovercolor' where ID='1' ");		
 		$update=mysql_query("update stylesheet set selectedcolor= '$selectedcolor' where ID='1' ");		
-	
+		$update=mysql_query("update stylesheet set linksize= '$linksize' where ID='1' ");	
+		$update=mysql_query("update stylesheet set linkfont= '$linkfont' where ID='1' ");	
+				
 			
 		}
 

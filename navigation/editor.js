@@ -56,7 +56,7 @@
 					'<i class="fa fa-list-alt"></i> Site Banner</a><br></div>'+
 					
 				'<div ID = "addLinkColor"><a href="#" class="pop"  onclick="addLinkColor('+pageID+'); return false;">'+
-					'<i class="fa fa-star"></i> Link Colors</a><br></div>'+
+					'<i class="fa fa-star"></i> Link Style</a><br></div>'+
 					
 				'<a href="#" class="pop"  onclick="editCss('+pageID+'); return false;">'+
 					'<i class="fa fa-paperclip"></i> CSS Editor</a><br>'+
@@ -214,7 +214,7 @@ window.logo= function(){
 		$.getJSON(url,function(json){
 			$.each(json.cssinfo,function(i,bdat){
 				$('#page').append('<style>'+
-				'#header{background:'+bdat.bannercolor+';} .links {color:'+bdat.linkcolor+';} .links:hover{color:'+bdat.hovercolor+'}'+
+				'#header{background:'+bdat.bannercolor+';} .link a{color:'+bdat.linkcolor+'; font-size: '+bdat.linksize+'; font-family: '+bdat.linkfont+';} .link a:hover{color:'+bdat.hovercolor+'}'+
 				
 				'</style>');
 				$("#logo").html('');
@@ -1160,7 +1160,7 @@ window.changeBgNow= function(pageID){
 		'<input type="hidden" name="bannercolor" value="new">'+
 		'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
 		'<input type="color" name="color" ID="bannercolorpick" >'+
-		'<input type="button" name="submit" value="Add" onclick="addLogoNow('+ pageID +');">'+
+		'<input type="button" name="submit" value="Save" onclick="addLogoNow('+ pageID +');">'+
 		'</form><div ID="bannertoggle"><a href="#" onclick="addLogo('+ pageID +')">Use Photo</a></div>');
 		
 		  $("#bannercolorpick").spectrum({
@@ -1185,7 +1185,7 @@ window.changeBgNow= function(pageID){
 		'<input type="hidden" name="bannerphoto" value="new">'+
 		'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
 		'<input type="file" name="file"  accept="image/*;capture=camera"> '+
-		'<input type="button" name="submit" value="Add" onclick="addLogoNow('+ pageID +');">'+
+		'<input type="button" name="submit" value="Save" onclick="addLogoNow('+ pageID +');">'+
 		'</form><div ID="bannertoggle"><a href="#" onclick="addBannerColor('+ pageID +'); return false;">Use Solid Color</a></div>');	
 		
 						
@@ -1220,15 +1220,17 @@ window.changeBgNow= function(pageID){
 	window.addLinkColor= function(pageID){	
 	window.resetMenu(''+pageID+'');		
 		$("#addLinkColor").css("background", "#dddddd");
-		$("#addLinkColor").html('<i class="fa fa-image"></i>Link Colors<br>'+
+		$("#addLinkColor").html('<i class="fa fa-star"></i>Link Style<br>'+
 		'<form ID="addform">'+
 		'<input type="hidden" name="linkcolors" value="new">'+
 		'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
 		
 		
-			'Links: <input name="linkpick" class="linkpick"><br>' +
-		'Hover: <input name="hoverpick" class="hoverpick" >' +
-'<input type="button" name="submit" value="Add" onclick="addLinkColorNow('+ pageID +'); return false; ">'+
+			'Color: <input name="linkpick" class="linkpick"><br>' +
+		'Hover: <input name="hoverpick" class="hoverpick" ><br>' +
+		'Size : <input type="text" name="linksize" ID="linksize" value="18px" style="width: 50px"><br>'+
+		'Font : <input type="text" name="linkfont" ID="linkfont" value="helvetica">'+
+'<input type="button" name="submit" value="Save" onclick="addLinkColorNow('+ pageID +'); return false; ">'+
 		'</form>');					
 		
 	$(".linkpick").spectrum({
