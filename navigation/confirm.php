@@ -23,7 +23,7 @@ $pagedetails=$_POST['pagedetails'];
 
 if ($newpage=='add'){
 	echo 'adding... ';
-	mysql_query("insert into pages (ID, title, urltext) values('', '$pagetitle', '$urltext')")or die(mysql_error());
+	mysql_query("insert into pages (ID, title, urltext, published) values('', '$pagetitle', '$urltext', 'y')")or die(mysql_error());
 	echo ' New Page Added';
 }
 	

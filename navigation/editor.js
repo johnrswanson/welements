@@ -36,6 +36,9 @@
 				
 				'<a href="#" class="pop"  onclick="addNewPage(); return false;">'+
 					'<i class="fa  fa-file-text-o"></i> New Page</a><br>'+
+					
+					'<div id = "drafts"><a href="#" class="pop"   onclick="showDrafts(); return false;">'+
+					'<i class="fa fa-lock"></i> Drafts</a></div>'+
 				
 				'<div ID="addText"><a href="#" class="pop"   onclick="addText('+pageID+'); return false;">'+
 					'<i class="fa fa-pencil"></i> Add Text</a></div>'+
@@ -51,7 +54,7 @@
 				'<div ID = "addBgPhoto"><a href="#" class="pop"  onclick="addBgPhoto('+pageID+'); return false;">'+
 					'<i class="fa fa-image"></i> Page Background</a><br></div>'+
 					
-					'<div ID = "addBgPhoto"><a href="#" class="pop"  onclick="editpageDetails('+pageID+'); return false;">'+
+					'<div ID = "pagedetails"><a href="#" class="pop"  onclick="editpageDetails('+pageID+'); return false;">'+
 					'<i class="fa fa-code"></i> Page Details</a><br></div>'+
 					
 				'<div ID = "addLogo"><a href="#" class="pop"  onclick="addLogo('+pageID+'); return false;">'+
@@ -1026,12 +1029,29 @@ window.deletePage = function (itemID) {
 	}
 		
 		
+		
+		window.showDrafts= function(pageID){	
+	window.resetMenu(''+pageID+'');
+		$("#drafts").css("background", "#dddddd");
+		$("#drafts").html('<i class="fa fa-lock"></i> Drafts<br>'+
+		'');
+		var url="navigation/drafts.php";
+		$.getJSON(url,function(json){
+			$.each(json.info,function(i,idat){
+				$('#drafts').append('<br><a href="#" onclick="loadPage('+idat.ID+'); return false;">'+idat.title+'</a>');
+				});
+				
+				});
+		
+		
+		}
+		
 	window.addText= function(pageID){
 			
 					
 		window.resetMenu(''+pageID+'');
 
-			
+				
 		$("#addText").css("background", "#dddddd");
 		$("#addText").html('<i class="fa fa-pencil"></i> Add Text<br>'+
 		'<form  ID="addform">'+
