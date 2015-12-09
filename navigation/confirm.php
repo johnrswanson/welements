@@ -36,8 +36,9 @@ if ($css=='edit'){
 
 
 if($linkcolors == 'new'){
-		$color=$_POST['color'];
-		$hovercolor=$_POST['hovercolor'];
+	echo'updating link colors';
+		$color=$_POST['linkpick'];
+		$hovercolor=$_POST['hoverpick'];
 		$selectedcolor=$_POST['selectedcolor'];
 		$update=mysql_query("update stylesheet set linkcolor='$color' where ID='1' ");		
 		$update=mysql_query("update stylesheet set hovercolor= '$hovercolor' where ID='1' ");		

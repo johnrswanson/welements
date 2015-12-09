@@ -29,7 +29,7 @@ ul {padding-left: 0px;}
 .close{margin: 0px; margin-left: -5px;}
 
 
-.boxtitle{margin-top:0px; margin-left: 20px; margin-bottom: 10px;}
+.boxtitle{margin-top:-15px; margin-left: 20px; margin-bottom: 10px;}
 #lightbox{
 	position:fixed;
 	 top:100px; 

@@ -214,15 +214,14 @@ window.logo= function(){
 		$.getJSON(url,function(json){
 			$.each(json.cssinfo,function(i,bdat){
 				$('#page').append('<style>'+
-				'#header{background:'+bdat.bannercolor+'}'+
+				'#header{background:'+bdat.bannercolor+';} .links {color:'+bdat.linkcolor+';} .links:hover{color:'+bdat.hovercolor+'}'+
 				
 				'</style>');
-
 				$("#logo").html('');
 				 mybanner=bdat.bannerphoto;
 				if(bdat.bannerphoto!=''){
-
 					$("#logo").html('<a href="index.php"><img src="img/full/'+mybanner+'" style="width:100%"></a>');
+					
 					
 					
 					
@@ -842,7 +841,7 @@ window.saveCss = function(){
 		$("#lightbox>content").html('');
 		$.getJSON(url,function(json){
 			$.each(json.userinfo,function(i,ldat){
-				$("#lightbox>#content").html(''+
+				$("#lightbox>#content").html('<div class="boxtitle">CSS Editor</div>'+
 				'<form ID="cssEditor">'+
 				'<input type = "hidden" name="css" value="edit">'+
 				'<a class="button" href="#" style="float: right;color: #333; background:#eee; padding: 10px; " name="updatecss" value="Save CSS" onclick="saveCss(); return false;">SAVE CSS</a>'+
@@ -1054,8 +1053,8 @@ window.deletePage = function (itemID) {
 		
 		window.boxItemForm= function(elementID){	
 			$('.element_'+elementID+' .editbutton .newitem').html('<br>'+
-				'<form ID="addform">'+
-				'<input type="hidden" name="newboxitem" value="add">'+
+				'<form ID="addform" style="background:#ffffff;">'+
+'<input type="hidden" name="newboxitem" value="add">'+
 				'<input type="hidden" name="elementID" value="'+ elementID +'" >'+
 				
 				'<input type="text" name="title" ID="boxtitle" placeholder="Title for New Post"><br>'+
@@ -1223,14 +1222,35 @@ window.changeBgNow= function(pageID){
 		$("#addLinkColor").css("background", "#dddddd");
 		$("#addLinkColor").html('<i class="fa fa-image"></i>Link Colors<br>'+
 		'<form ID="addform">'+
-		'<input type="hidden" name="linkColor" value="new">'+
+		'<input type="hidden" name="linkcolors" value="new">'+
 		'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
 		
-		'<input type="button" name="submit" value="Add" onclick="addLinkColorNow('+ pageID +');">'+
-		'</form>');	
+		
+			'Links: <input name="linkpick" class="linkpick"><br>' +
+		'Hover: <input name="hoverpick" class="hoverpick" >' +
+'<input type="button" name="submit" value="Add" onclick="addLinkColorNow('+ pageID +'); return false; ">'+
+		'</form>');					
+		
+	$(".linkpick").spectrum({
+			
+		preferredFormat: "hex",
+		showInput:true
+    });
+    
+    $(".hoverpick").spectrum({
+		
+			allowEmpty:true,
+		preferredFormat: "hex",
+		showInput:true
+    });
+    
+
+}
+		
+		
 		
 						
-	}
+	
 
 	
 	
