@@ -53,6 +53,7 @@ ul {padding-left: 0px;}
     }
     
     #formElement{text-align: center; }
+    
    .editbutton{position: absolute; top:20px; 
 	   			z-index:1000000;  
 				text-align: left; 
@@ -80,7 +81,7 @@ ul {padding-left: 0px;}
 			#maincontent{width: 100%;}
 			#page{width: 100%;}
 			.elements
-			{
+			{clear:both;
 			width: 90%;
 			height: auto;
 			font-size: 15px; 
@@ -88,9 +89,11 @@ ul {padding-left: 0px;}
 			position: relative;
 			left:0px;
 			top: 0px;
+			min-height:25px;
 			margin:auto; 
-			margin-top:10px;
-			}
+			margin-top:10px;padding-top:10px;
+			padding-bottom:10px;
+margin-bottom:15px;			}
 			.pagecontents{height: auto;} 
 				
 			.mover{display:none; padding-right: 10px; }	

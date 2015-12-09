@@ -19,7 +19,7 @@ $bgcolor=$_POST['bgcolor'];
 $bannerphoto=$_POST['bannerphoto'];
 $bannercolor=$_POST['bannercolor'];
 $linkcolors=$_POST['linkcolors'];
-
+$pagedetails=$_POST['pagedetails'];
 
 if ($newpage=='add'){
 	echo 'adding... ';
@@ -27,6 +27,16 @@ if ($newpage=='add'){
 	echo ' New Page Added';
 }
 	
+	if ($pagedetails=='edit'){
+		
+		$pagetitle=$_POST['pagetitle'];
+		$publish=$_POST['publish'];
+
+	$update = mysql_query("update pages set title= '$pagetitle' where ID='$pageID' limit 1");
+	echo'title was updated';
+	$update = mysql_query("update pages set published= '$publish' where ID='$pageID' limit 1");
+
+	}
 	
 if ($css=='edit'){
 	$newcss = addslashes($_POST['usercss']);

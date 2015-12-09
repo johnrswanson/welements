@@ -51,6 +51,8 @@
 				'<div ID = "addBgPhoto"><a href="#" class="pop"  onclick="addBgPhoto('+pageID+'); return false;">'+
 					'<i class="fa fa-image"></i> Page Background</a><br></div>'+
 					
+					'<div ID = "addBgPhoto"><a href="#" class="pop"  onclick="editpageDetails('+pageID+'); return false;">'+
+					'<i class="fa fa-code"></i> Page Details</a><br></div>'+
 					
 				'<div ID = "addLogo"><a href="#" class="pop"  onclick="addLogo('+pageID+'); return false;">'+
 					'<i class="fa fa-list-alt"></i> Site Banner</a><br></div>'+
@@ -528,9 +530,52 @@ window.logo= function(){
 
 	}//loadpage
 	
+		window.savepageDetails = function (){	
 	
+		var pagedata = new FormData($("#pageform")[0]);
+		$.ajax({
+			'url' : "navigation/confirm.php",
+			'type' : 'post',
+			'data'	: pagedata,
+			processData: false,
+			contentType: false,
+			beforeSend: function(XHR){
+				
+			}
+		}).done(function(){
+			window.closehelper();
+			$(".links").click();
+			//window.showPages();	
+			});
+		
 	
+		}
 	
+	window.editpageDetails= function(pageID){
+		window.helperadd();
+		var url="navigation/data.php?page="+pageID+"";
+		$.getJSON(url,function(json){
+			$.each(json.navinfo,function(i,ldat){
+			$("#lightbox>#content").html('<div class="boxtitle">Page Details</div>'+
+				'<form ID="pageform">'+
+					'<input type = "hidden" name="pageID" value="'+ldat.ID+'">'+
+
+				'<input type = "hidden" name="pagedetails" value="edit">'+
+				'<input type = "text" name="pagetitle" value="'+ldat.title+'"><br>'+
+			'Publish Now?<br><input type="radio" name="publish" value="y"> Yes<br>'+
+'<input type="radio" name="publish" value="n"> No'+
+				'<a class="button" href="#" style="float: right;color: #333; background:#eee; padding: 10px; " name="updatepagedetails" value="Save" onclick="savepageDetails(); return false;">Save</a>'+
+				
+				'');
+			});	//each
+		});//get
+
+	
+		
+			
+		
+		
+	}
 	
 	
 	
