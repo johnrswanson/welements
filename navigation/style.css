@@ -74,6 +74,7 @@ ul {padding-left: 0px;}
 		.editbutton a{color: #000000;}	
 		#bgtoggle{font-size: 14px;  magin-right: 5px;}
 			#bannertoggle{font-size: 14px;  magin-right: 5px;}
+			.stacker{display:none;}
 
 		@media (max-width:1000px){
 			#maincontent{width: 100%;}
@@ -88,10 +89,12 @@ ul {padding-left: 0px;}
 			left:0px;
 			top: 0px;
 			margin:auto; 
+			margin-top:10px;
 			}
 			.pagecontents{height: auto;} 
 				
 			.mover{display:none; padding-right: 10px; }	
+			.stacker{display:block; padding-right:10px;}
 			.ui-icon, .ui-resizeable-sw, .ui-resizeable-se, .ui-resizeable-s, .ui-resizeable-e, .ui-resizeable-w{display:none;}	
 			 				
 			 				

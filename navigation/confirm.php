@@ -406,12 +406,12 @@ if ($action == "updatePageOrder"){
 	
 	
 //reorder elements links	
-$elementaction = mysql_real_escape_string($_POST['elementaction']); 
+$elementaction = mysql_real_escape_string($_POST['action']); 
 $updateElements = $_POST['element'];
 if ($elementaction == "updateElementOrder"){
 	$elementCounter = 1;
 	foreach ($updateElements as $value) {
-		$updatenow=mysql_query("UPDATE page_element SET pageorder = '$elementCounter' WHERE ID = '$value'")or die(mysql_error('Element order was not updated in DB'));
+		$updatenow=mysql_query("UPDATE page_element SET elementlist = '$elementCounter' WHERE ID = '$value'")or die(mysql_error('Element order was not updated in DB'));
 		$elementCounter = $elementCounter + 1;	
 	}
 	echo '<pre>';

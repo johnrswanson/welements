@@ -311,6 +311,9 @@ window.logo= function(){
 						'<div class="mover"  style="float:left;"> ' +
 						'<i class="fa fa-arrows"></i>'+
 						'</div>'+
+						'<div class="stacker"  style="float:left;"> ' +
+						'<i class="fa fa-arrows-v"></i>'+
+						'</div>'+
 						'</div><div class="pagecontents pagecontent'+ldat.ID+'" ID="pagecontent'+ldat.ID+'"></div>');
 						
 			
@@ -437,6 +440,19 @@ window.logo= function(){
 				        }	
 					});//drag
 					
+					$("#page").sortable({
+			opacity: 0.6,  forcePlaceholderSize: false, delay: 20, distance: 5, forceHelperSize: true, cursor: 'move', handle:".stacker", items: "> .elements",
+			update: function() {
+				var elementlist = $(this).sortable("serialize") + '&action=updateElementOrder'; 
+				$.post("navigation/confirm.php", elementlist, function(theResponse){	
+					window.helperadd();
+					$('#lightbox>#content').html('Element Order Saved');
+					$('#lightbox').fadeOut(2000);
+				});
+			}
+		});
+					
+				
 				
 	if (ldat.boxID != ''){
 		var url="navigation/boxelements.php?box="+ldat.boxID+"";
@@ -477,6 +493,9 @@ window.logo= function(){
 				
 					
 			});//get
+			
+			
+	
 					
 			window.secretmenu(''+pageID+'');
 			
@@ -1098,8 +1117,8 @@ window.changeBgNow= function(pageID){
 		'<form ID="addform">'+
 		'<input type="hidden" name="bgcolor" value="new">'+
 		'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
-		'<input type="color" name="color" ID="bgcolorpick" >'+
-		'<input type="button" name="submit" value="Add" onclick="changeBgNow('+ pageID +');">'+
+		'<input type="color" name="color" ID="bgcolorpick" ><br>'+
+		'<input type="button" name="submit" value="Save" onclick="changeBgNow('+ pageID +');">'+
 		'</form><div ID="bgtoggle"><a href="#" onclick="addBgPhoto('+ pageID +')">Use Photo</a></div>');
 		
 		  $("#bgcolorpick").spectrum({
@@ -1122,8 +1141,8 @@ window.changeBgNow= function(pageID){
 		'<form ID="addform">'+
 		'<input type="hidden" name="bgphoto" value="new">'+
 		'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
-		'<input type="file" name="file"  accept="image/*;capture=camera"> '+
-		'<input type="button" name="submit" value="Add" onclick="changeBgNow('+ pageID +');">'+
+		'<input type="file" name="file"  accept="image/*;capture=camera"> <br>'+
+		'<input type="button" name="submit" value="Save" onclick="changeBgNow('+ pageID +');">'+
 		'</form><div ID="bgtoggle"><a href="#" onclick="addBgColor('+ pageID +')">Use Solid Color</a></div>');	
 		
 						
@@ -1159,7 +1178,7 @@ window.changeBgNow= function(pageID){
 		'<form ID="addform">'+
 		'<input type="hidden" name="bannercolor" value="new">'+
 		'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
-		'<input type="color" name="color" ID="bannercolorpick" >'+
+		'<input type="color" name="color" ID="bannercolorpick" ><br>'+
 		'<input type="button" name="submit" value="Save" onclick="addLogoNow('+ pageID +');">'+
 		'</form><div ID="bannertoggle"><a href="#" onclick="addLogo('+ pageID +')">Use Photo</a></div>');
 		
