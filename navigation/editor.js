@@ -333,8 +333,8 @@ window.logo= function(){
 					if (ldat.boxID != ''){
 							$("#editbutton"+ldat.ID).append(''+
 							'<a class="addboxitem nodrag" href="#" '+
-							'onclick="boxItemForm( '+ ldat.ID + ');return false;">'+
-							'<i class="fa fa-plus"></i>Add</a>'+
+							'onclick="boxItemForm( '+ ldat.ID + ');return false;" '+
+							' style="font-size: 12px;" > +add item</a>'+
 							'');
 							
 					}
@@ -478,14 +478,24 @@ window.logo= function(){
 				'<a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+'); return false;"><i class="fa fa-trash" style="font-size: 25px; margin-right:20px; float:right;"></i></a></div>'+
 				
 				'');
+				
+				
 				if(bdat.photo!=''){
 				$('#boxelement_'+bdat.ID).append(''+
-				'<img src="img/full/'+bdat.photo+'" style=" width: 99%; margin: auto;"><br>');
+				'<div class="boxphotowrap"><img class="boxphoto" src="img/full/'+bdat.photo+'" ></div>');
 				}
+				
+				if(bdat.title!=''){
 				$('#boxelement_'+bdat.ID).append(''+
-				' <h4>'+bdat.title+'</h4>'+
+				'<h4>'+bdat.title+'</h4>'+
+				'');
+				}
+				
+				if(bdat.mytext!=''){
+				$('#boxelement_'+bdat.ID).append(''+
 				'<br> '+bdat.mytext+''+
 				'');
+				}
 				
 			});
 			
@@ -565,7 +575,7 @@ window.logo= function(){
 
 				'<input type = "hidden" name="pagedetails" value="edit">'+
 				'<input type = "text" name="pagetitle" value="'+ldat.title+'"><br>'+
-			'Publish Now?<br><input type="radio" name="publish" value="y"> Yes<br>'+
+			'Publish Now?<br><input type="radio" name="publish" value="y" checked> Yes<br>'+
 '<input type="radio" name="publish" value="n"> No'+
 				'<a class="button" href="#" style="float: right;color: #333; background:#eee; padding: 10px; " name="updatepagedetails" value="Save" onclick="savepageDetails(); return false;">Save</a>'+
 				
@@ -1410,5 +1420,11 @@ $(document).ready(function(){
 	
 	window.loadPage('home');
 	window.loadCss();
+	$(".links").click( function(){
+		
+		$("#navcontent").toggle(400);
+		
+		
+	});
 		
 });

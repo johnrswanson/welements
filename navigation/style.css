@@ -5,7 +5,7 @@ ul {padding-left: 0px;}
 #nav{clear: both; width: 100%; z-index: 2; position:relative; }
 #navcontent{clear:both; width: 100%; position: relative; z-index: 2; }
 #bg{height: 100%; width: 100%; overflow: hidden; position: fixed; top: 0px; left: 0px; }
-#navactions{position:fixed; top:5px; right:5px;}
+#navactions{position:fixed; top:10px; right:10px;}
 .logo{float:none; text-align: center; width: 100%; position: relative; z-index: 3;  }
 .link{float:left; font-size: 14px; padding-left: 0px;   }
 #page{margin: auto; width: 100%; min-width: 100%;  width: 1000px; position: relative; opacity: 0.99;  }
@@ -76,10 +76,15 @@ ul {padding-left: 0px;}
 		#bgtoggle{font-size: 14px;  magin-right: 5px;}
 			#bannertoggle{font-size: 14px;  magin-right: 5px;}
 			.stacker{display:none;}
+#navactions{height:0px; overflow:hidden;display:none; }
+.boxphotowrap{ overflow: hidden; width: 100%; height: 0px; padding-bottom: 100%;  }
+.boxphoto{width: 150%;  margin: auto;  min-height: 100%;}
+
 
 		@media (max-width:1000px){
 			#maincontent{width: 100%;}
 			#page{width: 100%;}
+			#nav{clear: both; width: 100%; padding: 0px; }
 			.elements
 			{clear:both;
 			width: 90%;
@@ -95,7 +100,7 @@ ul {padding-left: 0px;}
 			padding-bottom:10px;
 margin-bottom:15px;			}
 			.pagecontents{height: auto;} 
-				
+			#logo{max-width: 400px}	
 			.mover{display:none; padding-right: 10px; }	
 			.stacker{display:block; padding-right:10px;}
 			.ui-icon, .ui-resizeable-sw, .ui-resizeable-se, .ui-resizeable-s, .ui-resizeable-e, .ui-resizeable-w{display:none;}	
@@ -103,4 +108,12 @@ margin-bottom:15px;			}
 			 				
 			 				}	
 
+@media (max-width:700px){
+	#navcontent{display:none;}
+	#logo{max-width: 300px;}
+	#header{height: auto; }
+	.link a{max-width: 100%; margin: auto; }
+	#nav{clear: both; width: 100%; padding: 0px; float:left; margin:0px;   }
+	#navactions{display:block; height:40px; overflow:hidden;}
+	}
 	

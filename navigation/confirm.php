@@ -40,7 +40,7 @@ if ($newpage=='add'){
 	
 if ($css=='edit'){
 	$newcss = addslashes($_POST['usercss']);
-	$update = mysql_query("update stylesheet set user_css= '$newcss'");
+	$update = mysql_query("update admin set usercss= '$newcss'");
 	echo'CSS was updated';
 }
 

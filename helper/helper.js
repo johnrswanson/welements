@@ -5,7 +5,7 @@ window.helperadd = function() {
 		//var myoffset = $( this ).offset();
 		$('.secretmenu').slideUp(500);	
 		$('#lightbox').removeAttr('style');
-        var y=500;
+        var y=100;
         document.getElementById("lightbox").style.top=y+"px";
 		//$('#lightbox').offset( myoffset);        
         $('#lightbox').show();
