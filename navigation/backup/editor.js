@@ -235,93 +235,7 @@ window.logo= function(){
 		});
 		
 }
-
-window.addblogphotoNow= function(contentID){
-	var elementdata = new FormData($("#addblogphoto")[0]);
-		$.ajax({
-			'url' : "navigation/confirm.php",
-			'type' : 'post',
-			'data'	: elementdata,
-			processData: false,
-			contentType: false,
-			beforeSend: function(XHR){
-				
-			}
-		}).done(function(){
-			window.loadContent(''+contentID+'');	
-			});
-		
-
 	
-
-	
-}
-
-window.loadContent= function(contentID){
-	window.hideEdit();
-	$('.elements').slideUp('');
-	var url="navigation/boxelements.php?be="+ contentID+'';
-	$.getJSON(url,function(json){
-		$.each(json.boxiteminfo,function(i,bdat){
-			
-			$('#page').append(''+
-			'<div ID="boxitem"></div>');
-			
-$('#boxitem').html('');
-			
-			if(bdat.photo!=''){
-			$('#boxitem').append(''+
-			'<img class="boxfullphoto" src="img/full/'+bdat.photo+'" style="max-width: 1000px; min-height: 500px;  margin: auto;">');
-			}
-			
-			if(bdat.title!=''){
-			$('#boxitem').append(''+
-			'<h4>'+bdat.title+'</h4>'+
-			'');
-			}
-			
-			if(bdat.mytext!=''){
-			$('#boxitem').append(''+
-			'<br> '+bdat.mytext+''+
-			'');
-			}
-			
-			var url="navigation/boxphotos.php?boxitem="+ bdat.ID+'';
-			$.getJSON(url,function(json){
-				$.each(json.photoinfo,function(i,idat){
-
-
-				$('#boxitem').append(''+
-				'<img class="boxfullphoto" src="img/full/'+idat.photo+'" style="max-width: 1000px; min-height: 500px;  margin: auto;">');
-		
-						
-				});
-
-			});
-
-			
-			$('#boxitem').append(''+
-			'<form ID="addblogphoto" style="position: relative ; top: auto;  z-index: 10000;"></form>'+
-			'');
-			
-			$('#addblogphoto').html(''+
-			'Add More Photos<br>'+
-			'<input type="hidden" name="boxphotos" value="add">'+
-			'<input type="hidden" name="contentID" value="'+ contentID +'" >'+
-			'<input type="file" name="file" accept="image/*;capture=camera"> '+
-			'<input type="button" name="submit" value="Add" onclick="addblogphotoNow('+ contentID +');">'+
-			'<style>#details{height: 1000px; display: block}</style>');
-
-			
-		});
-
-	});
-	
-	
-	
-}	
-
-
 	window.loadPage= function (pageID){
 		
 
@@ -419,7 +333,7 @@ $('#boxitem').html('');
 					if (ldat.boxID != ''){
 							$("#editbutton"+ldat.ID).append(''+
 							'<a class="addboxitem nodrag" href="#" '+
-							'onclick="boxItemForm('+ ldat.ID + '); return false;" '+
+							'onclick="boxItemForm( '+ ldat.ID + ');return false;" '+
 							' style="font-size: 12px;" > +add item</a>'+
 							'');
 							
@@ -557,14 +471,9 @@ $('#boxitem').html('');
 				
 				$('#boxelement_'+bdat.ID).append(''+
 				
-				'<div class="boxeditbutton" style="width:inherit; position: absolute; top:auto;background: #eee; opacity: 0.8;display:none">'+
-				
-				'<div class="boxmover" style="float:left;font-size: 25px; margin color:#333;"> ' +
+				'<div class="boxeditbutton" style="width:inherit; position: absolute; top:auto;background: #eee; opacity: 0.8;display:none"><div class="boxmover" style="float:left;font-size: 25px; margin color:#333;"> ' +
 					'<i class="fa fa-arrows"></i>'+
 				'</div>'+
-				
-				'<a href="" onclick="editBoxElement('+bdat.ID+'); return false;"><i class="fa fa-pencil"></i>edit</a>'+
-			
 
 				'<a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+'); return false;"><i class="fa fa-trash" style="font-size: 25px; margin-right:20px; float:right;"></i></a></div>'+
 				
@@ -578,13 +487,13 @@ $('#boxitem').html('');
 				
 				if(bdat.title!=''){
 				$('#boxelement_'+bdat.ID).append(''+
-				'<h4><a href="#" onclick="loadContent('+bdat.ID+');">'+bdat.title+'</a></h4>'+
+				'<h4>'+bdat.title+'</h4>'+
 				'');
 				}
 				
 				if(bdat.mytext!=''){
 				$('#boxelement_'+bdat.ID).append(''+
-				'<br> '+bdat.mytext+'<br>'+
+				'<br> '+bdat.mytext+''+
 				'');
 				}
 				
@@ -673,63 +582,14 @@ $('#boxitem').html('');
 				'');
 			});	//each
 		});//get
+
+	
 		
 			
-}
-	
-	
-	
-	
-	
-	window.editboxitemNow = function (boxelementID) {	
 		
-		var elementdata = new FormData($("#formElement")[0]);
-		$.ajax({
-			'url' : "navigation/confirm.php",
-			'type' : 'post',
-			'data'	: elementdata,
-			processData: false,
-			contentType: false,
-			beforeSend: function(XHR){
-				
-			}
-		}).done(function(){
-	window.closehelper();
-
-	window.reloadBoxElement(''+boxelementID+'');	
-			});
-
-
-	}//edit boxitem now
+		
+	}
 	
-	
-	window.reloadBoxElement= function (boxelementID){
-			var url="navigation/boxelements.php?be="+ boxelementID;
-		$.getJSON(url,function(json){
-		$.each(json.elementinfo,function(i,bdat){	
-			
-			$("#boxelement_"+boxelementID).html('\\||//');
-			
-				if(bdat.photo!=''){
-				$('#boxelement_'+bdat.ID).append(''+
-				'<div class="boxphotowrap"><img class="boxphoto" src="img/full/'+bdat.photo+'" ></div>');
-				}
-				
-				if(bdat.title!=''){
-				$('#boxelement_'+bdat.ID).append(''+
-				'<h4><a href="#" onclick="loadContent('+bdat.ID+');">'+bdat.title+'</a></h4>'+
-				'');
-				}
-				
-				if(bdat.mytext!=''){
-				$('#boxelement_'+bdat.ID).append(''+
-				'<br> '+bdat.mytext+'<br>'+
-				'');
-				}
-			});
-			
-		});
-			}
 	
 	
 	window.editNow = function (elementID) {	
@@ -796,7 +656,6 @@ $('#boxitem').html('');
 				'<div class="boxeditbutton" style=" display:none; width:inherit; position: absolute; top:auto;background: #eee; opacity: 0.8;"><div class="boxmover" style="float:left;font-size: 25px; margin color:#333;"> ' +
 					'<i class="fa fa-arrows"></i>'+
 				'</div>'+
-				'<a href="" onclick="editBoxElement(); return false;"><i class="fa fa-pencil"></i>edit</a>'+
 
 				'<a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+'); return false; "><i class="fa fa-trash" style="font-size: 25px; margin-right:20px; float:right;"></i></a></div>'+
 				
@@ -805,22 +664,10 @@ $('#boxitem').html('');
 				$('#boxelement_'+bdat.ID).append(''+
 				'<img src="img/full/'+bdat.photo+'" style=" width: 100%; margin: auto; "><br>');
 				}
-				
-				
-				if(bdat.title!=''){
 				$('#boxelement_'+bdat.ID).append(''+
-				'<h4>'+bdat.title+'</h4>'+
-				'');
-				}
-				
-				if(bdat.mytext!=''){
-				$('#boxelement_'+bdat.ID).append(''+
+				' <h4>'+bdat.title+'</h4>'+
 				'<br> '+bdat.mytext+''+
 				'');
-				}
-				
-				
-				
 				
 			});
 			
@@ -872,47 +719,12 @@ $('#boxitem').html('');
 	}
 	
 	
-	window.editBoxElement = function (boxelementID) {
-	window.helperadd();
-	$('#lightbox>#content').html('<div class="boxtitle">Edit Box Item</div>');
-			var url="navigation/boxelements.php?be="+ boxelementID+'';
-		$.getJSON(url,function(json){
-			$.each(json.boxiteminfo,function(i,idat){
-				
-				var str = idat.mytext;
-				var safetext= str.replace(/<br>/g, "\r");
-			
-			
-				$("#lightbox>#content").append(''+
-				
-					'<form  ID="formElement">'+
-					'<input type="hidden" name="editboxitem" value="'+boxelementID+'">'+
-					//'<input type="hidden" name="pageID" value="'++'"></form>'+
-					'');
-					
-					
-		$("#formElement").append(''+
-		'<input type="text" name="title" value="'+idat.title+'">'+
-			'<textarea style="width: 100%; max-width: 100% ; min-height: 100px; margin: auto;" name="mytext"> '+safetext+'</textarea>'+
-			'<span style="font-size: 12px; color: #fff">Replace Photo<br> <input type="file" name="file"  accept="image/*;capture=camera"> </span>'+
-			'<input style="  " ID="saveedit" type="button" name="submit" '+
-						'value="Save" onclick="editboxitemNow('+idat.boxID+'); ">'+
-					
-				'');
-				
-
-	});
-	
-	});
-	
-	}
-	
 	window.editElement = function (itemID) {
 		window.helperadd();
 			var url="navigation/elements.php?e="+ itemID;
 		$.getJSON(url,function(json){
 			$.each(json.elementinfo,function(i,idat){
-				$('#lightbox>#content').html('<div class="boxtitle">Edit Element</div>');
+				$('#lightbox>#content').html('<div class="boxtitle">Edit Element</span>');
 				var str = idat.pagecontent;
 				var safetext= str.replace(/<br>/g, "\r");
 			
@@ -923,9 +735,6 @@ $('#boxitem').html('');
 					'<input type="hidden" name="editme" value="'+idat.ID+'">'+
 					'<input type="hidden" name="pageID" value="'+idat.pageID+'"></form>'+
 					'');
-					
-					
-					
 					
 			
 					

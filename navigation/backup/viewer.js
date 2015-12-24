@@ -31,45 +31,40 @@
 		var url="admin/userdata.php";
 		$.getJSON(url,function(json){
 			$.each(json.userinfo,function(i,dat){
-				$("#admincontent").html('<a href="#" class="adminsecret" onclick="secret();return false;"><i class="fa fa-star" style=" font-size: 40px; "></i></a>'+
+				$("#admincontent").html('<a href="#" class="adminsecret" onclick="secret();"><i class="fa fa-star" style=" font-size: 40px; "></i></a>'+
 				'<div class="secretmenu"> Hello '+dat.shortname + '<br>'+
 				
-				'<a href="#" class="pop"  onclick="addNewPage(); return false;">'+
+				'<a href="#" class="pop"  onclick="addNewPage()">'+
 					'<i class="fa  fa-file-text-o"></i> New Page</a><br>'+
-					
-					'<div id = "drafts"><a href="#" class="pop"   onclick="showDrafts(); return false;">'+
-					'<i class="fa fa-lock"></i> Drafts</a></div>'+
 				
-				'<div ID="addText"><a href="#" class="pop"   onclick="addText('+pageID+'); return false;">'+
+				'<div ID="addText"><a href="#" class="pop"   onclick="addText('+pageID+')">'+
 					'<i class="fa fa-pencil"></i> Add Text</a></div>'+
 					
-					'<div ID="addPhoto"><a href="#" class="pop"  ID="addPhoto"onclick="addPhoto('+pageID+'); return false;">'+
+					'<div ID="addPhoto"><a href="#" class="pop"  ID="addPhoto"onclick="addPhoto('+pageID+')">'+
 					'<i class="fa fa-camera"></i> Add Photo</a></div>'+
 					
-					'<div ID="addBox"><a href="#" class="pop"  ID="addPhoto"onclick="addBox('+pageID+'); return false;">'+
+					'<div ID="addBox"><a href="#" class="pop"  ID="addPhoto"onclick="addBox('+pageID+')">'+
 					'<i class="fa fa-th"></i> Add Box</a></div>'+
 					
 
 				
-				'<div ID = "addBgPhoto"><a href="#" class="pop"  onclick="addBgPhoto('+pageID+'); return false;">'+
+				'<div ID = "addBgPhoto"><a href="#" class="pop"  onclick="addBgPhoto('+pageID+')">'+
 					'<i class="fa fa-image"></i> Page Background</a><br></div>'+
 					
-					'<div ID = "pagedetails"><a href="#" class="pop"  onclick="editpageDetails('+pageID+'); return false;">'+
-					'<i class="fa fa-code"></i> Page Details</a><br></div>'+
 					
-				'<div ID = "addLogo"><a href="#" class="pop"  onclick="addLogo('+pageID+'); return false;">'+
-					'<i class="fa fa-list-alt"></i> Site Banner</a><br></div>'+
+				'<div ID = "addLogo"><a href="#" class="pop"  onclick="addLogo('+pageID+')">'+
+					'<i class="fa fa-star"></i> Site Banner</a><br></div>'+
 					
-				'<div ID = "addLinkColor"><a href="#" class="pop"  onclick="addLinkColor('+pageID+'); return false;">'+
-					'<i class="fa fa-star"></i> Link Style</a><br></div>'+
+				'<div ID = "addLinkColor"><a href="#" class="pop"  onclick="addLinkColor('+pageID+')">'+
+					'<i class="fa fa-star"></i> Link Colors</a><br></div>'+
 					
-				'<a href="#" class="pop"  onclick="editCss('+pageID+'); return false;">'+
+				'<a href="#" class="pop"  onclick="editCss('+pageID+')">'+
 					'<i class="fa fa-paperclip"></i> CSS Editor</a><br>'+
 				
 				
-				'<a href="#" class="deleteOn" onclick="showDeleteButtons(); return false;">'+
+				'<a href="#" class="deleteOn" onclick="showDeleteButtons()">'+
 					'<i class="fa fa-remove"></i> Delete Pages</a>'+
-				'<a href="#" class="deleteOff" onclick="hideDeleteButtons(); return false;">'+
+				'<a href="#" class="deleteOff" onclick="hideDeleteButtons()">'+
 					'<i class="fa fa-remove"></i> Done</a>'+
 					
 				'<form ID="livesaver"  method="POST" style="height: 0px; overflow:hidden; "> '+	
@@ -100,10 +95,10 @@
 
 
 	window.loadHomePage= function (){
-		//$("#navcontent").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
+		$("#navcontent").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
 		var url="navigation/data.php";
 		var x='1';	
-		//$("#navcontent").html('<ul></ul>');
+		$("#navcontent").html('<ul></ul>');
 		$.getJSON(url,function(json){
 			$.each(json.navinfo,function(i,ldat){
 				if( x=='1'){ 
@@ -117,57 +112,8 @@
 		});
 }
 	
-	window.sortem = function(){	
-	
-}
-
-window.sortBox = function(){	$(".pagecontents ul").sortable({
-			opacity: 0.6,  forcePlaceholderSize: false, delay: 20, distance: 20, forceHelperSize: true, cursor: 'move', handle:".boxmover",
-			update: function() {
-				var boxelementorder = $(this).sortable("serialize") + '&action=updateBox'; 
-				$.post("navigation/confirm.php", boxelementorder, function(theResponse){	
-					window.helperadd();
-					$('#lightbox>#content').html('Box Order Saved');
-					$('#lightbox').fadeOut(2000);
-				});
-			}
-		});
-	
-}
-
-	
-	window.showPages= function (){
-			
-
-		
-		var x = 0;
-		var home='';
-		var url="navigation/data.php";
-		
-$("#navcontent").html('');
-$("#navcontent").html('<ul></ul>');
-		$.getJSON(url,function(json){
-			$.each(json.navinfo,function(i,ldat){
-			x=x+1;
-				$("#navcontent>ul").append(''+
-				'<li class="plist link" ID="pageArray_'+ldat.ID+'" > '+
-				'<a class="deletebutton dlist" ID="dlist'+ldat.ID+'" href="#" onclick="deletePage(' + ldat.ID + '); return false;">'+
-				'<i class="fa fa-remove"></i></a>'+
-				'<a href="#" onclick="loadPage('+ldat.ID+')">'+ldat.title+'</a> ' + 
-				'</li>');	
-				
-			
-			
-			});	//each
-			var linkwidth= 100/ x;
-			
-			$("#page").append(''+
-			'<style>#navcontent>ul>li{width:'+linkwidth+'%; float:left; text-align:center;}</style>'+
-			'');
-		});//get
-		
-	$("#navcontent ul").sortable({ cursorAt:{left: 0},
-			opacity: 0.6,  forcePlaceholderSize: true, delay: 20, distance: 20, forceHelperSize: true, cursor: 'move',
+	window.sortem = function(){	$("#navcontent ul").sortable({
+			opacity: 0.6,  forcePlaceholderSize: true, delay: 0, distance: 40, forceHelperSize: true, cursor: 'move',
 			update: function() {
 				var pageorder = $(this).sortable("serialize") + '&action=updatePageOrder'; 
 				$.post("navigation/confirm.php", pageorder, function(theResponse){	
@@ -177,6 +123,32 @@ $("#navcontent").html('<ul></ul>');
 				});
 			}
 		});
+	
+}
+	
+	window.showPages= function (){
+			
+		$("#navcontent").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
+		var x = 0;
+		var home='';
+		var url="navigation/data.php";
+		$("#navcontent").html('<ul></ul>');
+		$.getJSON(url,function(json){
+			$.each(json.navinfo,function(i,ldat){
+				
+				$("#navcontent>ul").append(''+
+				'<li class="plist link" ID="pageArray_'+ldat.ID+'"> '+
+				'<a class="deletebutton dlist" ID="dlist'+ldat.ID+'" href="#" onclick="deletePage(' + ldat.ID + ');">'+
+				'<i class="fa fa-remove"></i></a>'+
+				'<a href="#" onclick="loadPage('+ldat.ID+')">'+ldat.title+'</a> ' + 
+				'</li>');	
+			
+			
+			});	//each
+		});//get
+	
+			
+	//window.sortem();	
 
 			
 			
@@ -191,151 +163,19 @@ $("#navcontent").html('<ul></ul>');
 
 					$('.elements>.editbutton').hide(0); 
 					$('.elements').css('box-shadow', '0px 0px 0px 0px #fff');
-					$('.element_'+elementID).css('box-shadow', '0px 0px 1px 1px #00F');
-					$('.element_'+elementID).find('.editbutton').show(0);
-										
+					//$('.element_'+elementID).css('box-shadow', '0px 0px 1px 1px #00F');
+					//$('.element_'+elementID).find('.editbutton').show(0);
 					}
-					
-						
-	window.hideEdit = function(){
-					event.stopPropagation();
-					$('.editbutton').hide(0); 
-					$('.elements').css('box-shadow', '0px 0px 0px 0px #fff');
-
-}
-	
-	window.showBoxEdit = function(elementID){
-
-					$('.boxelements>.boxeditbutton').hide(0); 
-					
-					$('#boxelement_'+elementID).find('.boxeditbutton').show(0);
-								}
-
-
-window.logo= function(){
-	
-	var url="navigation/customstyle.php";
-			var mybanner='';
-		$.getJSON(url,function(json){
-			$.each(json.cssinfo,function(i,bdat){
-				$('#page').append('<style>'+
-				'#header{background:'+bdat.bannercolor+';} .link a{color:'+bdat.linkcolor+'; font-size: '+bdat.linksize+'; font-family: '+bdat.linkfont+';} .link a:hover{color:'+bdat.hovercolor+'}'+
-				
-				'</style>');
-				$("#logo").html('');
-				 mybanner=bdat.bannerphoto;
-				if(bdat.bannerphoto!=''){
-					$("#logo").html('<a href="index.php"><img src="img/full/'+mybanner+'" style="width:100%"></a>');
-					
-					
-					
-					
-				}
-			});
-		});
-		
-}
-
-window.addblogphotoNow= function(contentID){
-	var elementdata = new FormData($("#addblogphoto")[0]);
-		$.ajax({
-			'url' : "navigation/confirm.php",
-			'type' : 'post',
-			'data'	: elementdata,
-			processData: false,
-			contentType: false,
-			beforeSend: function(XHR){
-				
-			}
-		}).done(function(){
-			window.loadContent(''+contentID+'');	
-			});
-		
-
 	
 
 	
-}
-
-window.loadContent= function(contentID){
-	window.hideEdit();
-	$('.elements').slideUp('');
-	var url="navigation/boxelements.php?be="+ contentID+'';
-	$.getJSON(url,function(json){
-		$.each(json.boxiteminfo,function(i,bdat){
-			
-			$('#page').append(''+
-			'<div ID="boxitem"></div>');
-			
-$('#boxitem').html('');
-			
-			if(bdat.photo!=''){
-			$('#boxitem').append(''+
-			'<img class="boxfullphoto" src="img/full/'+bdat.photo+'" style="max-width: 1000px; min-height: 500px;  margin: auto;">');
-			}
-			
-			if(bdat.title!=''){
-			$('#boxitem').append(''+
-			'<h4>'+bdat.title+'</h4>'+
-			'');
-			}
-			
-			if(bdat.mytext!=''){
-			$('#boxitem').append(''+
-			'<br> '+bdat.mytext+''+
-			'');
-			}
-			
-			var url="navigation/boxphotos.php?boxitem="+ bdat.ID+'';
-			$.getJSON(url,function(json){
-				$.each(json.photoinfo,function(i,idat){
-
-
-				$('#boxitem').append(''+
-				'<img class="boxfullphoto" src="img/full/'+idat.photo+'" style="max-width: 1000px; min-height: 500px;  margin: auto;">');
-		
-						
-				});
-
-			});
-
-			
-			$('#boxitem').append(''+
-			'<form ID="addblogphoto" style="position: relative ; top: auto;  z-index: 10000;"></form>'+
-			'');
-			
-			$('#addblogphoto').html(''+
-			'Add More Photos<br>'+
-			'<input type="hidden" name="boxphotos" value="add">'+
-			'<input type="hidden" name="contentID" value="'+ contentID +'" >'+
-			'<input type="file" name="file" accept="image/*;capture=camera"> '+
-			'<input type="button" name="submit" value="Add" onclick="addblogphotoNow('+ contentID +');">'+
-			'<style>#details{height: 1000px; display: block}</style>');
-
-			
-		});
-
-	});
-	
-	
-	
-}	
-
-
 	window.loadPage= function (pageID){
-		
-
-		
+				$('.links').click();	
 			
 		if (pageID=='home'){
-					window.loadHomePage();	
-			
+			window.loadHomePage();	
 			}
 			else{
-					window.showPages();
-
-				window.logo();
-	//$(".links").click();
 				window.closehelper();
 		$("#page").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
 		var login='y';
@@ -343,6 +183,7 @@ $('#boxitem').html('');
 	
 		$("#page").html('<div ID="bg"></div> ');
 		var url="navigation/data.php?page="+pageID+"";
+		$("#navcontent").html('<ul></ul>');
 		$.getJSON(url,function(json){
 			$.each(json.navinfo,function(i,ldat){
 			if (ldat.photo !='' ){
@@ -398,12 +239,8 @@ $('#boxitem').html('');
 				
 				$("#element_"+ldat.ID).append(''+	
 					'<div class="editbutton" ID="editbutton'+ldat.ID+'">' +
-					'<div class="hideEdit" style="float:left;"><a  href="#" onclick="hideEdit(); return false;"><i class="fa fa-minus-circle" style=" width:25px; margin-right:20px"></i></div>'+
-						'<div class="mover"  style="float:left;"> ' +
+						'<div class="mover"> ' +
 						'<i class="fa fa-arrows"></i>'+
-						'</div>'+
-						'<div class="stacker"  style="float:left;"> ' +
-						'<i class="fa fa-arrows-v"></i>'+
 						'</div>'+
 						'</div><div class="pagecontents pagecontent'+ldat.ID+'" ID="pagecontent'+ldat.ID+'"></div>');
 						
@@ -412,15 +249,15 @@ $('#boxitem').html('');
 				
 					$("#editbutton"+ldat.ID).append(''+
 						'<a class="editelement nodrag" ID="edit'+ldat.ID+' edit" href="#" '+
-							'onclick="editElement( '+ ldat.ID + '); return false;">'+
+							'onclick="editElement( '+ ldat.ID + ');">'+
 							'<i class="fa fa-pencil"></i></a>'+
 						'');
 			if (ldat.file == ''){
 					if (ldat.boxID != ''){
 							$("#editbutton"+ldat.ID).append(''+
 							'<a class="addboxitem nodrag" href="#" '+
-							'onclick="boxItemForm('+ ldat.ID + '); return false;" '+
-							' style="font-size: 12px;" > +add item</a>'+
+							'onclick="boxItemForm( '+ ldat.ID + ');">'+
+							'<i class="fa fa-plus"></i>Add</a>'+
 							'');
 							
 					}
@@ -428,7 +265,7 @@ $('#boxitem').html('');
 					
 					$("#editbutton"+ldat.ID).append(''+
 						'<a class="deleteelement nodrag" ID="dlist'+ldat.ID+'" href="#" '+
-							'onclick="deleteElement(' + ldat.ID + '); return false;">'+
+							'onclick="deleteElement(' + ldat.ID + ');">'+
 							'<i class="fa fa-trash"></i></a><br><div class="newitem"></div>'+
 						'');
 						
@@ -531,67 +368,29 @@ $('#boxitem').html('');
 				        }	
 					});//drag
 					
-					$("#page").sortable({
-			opacity: 0.6,  forcePlaceholderSize: false, delay: 20, distance: 5, forceHelperSize: true, cursor: 'move', handle:".stacker", items: "> .elements",
-			update: function() {
-				var elementlist = $(this).sortable("serialize") + '&action=updateElementOrder'; 
-				$.post("navigation/confirm.php", elementlist, function(theResponse){	
-					window.helperadd();
-					$('#lightbox>#content').html('Element Order Saved');
-					$('#lightbox').fadeOut(2000);
-				});
-			}
-		});
-					
-				
 				
 	if (ldat.boxID != ''){
 		var url="navigation/boxelements.php?box="+ldat.boxID+"";
-			$( '.pagecontent' +ldat.ID).append('<ul ID="boxlist"></ul>');
+			$( '.pagecontent' +ldat.ID).append('<ul></ul>');
 		$.getJSON(url,function(json){
 			$.each(json.boxiteminfo,function(i,bdat){
 				var colwidth= 100 / ldat.columnset;
-			
 				$( ".pagecontent"+ldat.ID+" > ul" ).append(''+
-				'<li ID="boxelement_'+bdat.ID+'" class="boxelements" style="width:'+colwidth+'%; min-height: 100px; float: left; text-align: inherit; box-shadow:  1px 1px 1px 0px #333333; " onclick="showBoxEdit('+bdat.ID+'); return false"></li>');
-				
-				$('#boxelement_'+bdat.ID).append(''+
-				
-				'<div class="boxeditbutton" style="width:inherit; position: absolute; top:auto;background: #eee; opacity: 0.8;display:none">'+
-				
-				'<div class="boxmover" style="float:left;font-size: 25px; margin color:#333;"> ' +
-					'<i class="fa fa-arrows"></i>'+
-				'</div>'+
-				
-				'<a href="" onclick="editBoxElement('+bdat.ID+'); return false;"><i class="fa fa-pencil"></i>edit</a>'+
-			
-
-				'<a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+'); return false;"><i class="fa fa-trash" style="font-size: 25px; margin-right:20px; float:right;"></i></a></div>'+
-				
-				'');
-				
+				'<li ID="boxelement_'+bdat.ID+'" style="width:'+colwidth+'%; min-height: 300px; float: left; text-align: inherit; "></li>');
 				
 				if(bdat.photo!=''){
 				$('#boxelement_'+bdat.ID).append(''+
-				'<div class="boxphotowrap"><img class="boxphoto" src="img/full/'+bdat.photo+'" ></div>');
+				'<img src="img/full/'+bdat.photo+'" style="height: 160px; width: auto; margin: auto; "><br>');
 				}
-				
-				if(bdat.title!=''){
 				$('#boxelement_'+bdat.ID).append(''+
-				'<h4><a href="#" onclick="loadContent('+bdat.ID+');">'+bdat.title+'</a></h4>'+
+				' <h2>'+bdat.title+'</h2>'+
+				' '+bdat.mytext+'<br><a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+');"><i class="fa fa-trash" style="font-size: 15px; text-align: center; "></i></a>'+
 				'');
-				}
-				
-				if(bdat.mytext!=''){
-				$('#boxelement_'+bdat.ID).append(''+
-				'<br> '+bdat.mytext+'<br>'+
-				'');
-				}
+
 				
 			});
-			
 		});
-			window.sortBox();			
+						
 	}
 							
 				});	//each
@@ -599,137 +398,16 @@ $('#boxitem').html('');
 				
 					
 			});//get
-			
-			
-	
 					
-			window.secretmenu(''+pageID+'');
-			
-			$('#page>#bg').click(function(){
-			$('.elements>.editbutton').hide(0); 
-			$('.elements').css('box-shadow', '0px 0px 0px 0px #fff');
-			});
-			
-		/*
-		$('.hideEdit').click(function(e){
-			e.preventDefault();
-			e.stopPropagation();
-			$('.elements>.editbutton').hide(0); 
-			$('.elements').css('box-shadow', '0px 0px 0px 0px #fff');
-			});
-*/
-			
-			$('#page>.elements').click(function(){
-				$('.elements>.editbutton').hide(0); 
-				$('.elements .ui-resizable-handle, .ui-resizable-se, .ui-icon, .ui-icon-gripsmall-diagonal-se').hide(0); 
-				$('.elements').css('box-shadow', '0px 0px 0px 0px #fff');
-				$(this).css('box-shadow', '0px 0px 1px 0px #00F');
-				$(this).find('.editbutton').show(0).zIndex(10000000);
-				$(this).find('.ui-resizable-handle, .ui-resizable-se, .ui-icon, .ui-icon-gripsmall-diagonal-se').show(0);
-			
-			});
-					
+							
 		}			
-
-
+					
 	}//loadpage
 	
-		window.savepageDetails = function (){	
-	
-		var pagedata = new FormData($("#pageform")[0]);
-		$.ajax({
-			'url' : "navigation/confirm.php",
-			'type' : 'post',
-			'data'	: pagedata,
-			processData: false,
-			contentType: false,
-			beforeSend: function(XHR){
-				
-			}
-		}).done(function(){
-			window.closehelper();
-			$(".links").click();
-			//window.showPages();	
-			});
-		
-	
-		}
-	
-	window.editpageDetails= function(pageID){
-		window.helperadd();
-		var url="navigation/data.php?page="+pageID+"";
-		$.getJSON(url,function(json){
-			$.each(json.navinfo,function(i,ldat){
-			$("#lightbox>#content").html('<div class="boxtitle">Page Details</div>'+
-				'<form ID="pageform">'+
-					'<input type = "hidden" name="pageID" value="'+ldat.ID+'">'+
-
-				'<input type = "hidden" name="pagedetails" value="edit">'+
-				'<input type = "text" name="pagetitle" value="'+ldat.title+'"><br>'+
-			'Publish Now?<br><input type="radio" name="publish" value="y" checked> Yes<br>'+
-'<input type="radio" name="publish" value="n"> No'+
-				'<a class="button" href="#" style="float: right;color: #333; background:#eee; padding: 10px; " name="updatepagedetails" value="Save" onclick="savepageDetails(); return false;">Save</a>'+
-				
-				'');
-			});	//each
-		});//get
-		
-			
-}
 	
 	
 	
 	
-	
-	window.editboxitemNow = function (boxelementID) {	
-		
-		var elementdata = new FormData($("#formElement")[0]);
-		$.ajax({
-			'url' : "navigation/confirm.php",
-			'type' : 'post',
-			'data'	: elementdata,
-			processData: false,
-			contentType: false,
-			beforeSend: function(XHR){
-				
-			}
-		}).done(function(){
-	window.closehelper();
-
-	window.reloadBoxElement(''+boxelementID+'');	
-			});
-
-
-	}//edit boxitem now
-	
-	
-	window.reloadBoxElement= function (boxelementID){
-			var url="navigation/boxelements.php?be="+ boxelementID;
-		$.getJSON(url,function(json){
-		$.each(json.elementinfo,function(i,bdat){	
-			
-			$("#boxelement_"+boxelementID).html('\\||//');
-			
-				if(bdat.photo!=''){
-				$('#boxelement_'+bdat.ID).append(''+
-				'<div class="boxphotowrap"><img class="boxphoto" src="img/full/'+bdat.photo+'" ></div>');
-				}
-				
-				if(bdat.title!=''){
-				$('#boxelement_'+bdat.ID).append(''+
-				'<h4><a href="#" onclick="loadContent('+bdat.ID+');">'+bdat.title+'</a></h4>'+
-				'');
-				}
-				
-				if(bdat.mytext!=''){
-				$('#boxelement_'+bdat.ID).append(''+
-				'<br> '+bdat.mytext+'<br>'+
-				'');
-				}
-			});
-			
-		});
-			}
 	
 	
 	window.editNow = function (elementID) {	
@@ -780,53 +458,6 @@ $('#boxitem').html('');
 				if (ldat.file != ''){
 					$("#pagecontent"+ldat.ID).append('<img src="img/full/'+ldat.file+'" style="width: 100%; ">');
 				}
-				
-				if (ldat.boxID != ''){
-		var url="navigation/boxelements.php?box="+ldat.boxID+"";
-			$( '.pagecontent' +ldat.ID).append('<ul></ul>');
-		$.getJSON(url,function(json){
-			$.each(json.boxiteminfo,function(i,bdat){
-				var colwidth= 100.00 / ldat.columnset;
-			
-								$( ".pagecontent"+ldat.ID+" > ul" ).append(''+
-				'<li ID="boxelement_'+bdat.ID+'" style="width:'+colwidth+'%; min-height: 300px; float: left; text-align: inherit;" onclick="showBoxEdit('+bdat.ID+'); return false;"> </li>');
-				
-				$('#boxelement_'+bdat.ID).append(''+
-				
-				'<div class="boxeditbutton" style=" display:none; width:inherit; position: absolute; top:auto;background: #eee; opacity: 0.8;"><div class="boxmover" style="float:left;font-size: 25px; margin color:#333;"> ' +
-					'<i class="fa fa-arrows"></i>'+
-				'</div>'+
-				'<a href="" onclick="editBoxElement(); return false;"><i class="fa fa-pencil"></i>edit</a>'+
-
-				'<a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+'); return false; "><i class="fa fa-trash" style="font-size: 25px; margin-right:20px; float:right;"></i></a></div>'+
-				
-				'');
-				if(bdat.photo!=''){
-				$('#boxelement_'+bdat.ID).append(''+
-				'<img src="img/full/'+bdat.photo+'" style=" width: 100%; margin: auto; "><br>');
-				}
-				
-				
-				if(bdat.title!=''){
-				$('#boxelement_'+bdat.ID).append(''+
-				'<h4>'+bdat.title+'</h4>'+
-				'');
-				}
-				
-				if(bdat.mytext!=''){
-				$('#boxelement_'+bdat.ID).append(''+
-				'<br> '+bdat.mytext+''+
-				'');
-				}
-				
-				
-				
-				
-			});
-			
-		});
-			window.sortBox();			
-	}
 
 				
 			});
@@ -838,12 +469,12 @@ $('#boxitem').html('');
 	window.usecolor = function(elementID){
 		$("#overridebg").html('');
 		$("#clearall").html('<input type="button" name="clearbg"'+
-							 'value="transparent" onclick="clearall('+elementID+');return false;">');
+							 'value="transparent" onclick="clearall('+elementID+');">');
 							 
 		$("#color2").html(''+
 				'-  Background<br>'+
 				'<input type="color" name="background"  ID="pickbg"'+
-				'value="#ffffff" onchange="editNow('+elementID+');" onfocus="editNow('+elementID+'); return false" '+
+				'value="#ffffff" onchange="editNow('+elementID+');" onfocus="editNow('+elementID+');" '+
 				'style="height: 30px; width: 100px; padding: 0px; margin-right: 3px;">'+
 				'');
 				
@@ -872,47 +503,12 @@ $('#boxitem').html('');
 	}
 	
 	
-	window.editBoxElement = function (boxelementID) {
-	window.helperadd();
-	$('#lightbox>#content').html('<div class="boxtitle">Edit Box Item</div>');
-			var url="navigation/boxelements.php?be="+ boxelementID+'';
-		$.getJSON(url,function(json){
-			$.each(json.boxiteminfo,function(i,idat){
-				
-				var str = idat.mytext;
-				var safetext= str.replace(/<br>/g, "\r");
-			
-			
-				$("#lightbox>#content").append(''+
-				
-					'<form  ID="formElement">'+
-					'<input type="hidden" name="editboxitem" value="'+boxelementID+'">'+
-					//'<input type="hidden" name="pageID" value="'++'"></form>'+
-					'');
-					
-					
-		$("#formElement").append(''+
-		'<input type="text" name="title" value="'+idat.title+'">'+
-			'<textarea style="width: 100%; max-width: 100% ; min-height: 100px; margin: auto;" name="mytext"> '+safetext+'</textarea>'+
-			'<span style="font-size: 12px; color: #fff">Replace Photo<br> <input type="file" name="file"  accept="image/*;capture=camera"> </span>'+
-			'<input style="  " ID="saveedit" type="button" name="submit" '+
-						'value="Save" onclick="editboxitemNow('+idat.boxID+'); ">'+
-					
-				'');
-				
-
-	});
-	
-	});
-	
-	}
-	
 	window.editElement = function (itemID) {
 		window.helperadd();
 			var url="navigation/elements.php?e="+ itemID;
 		$.getJSON(url,function(json){
 			$.each(json.elementinfo,function(i,idat){
-				$('#lightbox>#content').html('<div class="boxtitle">Edit Element</div>');
+				$('#lightbox>#content').html('<div class="boxtitle">Edit Element</span>');
 				var str = idat.pagecontent;
 				var safetext= str.replace(/<br>/g, "\r");
 			
@@ -924,26 +520,14 @@ $('#boxitem').html('');
 					'<input type="hidden" name="pageID" value="'+idat.pageID+'"></form>'+
 					'');
 					
-					
-					
-					
 			
 					
 			if(idat.file==''){
-				
-				if (idat.boxID != ''){
-				$("#formElement").append(''+
-					'Box Title<br><input type="text" name="pagecontent" placeholder="Enter Box Title" value="'+safetext+'"><br>'+
-					'Columns: <input type="text" style="width:100px" name="columnset" placeholder="Box Columns" value="'+idat.columnset+'"><br>'+
-					'');	
-					
-				}
-				else{
 				$("#formElement").append(''+
 					'<textarea style="width: 100%; max-width: 100% ; min-height: 100px; margin: auto;" name="pagecontent"'+
-					'placeholder="Enter Text Here">'+safetext+'</textarea><br>');
-					}
-				$("#formElement").append(''+	
+					'placeholder="Enter Text Here">'+safetext+'</textarea><br>'+
+					
+					
 					'<div ID="color1" style=" float: left; " >Text Color<br>'+
 						'<input type="color" name="color"   class="pick"  '+
 							'value="'+idat.color+'" onfocus="editNow('+idat.ID+');" onchange="editNow('+idat.ID+');"'+
@@ -1109,7 +693,7 @@ window.saveCss = function(){
 		$("#lightbox>content").html('');
 		$.getJSON(url,function(json){
 			$.each(json.userinfo,function(i,ldat){
-				$("#lightbox>#content").html('<div class="boxtitle">CSS Editor</div>'+
+				$("#lightbox>#content").html(''+
 				'<form ID="cssEditor">'+
 				'<input type = "hidden" name="css" value="edit">'+
 				'<a class="button" href="#" style="float: right;color: #333; background:#eee; padding: 10px; " name="updatecss" value="Save CSS" onclick="saveCss(); return false;">SAVE CSS</a>'+
@@ -1144,20 +728,6 @@ window.deletePage = function (itemID) {
 					});
 	}	
 	
-	
-		
-
-	window.deleteBoxElement = function (pageID) {
-		$('#boxelement_'+pageID+'').slideUp(300);
-		$.post('navigation/confirm.php', { deleteboxelement: pageID },
-		function () {
-				// 200, it worked; resource deleted
-				}, function () {
-					// it didn't delete			
-					});
-	}	
-	
-
 
 	
 	
@@ -1185,17 +755,17 @@ window.deletePage = function (itemID) {
 		
 		
 	window.resetMenu= function(pageID){
-		$("#addText").html('<a href="#" class="pop"   onclick="addText('+pageID+'); return false;">'+
+		$("#addText").html('<a href="#" class="pop"   onclick="addText('+pageID+')">'+
 				'<i class="fa fa-pencil"></i> Add Text</a>').css("background", "none");
-		$("#addBox").html('<a href="#" class="pop"   onclick="addBox('+pageID+'); return false;">'+
+		$("#addBox").html('<a href="#" class="pop"   onclick="addBox('+pageID+')">'+
 				'<i class="fa fa-th"></i> Add Box</a>').css("background", "none");
-		$("#addPhoto").html('<a href="#" class="pop"   onclick="addPhoto('+pageID+'); return false;">'+
+		$("#addPhoto").html('<a href="#" class="pop"   onclick="addPhoto('+pageID+')">'+
 				'<i class="fa fa-camera"></i> Add Photo</a>').css("background", "none");
-		$("#addBgPhoto").html('<a href="#" class="pop"   onclick="addBgPhoto('+pageID+'); return false;">'+
+		$("#addBgPhoto").html('<a href="#" class="pop"   onclick="addBgPhoto('+pageID+')">'+
 				'<i class="fa fa-image"></i> Page Background</a>').css("background", "none");
-		$("#addLogo").html('<a href="#" class="pop"   onclick="addLogo('+pageID+'); return false;">'+
-				'<i class="fa fa-list-alt"></i> Site Banner</a>').css("background", "none");
-		$("#addLinkColor").html('<a href="#" class="pop"   onclick="addLinkColor('+pageID+'); return false;">'+
+		$("#addLogo").html('<a href="#" class="pop"   onclick="addLogo('+pageID+')">'+
+				'<i class="fa fa-star"></i> Site Banner</a>').css("background", "none");
+		$("#addLinkColor").html('<a href="#" class="pop"   onclick="addLinkColor('+pageID+')">'+
 				'<i class="fa fa-star"></i>Link Colors</a>').css("background", "none");
 
 
@@ -1230,29 +800,12 @@ window.deletePage = function (itemID) {
 	}
 		
 		
-		
-		window.showDrafts= function(pageID){	
-	window.resetMenu(''+pageID+'');
-		$("#drafts").css("background", "#dddddd");
-		$("#drafts").html('<i class="fa fa-lock"></i> Drafts<br>'+
-		'');
-		var url="navigation/drafts.php";
-		$.getJSON(url,function(json){
-			$.each(json.info,function(i,idat){
-				$('#drafts').append('<br><a href="#" onclick="loadPage('+idat.ID+'); return false;">'+idat.title+'</a>');
-				});
-				
-				});
-		
-		
-		}
-		
 	window.addText= function(pageID){
 			
 					
 		window.resetMenu(''+pageID+'');
 
-				
+			
 		$("#addText").css("background", "#dddddd");
 		$("#addText").html('<i class="fa fa-pencil"></i> Add Text<br>'+
 		'<form  ID="addform">'+
@@ -1338,8 +891,8 @@ window.deletePage = function (itemID) {
 		
 		window.boxItemForm= function(elementID){	
 			$('.element_'+elementID+' .editbutton .newitem').html('<br>'+
-				'<form ID="addform" style="background:#ffffff;">'+
-'<input type="hidden" name="newboxitem" value="add">'+
+				'<form ID="addform">'+
+				'<input type="hidden" name="newboxitem" value="add">'+
 				'<input type="hidden" name="elementID" value="'+ elementID +'" >'+
 				
 				'<input type="text" name="title" ID="boxtitle" placeholder="Title for New Post"><br>'+
@@ -1353,8 +906,6 @@ window.deletePage = function (itemID) {
 			'</form>');		
 						
 		}
-
-
 
 window.changeBgNow= function(pageID){
 	//var elementdata= 
@@ -1383,8 +934,8 @@ window.changeBgNow= function(pageID){
 		'<form ID="addform">'+
 		'<input type="hidden" name="bgcolor" value="new">'+
 		'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
-		'<input type="color" name="color" ID="bgcolorpick" ><br>'+
-		'<input type="button" name="submit" value="Save" onclick="changeBgNow('+ pageID +');">'+
+		'<input type="color" name="color" ID="bgcolorpick" >'+
+		'<input type="button" name="submit" value="Add" onclick="changeBgNow('+ pageID +');">'+
 		'</form><div ID="bgtoggle"><a href="#" onclick="addBgPhoto('+ pageID +')">Use Photo</a></div>');
 		
 		  $("#bgcolorpick").spectrum({
@@ -1407,8 +958,8 @@ window.changeBgNow= function(pageID){
 		'<form ID="addform">'+
 		'<input type="hidden" name="bgphoto" value="new">'+
 		'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
-		'<input type="file" name="file"  accept="image/*;capture=camera"> <br>'+
-		'<input type="button" name="submit" value="Save" onclick="changeBgNow('+ pageID +');">'+
+		'<input type="file" name="file"  accept="image/*;capture=camera"> '+
+		'<input type="button" name="submit" value="Add" onclick="changeBgNow('+ pageID +');">'+
 		'</form><div ID="bgtoggle"><a href="#" onclick="addBgColor('+ pageID +')">Use Solid Color</a></div>');	
 		
 						
@@ -1436,49 +987,23 @@ window.changeBgNow= function(pageID){
 }
 		
 		
-			window.addBannerColor= function(pageID){	
 		
-		$("#bannertoggle").html('<a href="#" onclick="addLogo('+pageID+')">Use Photo</a>');
-		
-		$("#addLogo").html('<i class="fa fa-list-alt"></i> Site Banner<br>'+
-		'<form ID="addform">'+
-		'<input type="hidden" name="bannercolor" value="new">'+
-		'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
-		'<input type="color" name="color" ID="bannercolorpick" ><br>'+
-		'<input type="button" name="submit" value="Save" onclick="addLogoNow('+ pageID +');">'+
-		'</form><div ID="bannertoggle"><a href="#" onclick="addLogo('+ pageID +')">Use Photo</a></div>');
-		
-		  $("#bannercolorpick").spectrum({
-		
-			allowEmpty:true,
-		preferredFormat: "hex",
-		showInput:true
-    });
-
-		
-	}
-
 	
 	
 	
 		window.addLogo= function(pageID){	
-	window.resetMenu(''+pageID+'');
-		
+		window.resetMenu(''+pageID+'');	
 		$("#addLogo").css("background", "#dddddd");
-		$("#addLogo").html('<i class="fa fa-list-alt"></i> Site Banner<br>'+
+		$("#addLogo").html('<i class="fa fa-image"></i> Site Banner<br>'+
 		'<form ID="addform">'+
-		'<input type="hidden" name="bannerphoto" value="new">'+
+		'<input type="hidden" name="logo" value="new">'+
 		'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
-		'<input type="file" name="file"  accept="image/*;capture=camera"> '+
-		'<input type="button" name="submit" value="Save" onclick="addLogoNow('+ pageID +');">'+
-		'</form><div ID="bannertoggle"><a href="#" onclick="addBannerColor('+ pageID +'); return false;">Use Solid Color</a></div>');	
+	
+		'<input type="button" name="submit" value="Add" onclick="addLogoNow('+ pageID +');">'+
+		'</form>');	
 		
 						
 	}
-
-
-
-
 	
 	window.addLinkColorNow= function(pageID){
 		
@@ -1505,39 +1030,16 @@ window.changeBgNow= function(pageID){
 	window.addLinkColor= function(pageID){	
 	window.resetMenu(''+pageID+'');		
 		$("#addLinkColor").css("background", "#dddddd");
-		$("#addLinkColor").html('<i class="fa fa-star"></i>Link Style<br>'+
+		$("#addLinkColor").html('<i class="fa fa-image"></i>Link Colors<br>'+
 		'<form ID="addform">'+
-		'<input type="hidden" name="linkcolors" value="new">'+
+		'<input type="hidden" name="linkColor" value="new">'+
 		'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
 		
-		
-			'Color: <input name="linkpick" class="linkpick"><br>' +
-		'Hover: <input name="hoverpick" class="hoverpick" ><br>' +
-		'Size : <input type="text" name="linksize" ID="linksize" value="18px" style="width: 50px"><br>'+
-		'Font : <input type="text" name="linkfont" ID="linkfont" value="helvetica">'+
-'<input type="button" name="submit" value="Save" onclick="addLinkColorNow('+ pageID +'); return false; ">'+
-		'</form>');					
-		
-	$(".linkpick").spectrum({
-			
-		preferredFormat: "hex",
-		showInput:true
-    });
-    
-    $(".hoverpick").spectrum({
-		
-			allowEmpty:true,
-		preferredFormat: "hex",
-		showInput:true
-    });
-    
-
-}
-		
-		
+		'<input type="button" name="submit" value="Add" onclick="addLinkColorNow('+ pageID +');">'+
+		'</form>');	
 		
 						
-	
+	}
 
 	
 	
@@ -1591,31 +1093,22 @@ window.changeBgNow= function(pageID){
 
 	
 $(document).ready(function(){
-	$("#header").html('<div ID="logo"></div>'+
-		'<div id="nav">'+
-		'<div id="navcontent"></div>'+
+
+
+		
+	$("#nav").html(''+
+	'<div id="navcontent"></div>'+
 	'<div id="navactions">'+
-	'<a href="#" class="links" onclick="showPages();"><i class="fa fa-bars"></i></a> '+
+		'<a href="#" class="links" onclick="showPages();"><i class="fa fa-bars"></i></a> '+
 		
 	'</div>'+
 	'<div id="navadd"></div>'+	
 	'<div id="usercss"></div>'+
-		'</div><div style="clear:both; height:10px; width:100% "></div>');
 	
-		
-		
-		
-		
+		'');
 
-//	window.showPages();
-	
+	window.showPages();
 	window.loadPage('home');
 	window.loadCss();
-	$(".links").click( function(){
-		
-		$("#navcontent").toggle(400);
-		
-		
-	});
 		
 });

@@ -8,7 +8,6 @@ $urltext=$_POST['urltext'];
 $newpage=$_POST['newpage'];
 $newelement=$_POST['newelement'];
 $newboxitem=$_POST['newboxitem'];
-$editboxitem=$_POST['editboxitem'];
 $update=$_POST['update'];
 $deletepage=$_POST['deleteme'];
 $deleteelement=$_POST['deleteelement'];
@@ -16,7 +15,6 @@ $deleteboxelement=$_POST['deleteboxelement'];
 $editme=$_POST['editme'];
 $css=$_POST['css'];
 $bgphoto=$_POST['bgphoto'];
-$boxphotos=$_POST['boxphotos'];
 $bgcolor=$_POST['bgcolor'];
 $bannerphoto=$_POST['bannerphoto'];
 $bannercolor=$_POST['bannercolor'];
@@ -273,94 +271,7 @@ if ($newelement=='add'){
 }
 
 
-if ($editboxitem!=''){
-	$data3=mysql_query("select * from page_element where ID='$elementID' order by ID DESC limit 1");
-		while($info3=mysql_fetch_array($data3)){
-			$thisbox=$info3['boxID'];
-		}				
 
-	
-	$title=addslashes($_POST['title']);
-	$newtext = str_replace("\r",'<br>',$_POST['mytext']);			
-	$cleantext=addslashes($newtext);
-	$photo=addslashes($_FILES[file][name]);
-	if($photo!=''){
-		$photo.=date("m.d.yg:i:sa");
-		echo ' -> Adding Photo ';
-		$add="../img/full/".$photo;
-		echo $add;
-		if(move_uploaded_file ($_FILES[file][tmp_name],$add)){
-
-			//echo "<P>Successfully uploaded the image<P>";
-			chmod("$add",0777);
-		}
-		else{
-			echo " -> Photo Upload Directory Error";exit;}
-			
-			$photoerror='true';
-			if ($_FILES[file][type]=="image/jpg"){$photoerror='false';}
-			if ($_FILES[file][type]=="image/jpeg"){$photoerror='false';}
-			if ($_FILES[file][type]=="image/png"){$photoerror='false';}
-			if ($_FILES[file][type]=="image/gif"){$photoerror='false';}
-			if ($_FILES[file]['size'] > 2000000000) {
-	        $photoerror='true';
-	            }	
-			if ($photoerror=='true'){
-				echo " -> Photo Upload Type Error";
-				exit;
-			}
-		else{
-			mysql_query("update box_element set  photo= '$photo' where ID = '$editboxitem ' limit 1 ") or die (mysql_error());
-
-			echo' -> Photo Upload Success';
-			
-		}
-	}
-	mysql_query("update box_element set  title= '$title' where ID = '$editboxitem ' limit 1 ") or die (mysql_error());
-mysql_query("update box_element set  mytext= '$cleantext' where ID = '$editboxitem ' limit 1 ") or die (mysql_error());
-
-
-	}
-	
-	
-if ($boxphotos=='add'){
-	
-	$contentID=$_POST['contentID'];
-	$photo=addslashes($_FILES[file][name]);
-	
-	if($photo!=''){
-		$photo.=date("m.d.yg:i:sa");
-		echo ' -> Adding Photo ';
-		$add="../img/full/".$photo;
-		echo $add;
-		if(move_uploaded_file ($_FILES[file][tmp_name],$add)){
-
-			//echo "<P>Successfully uploaded the image<P>";
-			chmod("$add",0777);
-		}
-		else{
-			echo " -> Photo Upload Directory Error";exit;}
-			
-			$photoerror='true';
-			if ($_FILES[file][type]=="image/jpg"){$photoerror='false';}
-			if ($_FILES[file][type]=="image/jpeg"){$photoerror='false';}
-			if ($_FILES[file][type]=="image/png"){$photoerror='false';}
-			if ($_FILES[file][type]=="image/gif"){$photoerror='false';}
-			if ($_FILES[file]['size'] > 2000000000) {
-	        $photoerror='true';
-	            }	
-			if ($photoerror=='true'){
-				echo " -> Photo Upload Type Error";
-				exit;
-			}
-		else{echo' -> Photo Upload Success';}
-	}
-	mysql_query("insert into blog_photos (ID, blogID, photo ) values  ('', '$contentID', '$photo') ") or die (mysql_error());
-
-
-}
-	
-	
 if ($newboxitem=='add'){
 	$elementID=$_POST['elementID'];
 	
@@ -524,12 +435,10 @@ if ($elementaction == "updateElementOrder"){
 $action = mysql_real_escape_string($_POST['action']); 
 $updateBox = $_POST['boxelement'];
 if ($action == "updateBox"){
-	$boxCounter = 0;
-		
+	$boxCounter = 1;
 	foreach ($updateBox as $value) {
-		$boxCounter = $boxCounter + 1;
 		$updatenow=mysql_query("UPDATE box_element SET boxelementorder = '$boxCounter' WHERE ID = '$value'")or die(mysql_error('Element order was not updated in DB'));
-		
+		$boxCounter = $boxCounter + 1;	
 	}
 	
 	echo 'Box Order Saved';
