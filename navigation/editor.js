@@ -732,106 +732,120 @@ $('#boxitem').html('');
 			}
 	
 	
-	window.editNow = function (elementID) {	
-	
-		
-		var elementdata = new FormData($("#formElement")[0]);
-		$.ajax({
-			'url' : "navigation/confirm.php",
-			'type' : 'post',
-			'data'	: elementdata,
-			processData: false,
-			contentType: false,
-			beforeSend: function(XHR){
-				
-			}
-		}).done(function(){
-	window.reloadElement(''+elementID+'');	
-			});
-		
-	
-		
 
+	window.editNow = (function () {
 		
+		var debouncedSave = _.debounce(actuallySave, 300);
+		var lastData;
+		
+		return function() {
+
+			// pull the element data out of the form
+			var formPairs = $("#formElement").serializeArray();
+			var data = _.chain(formPairs).
+				map(function (o) {
+					return [o.name, o.value];
+				}).
+				object().
+				value();
 			
-	}	//editnow
+			// only save if elementdata has changed
+			if (_.isEqual(data, lastData)) {
+				return;
+			}
+
+			// don't count the first time (may change when loadFromJson is responsible for first content load)
+			if (!_.isUndefined(lastData)) {
+				// always update the dom
+				loadFromJson(data);
+				// sometimes update the server
+				debouncedSave(data);
+			}
+
+			// update the last known data
+			lastData = data;
+		};
+
+		function actuallySave(data) {
+			$.ajax({
+				'data' : data,
+				'url' : "navigation/confirm.php",
+				'type' : 'post',
+			});
+		}
+	}());
 	
-	
-	window.reloadElement= function (elementID){
+	function loadFromServer(elementID) {
 		var login='y';
 		var url="navigation/elements.php?e="+ elementID;
-		$.getJSON(url,function(json){
-			
-			$.each(json.elementinfo,function(i,ldat){
-				$("#element_"+ldat.ID).css("font-family", ldat.fontfamily);
-				$("#element_"+ldat.ID).css("font-weight", ldat.fontweight);
-				$("#element_"+ldat.ID).css("font-size", ldat.fontsize +'px');
-				$("#element_"+ldat.ID).css("line-height", ldat.fontsize +'px');
-				$("#element_"+ldat.ID).css("letter-spacing", ldat.spacing +'px');
-				$("#element_"+ldat.ID).css("text-align", ldat.textalign +'');
-				$("#element_"+ldat.ID).css("color", ldat.color +'');
-				$("#pagecontent"+ldat.ID).css("background-color", ldat.background +'');
-				$("#pagecontent"+ldat.ID).css("padding", ldat.padding +'px');
-				$("#pagecontent"+ldat.ID).css("opacity", ldat.opacity +'');
-				$("#pagecontent"+ldat.ID).css("border-radius", ldat.radius +'px');
-				$("#pagecontent"+ldat.ID).css("z-index", ldat.layer);
-				
-				$("#pagecontent"+ldat.ID).html(''+ldat.pagecontent+'');
-				if (ldat.file != ''){
-					$("#pagecontent"+ldat.ID).append('<img src="img/full/'+ldat.file+'" style="width: 100%; ">');
-				}
-				
-				if (ldat.boxID != ''){
-		var url="navigation/boxelements.php?box="+ldat.boxID+"";
-			$( '.pagecontent' +ldat.ID).append('<ul></ul>');
-		$.getJSON(url,function(json){
-			$.each(json.boxiteminfo,function(i,bdat){
-				var colwidth= 100.00 / ldat.columnset;
-			
-								$( ".pagecontent"+ldat.ID+" > ul" ).append(''+
-				'<li ID="boxelement_'+bdat.ID+'" style="width:'+colwidth+'%; min-height: 300px; float: left; text-align: inherit;" onclick="showBoxEdit('+bdat.ID+'); return false;"> </li>');
-				
-				$('#boxelement_'+bdat.ID).append(''+
-				
-				'<div class="boxeditbutton" style=" display:none; width:inherit; position: absolute; top:auto;background: #eee; opacity: 0.8;"><div class="boxmover" style="float:left;font-size: 25px; margin color:#333;"> ' +
-					'<i class="fa fa-arrows"></i>'+
-				'</div>'+
-				'<a href="" onclick="editBoxElement(); return false;"><i class="fa fa-pencil"></i>edit</a>'+
-
-				'<a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+'); return false; "><i class="fa fa-trash" style="font-size: 25px; margin-right:20px; float:right;"></i></a></div>'+
-				
-				'');
-				if(bdat.photo!=''){
-				$('#boxelement_'+bdat.ID).append(''+
-				'<img src="img/full/'+bdat.photo+'" style=" width: 100%; margin: auto; "><br>');
-				}
-				
-				
-				if(bdat.title!=''){
-				$('#boxelement_'+bdat.ID).append(''+
-				'<h4>'+bdat.title+'</h4>'+
-				'');
-				}
-				
-				if(bdat.mytext!=''){
-				$('#boxelement_'+bdat.ID).append(''+
-				'<br> '+bdat.mytext+''+
-				'');
-				}
-				
-				
-				
-				
-			});
-			
+		$.getJSON(url, function(json) {
+			loadFromJson(json.elementinfo);
 		});
-			window.sortBox();			
 	}
+	
+	function loadFromJson(ldat) {
 
-				
-			});
+		$("#element_"+ldat.ID).css("font-family", ldat.fontfamily);
+		$("#element_"+ldat.ID).css("font-weight", ldat.fontweight);
+		$("#element_"+ldat.ID).css("font-size", ldat.fontsize +'px');
+		$("#element_"+ldat.ID).css("line-height", ldat.fontsize +'px');
+		$("#element_"+ldat.ID).css("letter-spacing", ldat.spacing +'px');
+		$("#element_"+ldat.ID).css("text-align", ldat.textalign +'');
+		$("#element_"+ldat.ID).css("color", ldat.color +'');
+		$("#pagecontent"+ldat.ID).css("background-color", ldat.background +'');
+		$("#pagecontent"+ldat.ID).css("padding", ldat.padding +'px');
+		$("#pagecontent"+ldat.ID).css("opacity", ldat.opacity +'');
+		$("#pagecontent"+ldat.ID).css("border-radius", ldat.radius +'px');
+		$("#pagecontent"+ldat.ID).css("z-index", ldat.layer);
 		
-		});
+		var newlineToBr = ldat.pagecontent.replace(/(?:\r\n|\r|\n)/g, '<br />');
+		
+		$("#pagecontent"+ldat.ID).html(''+newlineToBr+'');
+		if (ldat.file != ''){
+			//$("#pagecontent"+ldat.ID).append('<img src="img/full/'+ldat.file+'" style="width: 100%; ">');
+		}
+		
+		if (ldat.boxID != ''){
+			var url="navigation/boxelements.php?box="+ldat.boxID+"";
+			$( '.pagecontent' +ldat.ID).append('<ul></ul>');
+			$.getJSON(url, function(json){
+				$.each(json.boxiteminfo,function(i,bdat){
+					var colwidth= 100.00 / ldat.columnset;
+					
+					$( ".pagecontent"+ldat.ID+" > ul" ).append(''+
+					'<li ID="boxelement_'+bdat.ID+'" style="width:'+colwidth+'%; min-height: 300px; float: left; text-align: inherit;" onclick="showBoxEdit('+bdat.ID+'); return false;"> </li>');
+					
+					$('#boxelement_'+bdat.ID).append(''+
+					
+					'<div class="boxeditbutton" style=" display:none; width:inherit; position: absolute; top:auto;background: #eee; opacity: 0.8;"><div class="boxmover" style="float:left;font-size: 25px; margin color:#333;"> ' +
+						'<i class="fa fa-arrows"></i>'+
+					'</div>'+
+					'<a href="" onclick="editBoxElement(); return false;"><i class="fa fa-pencil"></i>edit</a>'+
+					
+					'<a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+'); return false; "><i class="fa fa-trash" style="font-size: 25px; margin-right:20px; float:right;"></i></a></div>'+
+					
+					'');
+					if(bdat.photo!=''){
+						$('#boxelement_'+bdat.ID).append(''+
+						'<img src="img/full/'+bdat.photo+'" style=" width: 100%; margin: auto; "><br>');
+					}
+					
+					
+					if(bdat.title!=''){
+						$('#boxelement_'+bdat.ID).append(''+
+						'<h4>'+bdat.title+'</h4>'+
+						'');
+					}
+					
+					if(bdat.mytext!=''){
+						$('#boxelement_'+bdat.ID).append(''+
+						'<br> '+bdat.mytext+''+
+						'');
+					}
+				});
+			});
+			window.sortBox();			
+		}
 	}
 	
 	
@@ -920,14 +934,10 @@ $('#boxitem').html('');
 				$("#lightbox>#content").append(''+
 				
 					'<form  ID="formElement">'+
-					'<input type="hidden" name="editme" value="'+idat.ID+'">'+
+					'<input type="hidden" name="ID" value="'+idat.ID+'">'+
 					'<input type="hidden" name="pageID" value="'+idat.pageID+'"></form>'+
 					'');
 					
-					
-					
-					
-			
 					
 			if(idat.file==''){
 				
@@ -971,7 +981,7 @@ $('#boxitem').html('');
 					'<input type="text" name="textalign" placeholder="Text align" '+
 						'value="'+idat.textalign+'" onkeyup="editNow('+idat.ID+');"><br>'+
 				
-					'Font Size<input  type="range" data-show-value="true" min="10" max="100" name="fontsize" '+
+					'Font Size<input  type="range" data-show-value="true" min="10" max="50" step="5" name="fontsize" '+
 						'value="'+idat.fontsize+'"><br>'+		
 					
 					'Weight :<input  type="range" data-show-value="true" min="0" max="900" step="100" name="fontweight"'+		 					
@@ -1039,7 +1049,21 @@ $('#boxitem').html('');
 		
     });
         
-			$('button.sp-choose').on('input',function(){
+	    // bind changes on inputs to editNow        
+        var colorChangeEvents = ['input', 'focus', 'blur', 'change'];
+        var textChangeEvents = ['input', 'focus', 'blur', 'keyup'];
+        var changeEventMapping = {
+	        'button.sp-choose': colorChangeEvents,
+	        '#formElement>input': textChangeEvents,
+	        '#formElement>textarea': textChangeEvents,
+	    };
+	    _(changeEventMapping).each(function(events, selector) {
+		    _(events).each(function(event) {
+			    $(selector).on(event, function () { editNow(itemID); });
+			});
+		});
+        
+		/*		$('button.sp-choose').on('input',function(){
 					$('#saveedit').click( );
 					}).on('focus', function(){
 					$('#saveedit').click( );
@@ -1063,6 +1087,7 @@ $('#boxitem').html('');
 								
 				$('#formElement>textarea').on('input',function(){
 					$('#saveedit').click( );
+					editNow(itemID);
 					}).on('focus', function(){
 					$('#saveedit').click( );
 					}).on('blur', function() { 
@@ -1071,7 +1096,7 @@ $('#boxitem').html('');
 					$('#saveedit').click( );
 					});
 
-			
+			*/
 			});
 		});
 	

@@ -13,7 +13,7 @@ $update=$_POST['update'];
 $deletepage=$_POST['deleteme'];
 $deleteelement=$_POST['deleteelement'];
 $deleteboxelement=$_POST['deleteboxelement'];
-$editme=$_POST['editme'];
+$editme=$_POST['ID'];
 $css=$_POST['css'];
 $bgphoto=$_POST['bgphoto'];
 $boxphotos=$_POST['boxphotos'];
@@ -427,11 +427,11 @@ if ($deleteboxelement!=''){
 
 	
 if ($editme!=''){	
-	echo $editmy;
+	echo $editme;
 	$newtext = str_replace("\r",'<br>',$_POST['pagecontent']);			
 	$pagecontent=addslashes($newtext);
 	$pageID=addslashes($_POST['pageID']);
-	$elementID=addslashes($_POST['editme']);
+	$elementID=addslashes($_POST['ID']);
 	$layer=addslashes($_POST['layer']);
 	$spacing=addslashes($_POST['spacing']);
 	$lineheight=addslashes($_POST['lineheight']);

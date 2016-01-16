@@ -913,10 +913,10 @@ $('#boxitem').html('');
 	
 window.loadCss = function(){
 		var url="admin/userdata.php?cssonly=true";
-		$("#usercss").html('');
+		$("#userCss").html('');
 		$.getJSON(url,function(json){
 			$.each(json.userinfo,function(i,ldat){
-			$("#usercss").html(''+
+			$("#userCss").html(''+
 				'<style>'+ldat.usercss+'</style>'+	
 				'');
 			});
