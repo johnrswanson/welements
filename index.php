@@ -26,6 +26,7 @@
 <body>
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="http://underscorejs.org/underscore-min.js" type="text/javascript"></script>
 <script src="navigation/touchpunch.js"></script>
 
   <script src="navigation/spectrum.js"></script>
