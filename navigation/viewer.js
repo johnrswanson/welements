@@ -27,77 +27,7 @@
 		$(".secretmenu").toggle(200);
 	}
 	
-	window.secretmenu = function (pageID) {
-		var url="admin/userdata.php";
-		$.getJSON(url,function(json){
-			$.each(json.userinfo,function(i,dat){
-				$("#admincontent").html('<a href="#" class="adminsecret" onclick="secret();return false;"><i class="fa fa-star" style=" font-size: 40px; "></i></a>'+
-				'<div class="secretmenu"> Hello '+dat.shortname + '<br>'+
-				
-				'<a href="#" class="pop"  onclick="addNewPage(); return false;">'+
-					'<i class="fa  fa-file-text-o"></i> New Page</a><br>'+
-					
-					'<div id = "drafts"><a href="#" class="pop"   onclick="showDrafts(); return false;">'+
-					'<i class="fa fa-lock"></i> Drafts</a></div>'+
-				
-				'<div ID="addText"><a href="#" class="pop"   onclick="addText('+pageID+'); return false;">'+
-					'<i class="fa fa-pencil"></i> Add Text</a></div>'+
-					
-					'<div ID="addPhoto"><a href="#" class="pop"  ID="addPhoto"onclick="addPhoto('+pageID+'); return false;">'+
-					'<i class="fa fa-camera"></i> Add Photo</a></div>'+
-					
-					'<div ID="addBox"><a href="#" class="pop"  ID="addPhoto"onclick="addBox('+pageID+'); return false;">'+
-					'<i class="fa fa-th"></i> Add Box</a></div>'+
-					
-
-				
-				'<div ID = "addBgPhoto"><a href="#" class="pop"  onclick="addBgPhoto('+pageID+'); return false;">'+
-					'<i class="fa fa-image"></i> Page Background</a><br></div>'+
-					
-					'<div ID = "pagedetails"><a href="#" class="pop"  onclick="editpageDetails('+pageID+'); return false;">'+
-					'<i class="fa fa-code"></i> Page Details</a><br></div>'+
-					
-				'<div ID = "addLogo"><a href="#" class="pop"  onclick="addLogo('+pageID+'); return false;">'+
-					'<i class="fa fa-list-alt"></i> Site Banner</a><br></div>'+
-					
-				'<div ID = "addLinkColor"><a href="#" class="pop"  onclick="addLinkColor('+pageID+'); return false;">'+
-					'<i class="fa fa-star"></i> Link Style</a><br></div>'+
-					
-				'<a href="#" class="pop"  onclick="editCss('+pageID+'); return false;">'+
-					'<i class="fa fa-paperclip"></i> CSS Editor</a><br>'+
-				
-				
-				'<a href="#" class="deleteOn" onclick="showDeleteButtons(); return false;">'+
-					'<i class="fa fa-remove"></i> Delete Pages</a>'+
-				'<a href="#" class="deleteOff" onclick="hideDeleteButtons(); return false;">'+
-					'<i class="fa fa-remove"></i> Done</a>'+
-					
-				'<form ID="livesaver"  method="POST" style="height: 0px; overflow:hidden; "> '+	
-				'<input type="hidden" ID="elementID" name="elementID" value=""/>'+	
-				'top:<input type="text" ID="dragtop" name="dragtop" value="" />px<br>'+	
-				'left:<input type="text" ID="dragleft" name="dragleft" value="" /> %'+	
-				'<input type="hidden" ID="suxess" name="suxess" value="ready"/>'+	
-				'<input type="hidden" ID="mode" name="mode" value="designer"/>'+	
-				'<input  type="submit" ID="elementpos" name="elementpos" value="Save Position">'+	
-				'</form>'+
-				'<form  ID="sizesaver" method="POST"  style="height: 0px; overflow:hidden; "> '+	
-				'<input type="hidden" ID="sizeelementID" name="sizeelementID" value="">'+	
-				'width : <input type="text" ID="resleft" name="resleft" value="" /> %<br>'+	
-				'abs w : <input type="text" ID="absresleft" name="absresleft" value=""/>px<br>'+	
-				'height:<input type="text" ID="restop" name="restop" value=""/>px<br>'+	
-				'top:<input type="text" ID="respostop" name="dragrestop" value=""/>px<br>'+	
-				'left:<input type="text" ID="resposleft" name="dragresleft" value=""/> %'+	
-				'<input type="hidden" ID="suxess" name="suxess" value="ready"/>'+	
-				'<input type="hidden" ID="mode" name="mode" value="designer"/>'+	
-				'<input  type="submit" ID="elementres" name="elementres" value="Save Size">'+	
-				'</form>'+
-				'<p><a class="logout pop" href="admin/logout.php">'+
-					'<i class="fa fa-user"></i> Log out</p></div>');
-			});
-		});	
-		
-	}
-
+	
 
 	window.loadHomePage= function (){
 		//$("#navcontent").html('<i class="fa fa-circle-o-notch fa-spin"></i>');
@@ -487,7 +417,7 @@ $('#boxitem').html('');
 			
 	
 					
-			window.secretmenu(''+pageID+'');
+			
 			
 			$('#page>#bg').click(function(){
 			$('.elements>.editbutton').hide(0); 

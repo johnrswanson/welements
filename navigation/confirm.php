@@ -375,7 +375,7 @@ if ($newboxitem=='add'){
 	$cleantext=addslashes($newtext);
 	$photo=addslashes($_FILES[file][name]);
 	if($photo!=''){
-		$photo.=date("m.d.yg:i:sa");
+		$photo.=date("m.d.yg.i.sa");
 		echo ' -> Adding Photo ';
 		$add="../img/full/".$photo;
 		echo $add;

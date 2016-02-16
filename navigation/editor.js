@@ -419,7 +419,7 @@ $('#boxitem').html('');
 					if (ldat.boxID != ''){
 							$("#editbutton"+ldat.ID).append(''+
 							'<a class="addboxitem nodrag" href="#" '+
-							'onclick="boxItemForm('+ ldat.ID + '); return false;" '+
+							'onclick="boxItemForm('+ ldat.ID + ', '+ldat.pageID+'); return false;" '+
 							' style="font-size: 12px;" > +add item</a>'+
 							'');
 							
@@ -470,7 +470,7 @@ $('#boxitem').html('');
 				}
 					
 				else {
-					$(".pagecontent"+ldat.ID).append(''+ldat.pagecontent+'<br>');
+					$(".pagecontent"+ldat.ID).append('<div class="textcontent">'+ldat.pagecontent+'</div><br>');
 										
 				$( '.element_'+ldat.ID ).resizable({   
 					
@@ -569,21 +569,21 @@ $('#boxitem').html('');
 				'<a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+'); return false;"><i class="fa fa-trash" style="font-size: 25px; margin-right:20px; float:right;"></i></a></div>'+
 				
 				'');
-				
+				$('#boxelement_'+bdat.ID).append('<div ID="boxitemcontent_'+bdat.ID+'"></div>');
 				
 				if(bdat.photo!=''){
-				$('#boxelement_'+bdat.ID).append(''+
+				$('#boxitemcontent_'+bdat.ID).append(''+
 				'<div class="boxphotowrap"><img class="boxphoto" src="img/full/'+bdat.photo+'" ></div>');
 				}
 				
 				if(bdat.title!=''){
-				$('#boxelement_'+bdat.ID).append(''+
+				$('#boxitemcontent_'+bdat.ID).append(''+
 				'<h4><a href="#" onclick="loadContent('+bdat.ID+');">'+bdat.title+'</a></h4>'+
 				'');
 				}
 				
 				if(bdat.mytext!=''){
-				$('#boxelement_'+bdat.ID).append(''+
+				$('#boxitemcontent_'+bdat.ID).append(''+
 				'<br> '+bdat.mytext+'<br>'+
 				'');
 				}
@@ -706,30 +706,30 @@ $('#boxitem').html('');
 	window.reloadBoxElement= function (boxelementID){
 			var url="navigation/boxelements.php?be="+ boxelementID;
 		$.getJSON(url,function(json){
-		$.each(json.elementinfo,function(i,bdat){	
+		$.each(json.boxiteminfo,function(i,bdat){	
 			
-			$("#boxelement_"+boxelementID).html('\\||//');
+			$("#boxitemcontent_"+boxelementID).html('');
 			
 				if(bdat.photo!=''){
-				$('#boxelement_'+bdat.ID).append(''+
+				$('#boxitemcontent_'+bdat.ID).append(''+
 				'<div class="boxphotowrap"><img class="boxphoto" src="img/full/'+bdat.photo+'" ></div>');
 				}
 				
 				if(bdat.title!=''){
-				$('#boxelement_'+bdat.ID).append(''+
+				$('#boxitemcontent_'+bdat.ID).append(''+
 				'<h4><a href="#" onclick="loadContent('+bdat.ID+');">'+bdat.title+'</a></h4>'+
 				'');
 				}
 				
 				if(bdat.mytext!=''){
-				$('#boxelement_'+bdat.ID).append(''+
+				$('#boxitemcontent_'+bdat.ID).append(''+
 				'<br> '+bdat.mytext+'<br>'+
 				'');
 				}
 			});
 			
 		});
-			}
+	}
 	
 	
 
@@ -798,15 +798,23 @@ $('#boxitem').html('');
 		$("#pagecontent"+ldat.ID).css("border-radius", ldat.radius +'px');
 		$("#pagecontent"+ldat.ID).css("z-index", ldat.layer);
 		
+		var colwidth= 100.00 / ldat.columnset;
+		colwidth = ''+colwidth+'%';
+	$("#pagecontent"+ldat.ID+" .boxelements").css("width", colwidth);
+	
+		
+		
 		var newlineToBr = ldat.pagecontent.replace(/(?:\r\n|\r|\n)/g, '<br />');
 		
-		$("#pagecontent"+ldat.ID).html(''+newlineToBr+'');
+		$("#pagecontent"+ldat.ID+" .textcontent").html(''+newlineToBr+'');
 		if (ldat.file != ''){
 			//$("#pagecontent"+ldat.ID).append('<img src="img/full/'+ldat.file+'" style="width: 100%; ">');
 		}
 		
-		if (ldat.boxID != ''){
-			var url="navigation/boxelements.php?box="+ldat.boxID+"";
+		if (ldat.boxID != ''){}
+		
+		/*{
+			var url="navigation/boxelements.php?box="+ldat.boxID;
 			$( '.pagecontent' +ldat.ID).append('<ul></ul>');
 			$.getJSON(url, function(json){
 				$.each(json.boxiteminfo,function(i,bdat){
@@ -846,6 +854,7 @@ $('#boxitem').html('');
 			});
 			window.sortBox();			
 		}
+		*/
 	}
 	
 	
@@ -910,7 +919,7 @@ $('#boxitem').html('');
 			'<textarea style="width: 100%; max-width: 100% ; min-height: 100px; margin: auto;" name="mytext"> '+safetext+'</textarea>'+
 			'<span style="font-size: 12px; color: #fff">Replace Photo<br> <input type="file" name="file"  accept="image/*;capture=camera"> </span>'+
 			'<input style="  " ID="saveedit" type="button" name="submit" '+
-						'value="Save" onclick="editboxitemNow('+idat.boxID+'); ">'+
+						'value="Save" onclick="editboxitemNow('+boxelementID+'); ">'+
 					
 				'');
 				
@@ -1333,12 +1342,12 @@ window.deletePage = function (itemID) {
 				'<input type="hidden" name="pageID" value="'+ pageID +'" >'+
 				'<input type="text" name="boxtitle" ID="boxtitle" placeholder="Title for New Box"><br>'+
 				'<input type="button" name="submit" value="Add" onclick="addElement('+ pageID +');">'+
-			'</form>');	
-			
-							
+			'</form>');						
 		}
 		
-		window.addBoxItem= function(elementID){
+		
+		
+		window.addBoxItem= function(thisPage){
 		
 		var elementdata = new FormData($("#addform")[0]);
 		$.ajax({
@@ -1351,8 +1360,8 @@ window.deletePage = function (itemID) {
 				
 			}
 		}).done(function(){
-		$('.element_'+elementID+' .editbutton .newitem').html('');
-			window.reloadElement(''+elementID+'');	
+		//$('.element_'+elementID+' .editbutton .newitem').html('Item Added. ');
+				loadPage(''+thisPage+'');
 			
 			});
 			
@@ -1361,7 +1370,10 @@ window.deletePage = function (itemID) {
 				
 		
 		
-		window.boxItemForm= function(elementID){	
+		window.boxItemForm= function(elementID, pageID){	
+			
+			
+			
 			$('.element_'+elementID+' .editbutton .newitem').html('<br>'+
 				'<form ID="addform" style="background:#ffffff;">'+
 '<input type="hidden" name="newboxitem" value="add">'+
@@ -1373,7 +1385,7 @@ window.deletePage = function (itemID) {
 				
 				'<span style="font-size: 12px; color: #555">Add Photo<br> <input type="file" name="file"  accept="image/*;capture=camera"> '+
 				
-				'<input type="button" name="submit" value="Add" onclick="addBoxItem('+ elementID +');">'+
+				'<input type="button" name="submit" value="Add" onclick="addBoxItem('+ pageID +');">'+
 				
 			'</form>');		
 						
