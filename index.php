@@ -17,18 +17,15 @@
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/spectrum.css">
-
 <link rel="stylesheet" href="admin/style.css">
-<link rel="stylesheet" href="login/style.css">
-<link rel="stylesheet" href="list/style.css">
 
 </head>
 <body>
+
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script src="http://underscorejs.org/underscore-min.js" type="text/javascript"></script>
 <script src="navigation/touchpunch.js"></script>
-
   <script src="navigation/spectrum.js"></script>
 
 
@@ -82,8 +79,9 @@
 	
  
 </style>
-<div id="userCss"></div>
+
 <link rel="stylesheet" href="navigation/style.css">
+<div id="userCss"></div>
 
 </body>
 </html>

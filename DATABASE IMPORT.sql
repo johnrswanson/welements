@@ -1,19 +1,33 @@
-
-
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
+CREATE DATABASE IF NOT EXISTS `redyellowblue` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `redyellowblue`;
 
+CREATE TABLE IF NOT EXISTS `admin` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `shortname` varchar(255) NOT NULL,
+  `usercss` longtext NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-
-
---
--- Table structure for table `pages`
---
+CREATE TABLE IF NOT EXISTS `box_element` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `boxID` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `mytext` longtext NOT NULL,
+  `photo` varchar(255) NOT NULL,
+  `date` varchar(255) NOT NULL,
+  `boxelementorder` varchar(255) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `pages` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -30,11 +44,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `adminID` varchar(255) NOT NULL,
   `background` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=456 ;
-
---
--- Table structure for table `page_box`
---
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `page_box` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -45,43 +55,13 @@ CREATE TABLE IF NOT EXISTS `page_box` (
   `adminID` varchar(255) NOT NULL,
   `columnset` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=333 ;
-
---
--- Table structure for table `page_box_types`
---
-
-CREATE TABLE IF NOT EXISTS `page_box_types` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `active` varchar(2) NOT NULL,
-  `styles` varchar(255) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
-
---
--- Dumping data for table `page_box_types`
---
-
-INSERT INTO `page_box_types` (`ID`, `title`, `active`, `styles`) VALUES
-(1, 'box', 'y', '1'),
-(2, 'gallery', 'y', '1'),
-(3, 'blog', 'y', '1'),
-(4, 'video', 'y', '1'),
-(5, 'calendar', 'y', '1'),
-(6, 'custom', 'y', '1'),
-(7, 'store', 'y', '1');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `page_element`
---
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `page_element` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `pageID` varchar(255) NOT NULL,
   `boxID` varchar(255) NOT NULL,
+  `columnset` varchar(255) NOT NULL,
   `pagecontent` longtext NOT NULL,
   `file` varchar(255) NOT NULL,
   `elementlist` int(11) NOT NULL,
@@ -106,6 +86,33 @@ CREATE TABLE IF NOT EXISTS `page_element` (
   `lineheight` varchar(255) NOT NULL,
   `spacing` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1547 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `stylesheet` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `user_css` longtext NOT NULL,
+  `bannercolor` varchar(255) NOT NULL,
+  `bannerphoto` varchar(255) NOT NULL,
+  `linkcolor` varchar(255) NOT NULL,
+  `hovercolor` varchar(255) NOT NULL,
+  `selectedcolor` varchar(255) NOT NULL,
+  `linksize` varchar(255) NOT NULL,
+  `linkfont` varchar(255) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
+CREATE TABLE `blog_photos` (
+  `ID` int(11) NOT NULL,
+  `blogID` varchar(255) NOT NULL,
+  `photo` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  PRIMARY KEY (`ID`);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

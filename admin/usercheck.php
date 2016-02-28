@@ -24,7 +24,7 @@ else{
 	$go = addslashes($_GET['go']);
 	if($go == 'admin'){
 		echo'<div ID="adminlogin">
-			<a class="adminlogin" href="admin/index.php" onclick ="return false;"> <i class="fa fa-star"></i></a>
+			<a class="adminlogin" href="admin/index.php" onclick ="return false;"> <img src="img/ryblogo.png" width="40px"></a>
 			</div>';
 		}
 }

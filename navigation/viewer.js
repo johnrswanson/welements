@@ -141,6 +141,14 @@ window.logo= function(){
 }
 
 
+
+
+window.boxback=function(){
+	$("#boxitem").html('');
+$(".elements").fadeIn(1000);
+		
+}
+
 window.loadContent= function(contentID){	
 	$('.elements').slideUp('');
 	var url="navigation/boxelements.php?be="+ contentID+'';
@@ -150,7 +158,7 @@ window.loadContent= function(contentID){
 			$('#page').append(''+
 			'<div ID="boxitem"></div>');
 			
-$('#boxitem').html('');
+$('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X</a></div>');
 			
 			if(bdat.photo!=''){
 			$('#boxitem').append(''+
@@ -366,10 +374,10 @@ $('#boxitem').html('');
 			$( '.pagecontent' +ldat.ID).append('<ul ID="boxlist"></ul>');
 		$.getJSON(url,function(json){
 			$.each(json.boxiteminfo,function(i,bdat){
-				var colwidth= 100 / ldat.columnset;
+				var colwidth= 82 / ldat.columnset;
 			
 				$( ".pagecontent"+ldat.ID+" > ul" ).append(''+
-				'<li ID="boxelement_'+bdat.ID+'" class="boxelements" style="width:'+colwidth+'%; min-height: 100px; float: left; text-align: inherit; box-shadow:  1px 1px 1px 0px #333333; " onclick=""></li>');
+				'<li ID="boxelement_'+bdat.ID+'" class="boxelements" style="width:'+colwidth+'%;   float:left; margin: 1%; text-align: inherit; padding:1%" onclick=""></li>');
 				
 				$('#boxelement_'+bdat.ID).append(''+
 				
@@ -393,7 +401,7 @@ $('#boxitem').html('');
 				
 				if(bdat.title!=''){
 				$('#boxelement_'+bdat.ID).append(''+
-				'<h4><a href="#" onclick="loadContent('+bdat.ID+');">'+bdat.title+'</a></h4>'+
+				'<b><a href="#" onclick="loadContent('+bdat.ID+', '+ldat.ID+' );">'+bdat.title+'</a></b>'+
 				'');
 				}
 				
@@ -402,9 +410,18 @@ $('#boxitem').html('');
 				'<br> '+bdat.mytext+'<br>'+
 				'');
 				}				
+		$('#element_'+ldat.ID).css("height" , "auto");
+		$('#element_'+ldat.ID).css("overflow" , "none");
+	
+		var nextline=ldat.columnset;
+		//$("ul#boxlist>li:nth-child("+nextline+"n+1)").before('<div style=" width: 100%; height: 10px; background:#000;"></div>');
+		$("ul#boxlist>li:nth-child("+nextline+"n+1)").css("clear","both");
+		
+	
 			});
 			
 		});
+
 			window.sortBox();			
 	}
 							
@@ -445,7 +462,8 @@ $('#boxitem').html('');
 					
 		}			
 
-
+$("#page").css("min-height","0px");
+$("#page").css("height","auto");
 	}//loadpage
 	
 		window.savepageDetails = function (){	
