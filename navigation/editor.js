@@ -144,7 +144,7 @@ window.sortBox = function(){	$(".pagecontents ul").sortable({
 		var home='';
 		var url="navigation/data.php";
 		
-$("#navcontent").html('');
+
 $("#navcontent").html('<ul></ul>');
 		$.getJSON(url,function(json){
 			$.each(json.navinfo,function(i,ldat){
@@ -153,7 +153,7 @@ $("#navcontent").html('<ul></ul>');
 				'<li class="plist link" ID="pageArray_'+ldat.ID+'" > '+
 				'<a class="deletebutton dlist" ID="dlist'+ldat.ID+'" href="#" onclick="deletePage(' + ldat.ID + '); return false;">'+
 				'<i class="fa fa-remove"></i></a>'+
-				'<a href="#" onclick="loadPage('+ldat.ID+')">'+ldat.title+'</a> ' + 
+				'<a href="#'+ldat.title+'" onclick="">'+ldat.title+'</a> ' + 
 				'</li>');	
 				
 			
@@ -225,7 +225,7 @@ window.logo= function(){
 				$("#logo").html('');
 				 mybanner=bdat.bannerphoto;
 				if(bdat.bannerphoto!=''){
-					$("#logo").html('<a href="index.php"><img src="img/full/'+mybanner+'" style="width:100%"></a>');
+					$("#logo").html('<a href="index.php"><img src="img/full/'+mybanner+'" style=""></a>');
 					
 					
 					
@@ -259,24 +259,24 @@ window.addblogphotoNow= function(contentID){
 
 
 window.boxback=function(){
+	$("#boxitem").fadeOut(100);
 	$("#boxitem").html('');
-	$(".elements").fadeIn(1000);
 	
 }
 
 window.loadContent= function(contentID){
 	window.hideEdit();
-	$('.elements').fadeOut(100);
+	$("#boxitem").fadeIn(100);
 	var url="navigation/boxelements.php?be="+ contentID+'';
 	$.getJSON(url,function(json){
 		$.each(json.boxiteminfo,function(i,bdat){
 			
-		$('#page').append(''+
-			'<div ID="boxitem"></div>'+
+		$('body').append(''+
+			'<div class="boxdimmer"><div ID="boxitem"></div></div>'+
 			'');
 			
 			
-$('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X</a></div>');
+$('#boxitem').append('<div class="goback"><a href="#" onclick="boxback(); return false">X</a></div>');
 			
 			if(bdat.photo!=''){
 			$('#boxitem').append(''+
@@ -334,14 +334,13 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 	window.loadPage= function (pageID){
 		
 
-		
-			
 		if (pageID=='home'){
 					window.loadHomePage();	
 			
 			}
 			else{
-					window.showPages();
+				window.showPages();
+					window.loadCss();
 
 				window.logo();
 	//$(".links").click();
@@ -376,6 +375,7 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 					'position : absolute' + ';' +
 					'top: ' + ldat.posx + 'px;' +
 					'left:' + ldat.posy + 'px;' +
+					
 					'font-size:' + ldat.fontsize + 'px;' +
 					'line-height:' + ldat.fontsize 	+ 'px;' +
 					'letter-spacing: ' + ldat.spacing + 'px;' +
@@ -384,21 +384,25 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 					'font-weight: ' + ldat.fontweight + ';' +
 					'float: none; ' +
 					'text-align: ' + ldat.textalign+';' +
-				
-					'padding-bottom:' + padd+ 'px;' +
 					'width:	' + ldat.absw + ';' +
-					'height: '+ldat.height+';' +
-					'margin:0px;'+
-					'}' +
-				'.pagecontent'+ldat.ID+'{' +
-					'position:relative;'+
-					'background-color: ' + ldat.background + ';' +
-					'z-index: ' + ldat.layer + ';' +
-					'opacity: ' + ldat.opacity  + ';' +	
-					'height: 100%;' +
-					'padding:' + ldat.padding + 'px;' +
+					'height: auto;'+
 					
 					'border-radius: ' + ldat.radius + 'px;' +
+					
+
+					
+										'}' +
+				'.pagecontent'+ldat.ID+'{' +
+				'background-color: ' + ldat.background + ';' +
+					'position:relative;'+
+					'height: inherit;' +
+					
+					'padding:' + ldat.padding + 'px;' +
+					
+					'z-index: ' + ldat.layer + ';' +
+					'opacity: ' + ldat.opacity  + ';' +
+					'border-radius: ' + ldat.radius + 'px;' +
+
 					'}' +
 					
 				'</style>');
@@ -451,6 +455,9 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 				$( '.element_'+ldat.ID ).resizable({   
 					aspectRatio: "true", 
 					containment:"#page",
+					start: function( event, ui ) {
+						$('.element_'+ldat.ID).css("min-height", "0px");
+						},
 				 	stop: function( event, ui ) {	
 						var width = ui.size.width;
 						var height = ui.size.height;
@@ -470,7 +477,9 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 						var thisID=$(ui.element).attr("ID");
 						$('#sizeelementID').val(''+thisID+'');
 						var data= $( "#sizesaver" ).serialize();
-						$.post('admin/confirm_live.php' , data);	
+						$.post('admin/confirm_live.php' , data);
+						$('.pagecontent'+ldat.ID).css("height", "auto");	
+						$('.element_'+ldat.ID).css("height", "auto");
 
 					}
 				});//resize
@@ -482,8 +491,15 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 					$(".pagecontent"+ldat.ID).append('<div class="textcontent">'+ldat.pagecontent+'</div>');
 										
 				$( '.element_'+ldat.ID ).resizable({   
-					
 					containment:"#page",
+					start: function( event, ui ) {
+						$('.element_'+ldat.ID).css("min-height", "0px");
+						
+						$('.pagecontent'+ldat.ID).css("min-height", "0px");
+						$('.elements').css('box-shadow', '0px 0px 0px 0px #fff');
+						$(this).css('box-shadow', '0px 0px 1px 1px #00F');
+							
+					},
 				 	stop: function( event, ui ) {	
 						var width = ui.size.width;
 						var height = ui.size.height;
@@ -504,6 +520,9 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 						$('#sizeelementID').val(''+thisID+'');
 						var data= $( "#sizesaver" ).serialize();
 						$.post('admin/confirm_live.php' , data);	
+						$('.pagecontent'+ldat.ID).css("height", "inherit");	
+						$('.element_'+ldat.ID).css("height", "auto");
+						$('.pagecontent'+ldat.ID).css("background", ldat.background);
 
 					}
 				});//resize
@@ -563,9 +582,9 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 				var colwidth= spacers / ldat.columnset;
 			
 				$( ".pagecontent"+ldat.ID+" > ul" ).append(''+
-				'<li ID="boxelement_'+bdat.ID+'" class="boxelements" style="width:'+colwidth+'%;  float: left; text-align: inherit; margin:1%; padding:1%;" onclick="showBoxEdit('+bdat.ID+'); return false"></li>');
+				'<li  class="boxelement_'+bdat.ID+' boxelements" style=" float: left; text-align: inherit; margin:1%; padding:1%;" onclick="showBoxEdit('+bdat.ID+'); return false"></li>');
 				
-				$('#boxelement_'+bdat.ID).append(''+
+				$('.boxelement_'+bdat.ID).append(''+
 				
 				'<div class="boxeditbutton" style="width:inherit; position: absolute; top:auto;background: #eee; opacity: 0.8;display:none">'+
 				
@@ -579,7 +598,7 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 				'<a style="color: #333333; " href="#" onclick="deleteBoxElement('+bdat.ID+'); return false;"><i class="fa fa-trash" style="font-size: 25px; margin-right:20px; float:right;"></i></a></div>'+
 				
 				'');
-				$('#boxelement_'+bdat.ID).append('<div ID="boxitemcontent_'+bdat.ID+'"></div>');
+				$('.boxelement_'+bdat.ID).append('<div ID="boxitemcontent_'+bdat.ID+'"></div>');
 				
 				if(bdat.photo!=''){
 				$('#boxitemcontent_'+bdat.ID).append(''+
@@ -588,7 +607,7 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 				
 				if(bdat.title!=''){
 				$('#boxitemcontent_'+bdat.ID).append(''+
-				'<b><a href="#" onclick="loadContent('+bdat.ID+', '+ldat.ID+'); ">'+bdat.title+'</a></b>'+
+				'<b><a href="#" onclick="loadContent('+bdat.ID+', '+ldat.ID+'); return false;">'+bdat.title+'</a></b>'+
 				'');
 				}
 				
@@ -597,10 +616,12 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 				'<br> '+bdat.mytext+'<br>'+
 				'');
 				}
-		$('#element_'+ldat.ID).css("height" , "auto");
+		
 		$('#element_'+ldat.ID).css("overflow" , "none");
 	
 		var nextline=ldat.columnset;
+		$("ul#boxlist>li").css("width", ""+colwidth+"%"); 
+		
 		//$("ul#boxlist>li:nth-child("+nextline+"n+1)").before('<div style=" width: 100%; height: 10px; background:#000;"></div>');
 		$("ul#boxlist>li:nth-child("+nextline+"n+1)").css("clear","both");
 			});
@@ -810,9 +831,10 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 		$("#pagecontent"+ldat.ID).css("background-color", ldat.background +'');
 		$("#pagecontent"+ldat.ID).css("padding", ldat.padding +'px');
 		$("#pagecontent"+ldat.ID).css("opacity", ldat.opacity +'');
+		$("#element_"+ldat.ID).css("border-radius", ldat.radius +'px');
 		$("#pagecontent"+ldat.ID).css("border-radius", ldat.radius +'px');
 		$("#pagecontent"+ldat.ID).css("z-index", ldat.layer);
-		
+		$('#pagecontent'+ldat.ID).css("min-height" , "0px");
 		
 		var newlineToBr = ldat.pagecontent.replace(/(?:\r\n|\r|\n)/g, '<br />');
 		
@@ -1019,9 +1041,9 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 					'</div>'+ 
 
 					
-					'<div class="texttools" style="clear:both;">'+
 					
-					'Font: <input  type="text" name="fontfamily" placeholder="Enter Font Family" '+
+					
+					'<div style="clear:both;">Font: <input  type="text" name="fontfamily" placeholder="Enter Font Family" '+
 						'value="'+idat.fontfamily+'" onkeyup="editNow('+idat.ID+');"><br>'+
 						
 					'Text Align: <select name="textalign" class="align'+idat.ID+' bigselect"></select><br>'+
@@ -1036,10 +1058,9 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 						'value="'+idat.spacing+'" ><br>'+
 						
 					'Padding:<input type="range" data-show-value="true" min="0" max="50" name="padding" '+
-						'value="'+idat.padding+'" ><br>'+
-					
-					'Radius :<input type="range" data-show-value="true" min="0" max="50" name="radius"  '+
-						'value="'+idat.radius+'"><br></div>');
+						'value="'+idat.padding+'" ><br></div>'+
+						'Radius :<input type="range" data-show-value="true" min="0" max="50" name="radius"  '+
+						'value="'+idat.radius+'"><br>');
 						
 						
 						
@@ -1066,7 +1087,9 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 					
 					
 				$("#formElement").append(''+
-					'Opacity: <input type="text" style="width: 40px;" name="opacity" value="'+idat.opacity+'">'+
+					
+					
+										'Opacity: <input type="text" style="width: 40px;" name="opacity" value="'+idat.opacity+'">'+
 					' Layer: <input  style="width: 40px;" type="text" name="layer" value="'+idat.layer+'">'+
 					
 					'<input style=" display:none; " ID="saveedit" type="button" name="submit" '+
@@ -1267,8 +1290,8 @@ window.deletePage = function (itemID) {
 				
 			}
 		}).done(function(){
-			$(".links").click();
-			//window.showPages();	
+			//$(".links").click();
+			window.showPages();	
 			});
 		
 	
@@ -1711,10 +1734,9 @@ $(document).ready(function(){
 	});
 		
 
-//	window.showPages();
 	
-	window.loadPage('home');
-	window.loadCss();
+	
+	
 	$(".links").click( function(){
 		
 		$("#navcontent").toggle(400);

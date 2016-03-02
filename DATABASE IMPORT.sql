@@ -6,8 +6,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
-CREATE DATABASE IF NOT EXISTS `redyellowblue` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `redyellowblue`;
+
 
 CREATE TABLE IF NOT EXISTS `admin` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -107,7 +106,7 @@ CREATE TABLE `blog_photos` (
   `blogID` varchar(255) NOT NULL,
   `photo` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
-  PRIMARY KEY (`ID`);
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 

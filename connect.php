@@ -1,9 +1,16 @@
 <?php
-//Connect To Database
-$hostname='localhost';
-$username='root';
-$password='root';
-$dbname='welements';
-mysql_connect($hostname,$username, $password) OR DIE ('Unable to connect to database');
-mysql_select_db($dbname);
+ DEFINE('DB_USERNAME', 'root');
+ DEFINE('DB_PASSWORD', 'root');
+ DEFINE('DB_HOST', 'localhost');
+ DEFINE('DB_DATABASE', 'welements');
+
+ $mysqli = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+
+ if (mysqli_connect_error()) {
+  die('Connect Error ('.mysqli_connect_errno().') '.mysqli_connect_error());
+ }
+
+
+
+ $mysqli->close();
 ?>

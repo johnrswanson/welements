@@ -32,6 +32,11 @@ if (isset($_POST['submitlogin']))
 			}
 		}
 	}
+	else{	echo'<form ID="user" method="post" action="login.php">
+		<input type="text" name="email" placeholder="Site Admin" > <br>
+		<input type="password" placeholder="Enter Password" name="pass"> <br>
+		<input type="submit" name="submitlogin" value="Login">
+	</form>';}
 ?>
 
 

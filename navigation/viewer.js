@@ -83,7 +83,7 @@ $("#navcontent").html('<ul></ul>');
 				'<li class="plist link" ID="pageArray_'+ldat.ID+'" > '+
 				'<a class="deletebutton dlist" ID="dlist'+ldat.ID+'" href="#" onclick="deletePage(' + ldat.ID + '); return false;">'+
 				'<i class="fa fa-remove"></i></a>'+
-				'<a href="#" onclick="loadPage('+ldat.ID+')">'+ldat.title+'</a> ' + 
+				'<a href="#'+ldat.title+'" onclick="">'+ldat.title+'</a> ' + 
 				'</li>');	
 				
 			
@@ -129,7 +129,7 @@ window.logo= function(){
 				$("#logo").html('');
 				 mybanner=bdat.bannerphoto;
 				if(bdat.bannerphoto!=''){
-					$("#logo").html('<a href="index.php"><img src="img/full/'+mybanner+'" style="width:100%"></a>');
+					$("#logo").html('<a href="index.php"><img src="img/full/'+mybanner+'" style="height: auto; width: auto; "></a>');
 					
 					
 					
@@ -143,22 +143,25 @@ window.logo= function(){
 
 
 
+
 window.boxback=function(){
+	$("#boxitem").fadeOut(100);
 	$("#boxitem").html('');
-$(".elements").fadeIn(1000);
-		
+	
 }
 
-window.loadContent= function(contentID){	
-	$('.elements').slideUp('');
+window.loadContent= function(contentID){
+	window.hideEdit();
+	$("#boxitem").fadeIn(100);
 	var url="navigation/boxelements.php?be="+ contentID+'';
 	$.getJSON(url,function(json){
 		$.each(json.boxiteminfo,function(i,bdat){
 			
-			$('#page').append(''+
-			'<div ID="boxitem"></div>');
+		$('body').append(''+
+			'<div class="boxdimmer"><div ID="boxitem"></div></div>'+
+			'');
 			
-$('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X</a></div>');
+$('#boxitem').append('<div class="goback"><a href="#" onclick="boxback(); return false">X</a></div>');
 			
 			if(bdat.photo!=''){
 			$('#boxitem').append(''+
@@ -211,6 +214,7 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 			}
 			else{
 					window.showPages();
+					window.loadCss();
 
 				window.logo();
 	//$(".links").click();
@@ -263,7 +267,7 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 					'background-color: ' + ldat.background + ';' +
 					'z-index: ' + ldat.layer + ';' +
 					'opacity: ' + ldat.opacity  + ';' +	
-					'height: 100%;' +
+					'height: ' + ldat.opacity  +'%;' +
 					'padding:' + ldat.padding + 'px;' +
 					
 					'border-radius: ' + ldat.radius + 'px;' +
@@ -377,7 +381,7 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 				var colwidth= 82 / ldat.columnset;
 			
 				$( ".pagecontent"+ldat.ID+" > ul" ).append(''+
-				'<li ID="boxelement_'+bdat.ID+'" class="boxelements" style="width:'+colwidth+'%;   float:left; margin: 1%; text-align: inherit; padding:1%" onclick=""></li>');
+				'<li ID="boxelement_'+bdat.ID+'" class="boxelements" style="   float:left; margin: 1%; text-align: inherit; padding:1%" onclick=""></li>');
 				
 				$('#boxelement_'+bdat.ID).append(''+
 				
@@ -412,8 +416,9 @@ $('#boxitem').append('<div class="goback"><a href="#home" onclick="boxback();">X
 				}				
 		$('#element_'+ldat.ID).css("height" , "auto");
 		$('#element_'+ldat.ID).css("overflow" , "none");
-	
+	$("ul#boxlist>li").css("width", ""+colwidth+"%");
 		var nextline=ldat.columnset;
+				 
 		//$("ul#boxlist>li:nth-child("+nextline+"n+1)").before('<div style=" width: 100%; height: 10px; background:#000;"></div>');
 		$("ul#boxlist>li:nth-child("+nextline+"n+1)").css("clear","both");
 		
@@ -1386,11 +1391,7 @@ $(document).ready(function(){
 		
 		
 
-//	window.showPages();
-
-
-	window.loadPage('home');
-		window.loadCss();
+	
 	$(".links").click( function(){
 		
 		$("#navcontent").toggle(400);
