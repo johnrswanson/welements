@@ -86,7 +86,6 @@
 <div id="userCss"></div>
 <script>
 $(function(){
-  window.showPages();
 
   // Bind an event to window.onhashchange that, when the hash changes, gets the
   // hash and adds the class "selected" to any matching nav link.
