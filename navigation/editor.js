@@ -1333,10 +1333,10 @@ window.deletePage = function (itemID) {
 		var url="navigation/drafts.php";
 		$.getJSON(url,function(json){
 			$.each(json.info,function(i,idat){
-				$('#drafts').append('<p> - <a href="#" onclick="loadPage('+idat.ID+'); return false;">'+idat.title+'</a></p>');
-				});
-				$('#drafts').append('<p></p>');
-				});
+				$('#drafts').append('<p> - <a href="#'+idat.title+'" onclick="loadPage('+idat.ID+');">'+idat.title+'</a></p>');
+			});
+			$('#drafts').append('<p></p>');
+		});
 		
 		
 		}
