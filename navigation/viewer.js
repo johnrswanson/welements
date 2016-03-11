@@ -10,7 +10,7 @@
 
 	window.loadHomePage= function (){
 		
-		window.showPages();
+		
 		var url="navigation/data.php";
 		var x='1';	
 				$.getJSON(url,function(json){
@@ -187,6 +187,9 @@
 						'top: ' + ldat.posx + 'px;' +
 						'left:' + ldat.posy + 'px;' +
 						'font-size:' + ldat.fontsize + 'px;' +
+						'background: ' + ldat.background + ';' +
+						'border-radius: ' + ldat.radius + 'px;' +
+						'padding:' + ldat.padding + 'px;' +
 						'line-height:' + ldat.fontsize 	+ 'px;' +
 						'letter-spacing: ' + ldat.spacing + 'px;' +
 						'color: ' + ldat.color 	+ ';' +
@@ -196,16 +199,13 @@
 						'text-align: ' + ldat.textalign+';' +
 						'padding-bottom:' + ldat.padding + 'px;' +
 						'width:	' + ldat.absw + ';' +
-						'height: '+ldat.height+';' +
+						
 						'margin:0px;'+
 						'}' +
 						'.pagecontent'+ldat.ID+'{' +
 						'position:relative;'+
-						'background-color: ' + ldat.background + ';' +
 						'z-index: ' + ldat.layer + ';' +
 						'opacity: ' + ldat.opacity  + ';' +	
-						'height: ' + ldat.opacity  +'%;' +
-						'padding:' + ldat.padding + 'px;' +
 						'border-radius: ' + ldat.radius + 'px;' +
 						'}' +
 						

@@ -102,7 +102,7 @@
 
 
 	window.loadHomePage= function (){
-		window.showPages();
+
 		var url="navigation/data.php";
 		var x='1';	
 		$.getJSON(url,function(json){
@@ -199,12 +199,9 @@
 					}
 					
 						
-	window.hideEdit = function(){
-		
-					event.stopPropagation();
-					$('.editbutton').hide(0); 
-					$('.elements').css('box-shadow', '0px 0px 0px 0px #fff');
-
+	window.hideEdit = function() {
+		$('.elements>.editbutton').hide(0);
+		$('.elements').css('box-shadow', '0px 0px 0px 0px #fff');
 	}
 	
 	window.showBoxEdit = function(elementID){
@@ -366,6 +363,8 @@
 					'top: ' + ldat.posx + 'px;' +
 					'left:' + ldat.posy + 'px;' +
 					'font-size:' + ldat.fontsize + 'px;' +
+					'background: ' + ldat.background + ';' +
+					
 					'line-height:' + ldat.fontsize 	+ 'px;' +
 					'letter-spacing: ' + ldat.spacing + 'px;' +
 					'color: ' + ldat.color 	+ ';' +
@@ -376,11 +375,14 @@
 					'width:	' + ldat.absw + ';' +
 					'height: auto;'+
 					'border-radius: ' + ldat.radius + 'px;' +
-					'.pagecontent'+ldat.ID+'{' +
-					'background-color: ' + ldat.background + ';' +
+					
+					'}'+
+					
+					'#pagecontent'+ldat.ID+'{' +
+					'padding:' + ldat.padding + 'px;' +
+					'background: ' + ldat.background + ';' +
 					'position:relative;'+
 					'height: inherit;' +
-					'padding:' + ldat.padding + 'px;' +
 					'z-index: ' + ldat.layer + ';' +
 					'opacity: ' + ldat.opacity  + ';' +
 					'border-radius: ' + ldat.radius + 'px;' +
@@ -393,14 +395,14 @@
 				
 				$("#element_"+ldat.ID).append(''+	
 					'<div class="editbutton" ID="editbutton'+ldat.ID+'">' +
-					'<div class="hideEdit" style="float:left;"><a  href="#" onclick="hideEdit(); return false;"><i class="fa fa-minus-circle" style=" width:25px; margin-right:20px"></i></div>'+
-							'<div class="mover"  style="float:left;"> ' +
-								'<i class="fa fa-arrows"></i>'+
-							'</div>'+
-							'<div class="stacker"  style="float:left;"> ' +
-								'<i class="fa fa-arrows-v"></i>'+
-							'</div>'+
+				//	'<div class="hideedit" style="float:left;"> <a href="#" onclick="hideEdit(); return false;" ><i class="fa fa-minus-circle" style=" width:25px; margin-right:20px"></i></a></div>'+
+						'<div class="mover"  style="float:left;"> ' +
+							'<i class="fa fa-arrows"></i>'+
 						'</div>'+
+						'<div class="stacker"  style="float:left;"> ' +
+							'<i class="fa fa-arrows-v"></i>'+
+						'</div>'+
+					'</div>'+
 					'<div class="pagecontents pagecontent'+ldat.ID+'" ID="pagecontent'+ldat.ID+'">'+
 					'</div>'+
 				'');
@@ -727,7 +729,7 @@
 				
 				if(bdat.title!=''){
 				$('#boxitemcontent_'+bdat.ID).append(''+
-				'<h4><a href="#" onclick="loadContent('+bdat.ID+');">'+bdat.title+'</a></h4>'+
+				'<b><a href="#" onclick="loadContent('+bdat.ID+');">'+bdat.title+'</a></b>'+
 				'');
 				}
 				
@@ -802,7 +804,7 @@
 		$("#element_"+ldat.ID).css("letter-spacing", ldat.spacing +'px');
 		$("#element_"+ldat.ID).css("text-align", ldat.textalign +'');
 		$("#element_"+ldat.ID).css("color", ldat.color +'');
-		$("#pagecontent"+ldat.ID).css("background-color", ldat.background +'');
+		$("#pagecontent"+ldat.ID).css("background", ldat.background +'');
 		$("#pagecontent"+ldat.ID).css("padding", ldat.padding +'px');
 		$("#pagecontent"+ldat.ID).css("opacity", ldat.opacity +'');
 		$("#element_"+ldat.ID).css("border-radius", ldat.radius +'px');
